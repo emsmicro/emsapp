@@ -1,0 +1,13 @@
+{extends 'detail.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $sabl}
+	<p>Opravdu chcete smazat tuto typovou operaci v šabloně?</p>
+	{control deleteTypo}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

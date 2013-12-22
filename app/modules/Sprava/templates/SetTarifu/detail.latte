@@ -1,0 +1,143 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<ul id="navi">
+	<li n:if="$user->isAllowed('SetTarifu','add')" title="Nový set sazeb"><a n:href="add">Nová...</a></li>
+	<li n:if="$user->isAllowed('SetTarifu','edit')" title="Změnit set sazeb"><a n:href="edit, $item->id">Změnit</a></li>
+	<li n:if="$user->isAllowed('SetTarifu','addGroup')" title="Nový set sazeb..."><a n:href="addGroup, $idss">&#10010 tarify</a></li>
+	<li n:if="$user->isAllowed('SetTarifu','updTarify')" title="Aktualizovat kalkulační tarify dle vypočtených"><a n:href="updTarify, $item->id">Aktualizovat tarify</a></li>
+</ul>
+{*
+	  id
+      nazev
+      platnost_od
+      platnost_do
+      dny_pracovni
+      dny_dovolena
+      dny_svatky
+      dny_nemoc
+      dny_odstavky
+
+      doch_bonus
+      priplatky
+      stravne
+      odmeny
+      odvody
+      penzijni_poj
+	  navyseni_prumeru
+
+      podil_prescasu
+      rucni_smena
+	  stroj_kapcita_sm
+      smennost_strojni
+      fond_rucni
+      fond_strojni
+
+      cena_elekriny
+      cena_dusiku
+      urokova_mira
+      naklady_plochy
+*}
+<style>
+	table th.tittab {
+		text-align: left;
+		font-style: italic;
+		padding: 2px 10px 2px 20px;
+		background: #ADD4FB;
+		color: white;
+	}
+</style>
+
+<table class="grid" style='width: 100%; border: 3px solid #ADD4FB;'>
+	<tr>
+		<th>Název</th><td colspan='5'><b>{$item->nazev}</b></td>
+		<th>Platnost od</th><td>{$item->platnost_od|date:'%d.%m.%Y'}</td>
+		<th>Platnost do</th><td>{$item->platnost_do|date:'%d.%m.%Y'}</td>
+		<th colspan='2'></th>
+	</tr>
+	<tr>
+		<th colspan='12' class='tittab'>Počet dnů v aktuálním roce</th>
+	</tr>
+	<tr>
+		<th>pracovních</th>	<td class="tcislo">{$item->dny_pracovni}</td>
+		<th>dovolené</th>	<td class="tcislo">{$item->dny_dovolena}</td>
+		<th>svátků</th>		<td class="tcislo">{$item->dny_svatky}</td>
+		<th>nemoci</th>		<td class="tcislo">{$item->dny_nemoc}</td>
+		<th>odstávky</th>	<td class="tcislo">{$item->dny_odstavky}</td>
+		<th>odvody SZP</th>	<td class="tcislo">{$item->odvody|number:2:',':' '} %</td>
+	</tr>
+	<tr>
+		<th colspan='12' class='tittab'>Odvody, pojištění, příplatky, bonusy, odměny, stravné</th>
+	</tr>
+	<tr>
+		<th>penz. pojištění</th>		<td class="tcislo">{$item->penzijni_poj|number:2:',':' '} %</td>
+		<th>příplatky</th>				<td class="tcislo">{$item->priplatky|number:2:',':' '} %</td>
+		<th>doch. bonus</th>			<td class="tcislo">{$item->doch_bonus|number:0:',':' '} Kč/měs.</td>
+		<th>nás. platu na odměny</th>	<td class="tcislo">{$item->odmeny|number:2:',':' '}</td>
+		<th>stravné</th>				<td class="tcislo">{$item->stravne|number:2:',':' '} Kč/den</td>
+		<th>navýšení průměru</th>		<td class="tcislo">{$item->navyseni_prumeru|number:2:',':' '} Kč/h</td>
+	</tr>
+	<tr>
+		<th colspan='12' class='tittab'>Přesčasy, fond strojní/ruční, kapacita, směnnost</th>
+	</tr>
+	<tr>
+		<th>podíl přesčasů</th>			<td class="tcislo">{$item->podil_prescasu|number:2:',':' '} %</td>
+		<th>délka směny</th>			<td class="tcislo">{$item->rucni_smena|number:2:',':' '} hod</td>
+		<th>stroj. kapacita</th>		<td class="tcislo">{$item->stroj_kapcita_sm|number:0:',':' '} h/sm./rok</td>
+		<th>směnnost</th>				<td class="tcislo">{$item->smennost_strojni|number:2:',':' '} sm./den</td>
+		<th>fond ruční</th>				<td class="tcislo">{$item->fond_rucni|number:1:',':' '} dnů/rok</td>
+		<th>fond strojní</th>			<td class="tcislo">{$item->fond_strojni|number:1:',':' '} dnů/rok</td>
+	</tr>
+	<tr>
+		<th colspan='12' class='tittab'>Ceny energií, náklady ploch, úroky</th>
+	</tr>
+	<tr>
+		<th>cena elektřiny</th>	<td class="tcislo">{$item->cena_elekriny|number:3:',':' '} Kč/kWh</td>
+		<th>cena dusíku</th>	<td class="tcislo">{$item->cena_dusiku|number:3:',':' '} Kč/m3</td>
+		<th>náklady ploch</th>	<td class="tcislo">{$item->naklady_plochy|number:0:',':' '} Kč/m2</td>
+		<th>úrokova sazba</th>	<td class="tcislo">{$item->urokova_mira|number:2:',':' '} %</td>
+		<th colspan='4'></th>
+	</tr>
+</table>
+<p></p>
+<table class="grid" style="width:100%;">
+<tr>
+	<th>#</th>
+	<th>Kód</th>
+	<th>Název tarifu</th>
+	<th title="Hodinova sazba tarifu = základ + osobní ohodnocení (bez odvodů)">Tarifní sazba</th>
+	<th>Hodinová sazba</th>
+	<th>Vypočteno</th>
+	<th title="Navýšení sazby oproti tarifu s odvody.">Navýšení [%]</th>
+	<th style="text-align:center;">Akce</th>
+</tr>
+{foreach $sazby as $saz}
+<tr>
+	<td title="{$saz->id}">{$saz->poradi}</td>
+	<td>{$saz->zkratka}</td>
+	<td><i>{$saz->nazev}</i></td>
+	<td class="tcislo">{$saz->tarif|number:2:',':' '} Kč/hod</td>
+	<td class="tcislo"><b>{$saz->hodnota|number:2:',':' '}</b> Kč/hod</td>
+	<td class="tcislo" style="color:#3484D2;"><b>{$saz->calc|number:2:',':' '}</b> Kč/hod</td>
+	<td class="tcislo" style="color:#795200; padding: 3px;width:180px;">{!$saz->graf}&nbsp;{$saz->perc|number:1:',':' '} %</td>
+	<td class="takce" style='width:70px;'>
+		{if $saz->tid > 0}
+			<span class="setedit" title="Změnit">
+				<a n:if="$user->isAllowed('SetTarifu','editRate')" n:href="editRate, $saz->tid, $saz->id, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+			<span class="setdel" title="Odstranit">
+				<a n:if="$user->isAllowed('SetTarifu','deleteRate')" n:href="deleteRate, $saz->id, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		{else}
+			<span class="setadd" title="Přidat...">
+				<a n:if="$user->isAllowed('SetTarifu','addRate')" n:href="addRate, $saz->id, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		{/if}
+	</td>
+</tr>
+{/foreach}
+</table>
+

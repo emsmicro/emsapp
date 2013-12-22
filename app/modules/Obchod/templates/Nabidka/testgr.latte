@@ -1,0 +1,104 @@
+<script type="text/javascript">
+	
+$(function () {
+    
+        var colors = Highcharts.getOptions().colors,
+            categories = {!$catg_bar},
+            name = 'Skladba tržby',
+            data = {!$data_bar};
+			
+		Highcharts.setOptions({
+			lang: {
+				decimalPoint: ',',
+				thousandsSep: ' ',
+			},
+		});
+			
+        function setChart(name, categories, data, color) {
+			chart.xAxis[0].setCategories(categories, false);
+			chart.series[0].remove(false);
+			chart.addSeries({
+				name: name,
+				data: data,
+				color: color || 'white'
+			}, false);
+			chart.redraw();
+        }
+    
+        var chart = $('#container_graph3').highcharts({
+            chart: {
+                type: 'bar',
+				borderRadius: 0,
+				spacing: [15, 40, 15, 20],
+            },
+			credits: {
+				  enabled: false
+			},
+            title: {
+                text: 'Rozbor skladby nákladů a přidané hodnoty'
+            },
+            subtitle: {
+                text: 'Klik pro zobrazení detailů skladby tržby.'
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: 'Celková hodnota nákladů',
+					align: 'high'
+                }
+            },
+			plotOptions: {
+                bar: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                var drilldown = this.drilldown;
+                                if (drilldown) { // drill down
+                                    setChart(drilldown.name, drilldown.categories, drilldown.data, drilldown.color);
+                                } else { // restore
+                                    setChart(name, categories, data);
+                                }
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        color: 'white',
+                        style: {
+                            fontWeight: 'bold'
+                        },
+
+                        formatter: function() {
+                            return Highcharts.numberFormat(this.y/1000000,2) +' mil. Kč';
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    var point = this.point,
+                        s = this.x +': <b>'+ Highcharts.numberFormat(this.y/1000,0) +' tis. Kč</b><br/>';
+                    if (point.drilldown) {
+                        s += '<i>Klik pro detail položky: <b>'+ point.category+ '</b></i>';
+                    } else {
+                        s += '<i>Klik pro návrat na celkové hodnoty</i>';
+                    }
+                    return s;
+                }
+            },
+            series: [{
+                name: name,
+                data: data,
+                color: 'white'
+            }],
+            exporting: {
+                enabled: false
+            }
+        })
+        .highcharts(); // return chart
+    });
+    	
+</script>

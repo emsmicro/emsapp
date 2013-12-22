@@ -1,0 +1,126 @@
+{extends 'default.latte'}
+{block #drobecky4} » Nastavení přístupových práv{block #drobecky5}{/block}{/block}
+
+{block #content}
+<div class="manual">
+<div class="detail">
+	
+<h1 n:block="title">{$titul} "{$subtitul}"</h1>
+<div style="font-size:medium; margin-bottom: 15px;">Zvolte ty funkce, na které má mít role "{$subtitul}" právo.</div>
+
+
+{form setRightsForm}
+
+<!-- Jednoduché vykreslení chyb -->
+<ul class="errors" n:if="$form->hasErrors()">
+        <li n:foreach="$form->errors as $error">{$error}</li>
+</ul>
+
+	{var $i = 0}
+	{var $modul = ""}
+	{var $prese = ""}
+	{var $d = 0}
+	{foreach $items as $item}
+		{var $i++}
+		{if $item->modul <> $modul}
+			{if !$iterator->first}
+					<tr class="noborder">
+						<td colspan="2"></td>
+						<td colspan="2" class="tdcenter">
+							<span>{input save class=>'button'}</span>
+							<span>{input cancel class=>'button'}</span>
+						</td>
+					</tr>
+				</table>
+				</fieldset>
+				<br />
+			{/if}
+			{var $d++}
+			<fieldset>
+			<table style="position:relative;">
+				<tr>
+					<td colspan="2" style="background:#C1DAFF;color:#555;font-size:large;padding-left:10px;" title="Role">
+						<span style="font-size:small;"><i>Role:</i></span>
+						<b>{$subtitul}</b>
+					</td>
+					<td colspan="2" style="background:#C1DAFF;color:#091726;font-size:large;padding-left:10px;">
+						<span style="font-size:small;"><i>Modul:</i></span>
+						<b>{$item->modul}</b>
+						<span style="position:absolute; font-size:12px; float:right;right:12px; top:10px;" title="Zvolit/zrušit vše">Vše: {input chckall}</span>
+					</td>
+				</tr>
+				<tr>
+					<th style="background:#4FA3F7;color:#FFF;text-align:left;padding-left:10px;">Agenda</th>
+					<th style="background:#4FA3F7;color:#FFF;text-align:left;padding-left:10px;">Funkce</th>
+					<th style="background:#4FA3F7;color:#FFF;text-align:left;padding-left:10px;min-width:420px;">Popis</th>
+					<th style="background:#4FA3F7;color:#FFF;">Povolit&nbsp;&nbsp;</th>
+				</tr>
+			{var $modul = $item->modul}
+		{/if}
+        <tr>
+			{if $item->presenter<>$prese}
+				<td rowspan="{$item->cntp}" class="ntext" style="font-size:medium;vertical-align:text-top;">
+					<b>{$item->presenter}</b>
+				</td>
+				{var $prese = $item->presenter}
+			{/if}
+			<td class="ntext">{$item->funkce}<span class="mini">&nbsp;({$item->id})</span></td>
+			<td class="ntext" style="min-width:300px;">{$item->popis}</td>
+			<td style="text-align:right;">
+				<span title="Povolit - {$item->popis}">
+					{$control['setRightsForm']['mpole']['yes_'.$item->id]->control}
+					{var $prvek = 'yes_'.$item->id}
+					{*input mpole[$prvek]*}
+					
+				</span>
+				&nbsp;
+			</td>
+        </tr>
+	{/foreach}
+		<tr class="noborder">
+			<td colspan="2"></td>
+			<td colspan="2" class="tdcenter">
+				<span>{input save, class=>'button'}</span>
+				<span>{input cancel, class=>'button'}</span>
+			</td>
+		</tr>
+		</div>
+</table>
+			
+{/form setRightsForm}
+
+</div>
+</div>
+
+<script type='text/javascript'>
+
+$(document).ready(
+    function() {
+        //clicking the parent checkbox should check or uncheck all child checkboxes
+        $(".checkall").click(
+            function() {
+                $(this).parents('fieldset:eq(0)').find('.child').attr('checked', this.checked);
+            }
+        );
+        //clicking the last unchecked or checked checkbox should check or uncheck the parent checkbox
+        $('.child').click(
+            function() {
+                if ($(this).parents('fieldset:eq(0)').find('.checkall').attr('checked') == true && this.checked == false)
+                    $(this).parents('fieldset:eq(0)').find('.checkall').attr('checked', false);
+                if (this.checked == true) {
+                    var flag = true;
+                    $(this).parents('fieldset:eq(0)').find('.child').each(
+	                    function() {
+	                        if (this.checked == false)
+	                            flag = false;
+	                    }
+                    );
+                    $(this).parents('fieldset:eq(0)').find('.checkall').attr('checked', flag);
+                }
+            }
+        );
+    }
+);
+
+
+</script>

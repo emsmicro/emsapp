@@ -1,0 +1,11 @@
+<script type='text/javascript'>
+
+	$({$cselect}).change(function() {
+		var ms = $(this).find(":selected").text();
+		var mn = $({$ctext}).val();
+		//if (mn == "") { 
+			$({$ctext}).val(ms); 
+		//}
+	});
+
+</script>		

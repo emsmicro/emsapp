@@ -1,0 +1,8 @@
+{extends 'detail.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+{block #content}
+
+<h2 n:block="title">{$titul} [Kč/hod]</h2>
+
+{control rateForm}
+{include '../../../Base/templates/js_number.latte', mDec => 2}

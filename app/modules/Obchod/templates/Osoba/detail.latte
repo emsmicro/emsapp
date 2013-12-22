@@ -1,0 +1,53 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+{var $cond = $user->isAllowed('Osoba','add') || $user->isAllowed('Osoba','edit')}
+
+<ul id="navi" n:if="$cond">
+	<li n:if="$user->isAllowed('Osoba','add')" title="Nová osoba"><a n:href="add">Nová...</a></li>
+	<li n:if="$user->isAllowed('Osoba','edit')" title="Změnit údaje"><a n:href="edit, $osoba->id">Změnit</a></li>
+	<li n:if="$user->isAllowed('Osoba','addContact')" title="Nový kontakt"><a n:href="addContact, $ido">&#10010 kontakt</a></li>
+</ul>
+
+
+<table class="grid">
+	<tr><th>Název</th><td width=200>{$osoba->jmeno} {$osoba->jmeno2} {$osoba->prijmeni}</td></tr>
+	<tr><th>Tituly před jménem</th><td>{$osoba->titul_pred}</td></tr>
+	<tr><th>Tituly za jménem</th><td>{$osoba->titul_za}</td></tr>
+	<tr><th>Poznámka</th><td>{$osoba->poznamka}</td></tr>
+	<tr><th>Oslovení</th><td>{$osoba->osloveni}</td></tr>
+</table>
+<p>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+{var $cond = $user->isAllowed('Osoba','addContact') || $user->isAllowed('Osoba','editContact')}
+
+<table class="grid">
+<tr>
+	<th>Kontakty</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Nový...">
+			<a n:if="$user->isAllowed('Osoba','addContact')" n:href="addContact, $ido">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{foreach $kontakty as $kon}
+<tr>
+	<td><i>{$kon->ktyp}</i>: {$kon->hodnota}</td>
+	<td n:if="$cond" class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Osoba','editContact')" n:href="editContact, $kon->id, $ido">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span class="setdel" title="Odstranit">
+			<a n:if="$user->isAllowed('Osoba','deleteContact')" n:href="deleteContact, $kon->id, $ido">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>
+

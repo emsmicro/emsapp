@@ -1,0 +1,49 @@
+
+
+	<table class="grid">
+	<tr>
+		<th>Zákazník</th>
+		<th>Nabídka</th>
+		<th title="Číslo produktu">idP</th>
+		<th>Název produktu</th>
+		<th>Dávka [ks]</th>
+		<th>≈ ks/rok</th>
+		<th>Poslední status <span class="mini">(detail pod kursorem)</span></th>
+	</tr>
+
+	{foreach $products as $ip}
+		<tr>
+			<td title="{$ip->firma}">
+				<a n:if="$user->isAllowed('Firma','detail')" n:href="Firma:detail, $ip->idf">{$ip->zfirma}</a>
+				<span n:if="!$user->isAllowed('Firma','detail')">{$ip->zfirma}</span>
+			</td>
+			<td>
+				<a n:if="$user->isAllowed('Nabidka','detail')" n:href="Nabidka:detail, $ip->idn">{$ip->nabidka}</a>
+				<span n:if="!$user->isAllowed('Nabidka','detail')">{$ip->nabidka}</span>
+			</td>
+			<td class="tcislo">{$ip->id}</td>
+			<td><a n:if="$user->isAllowed($goPresenter,'default')" n:href="$goPresenter, $ip->id">{$ip->nazev}</a></td>
+			<td class="tcislo">{$ip->davka|number:0:',':' '}</td>
+			<td class="tcislo">{$ip->ks|number:0:',':' '}</td>
+
+			<td title="{$ip->nstav}, {$ip->username}, {$ip->datzmeny|date:'%d.%m.%Y %H:%I:%S'}">
+					{if $ip->id_stav < 4 || $ip->id_stav == null} 
+						<span class="status sx0" >
+					{/if}
+					{if $ip->id_stav > 3 && $ip->id_stav < 7}
+						<span class="status sx1">
+					{/if}
+					{if $ip->id_stav == 7}
+						<span class="status sx2">
+					{/if}
+
+					<span class="mini">{$ip->stav}</span>
+					{if !$ip->username==null}
+						<span class="mini">({$ip->datzmeny|date:'%d.%m.%Y'})</span>
+					{/if}
+					</span>
+			</td>		
+		</tr>
+	{/foreach}
+	</table>
+

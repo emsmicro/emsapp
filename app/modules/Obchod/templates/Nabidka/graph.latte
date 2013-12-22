@@ -1,0 +1,147 @@
+<script type="text/javascript">
+		
+$(function () {
+//		Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+//		    return {
+//		        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
+//		        stops: [
+//		            [0, color],
+//		            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')] // darken
+//		        ],
+//		    };
+//		});
+		
+		var colors = Highcharts.getOptions().colors;
+		
+		Highcharts.setOptions({
+			lang: {
+				decimalPoint: ',',
+				thousandsSep: ' ',
+			},
+		});
+
+		<!-- Bar Graph # 1 -->
+			
+		$('#container_graph').highcharts({
+				chart: {
+						type: 'bar',
+						borderColor: 'none',
+						borderRadius: 0,
+						defaultSeriesType: 'column',
+						//backgroundColor: 'transparent',
+						spacing: [15, 40, 15, 20],
+					},
+					title: {
+						text: 'Skladba ceny [Kč]'
+					},
+                    credits: {
+                          enabled: false
+                    },
+					legend: {
+						shadow: true,
+						width: 500,
+						itemWidth: 110,
+						//itemStyle: { color: '#000' },
+						//itemHoverStyle: { color: '#2870B7' },
+					},
+					xAxis: {
+						categories: ['']
+					},
+					yAxis: {
+						min: 0,
+						opposite: true,
+						tickInterval: 25,
+						title: {
+							text: ''
+						}
+					},
+					tooltip: {
+						formatter: function() {
+							return ''+
+								 this.series.name +': '+ Highcharts.numberFormat(this.y/1000,0) +' tis. Kč ('+ Math.round(this.percentage*10)/10 +'%)';
+						}
+					},
+					plotOptions: {
+						series: {
+							stacking: 'percent',
+							pointWidth: 120
+						},
+						bar: {
+							dataLabels: {
+								enabled: true,
+								color: 'white',
+								rotation: 270,
+								formatter: function() {
+									return ''+
+										Highcharts.numberFormat(this.y/1000000,2) +' M';
+								}
+							},
+						},
+					},
+					series: {!$cena_bar},
+			});	
+	
+	
+		<!-- Bar Graph # 2 -->
+			
+		$('#container_graph2').highcharts({
+				chart: {
+						type: 'bar',
+						borderColor: 'none',
+						borderRadius: 0,
+						defaultSeriesType: 'column',
+						spacing: [15, 40, 15, 20],
+					},
+					title: {
+						text: 'Skladba nákladů a přidané hodnoty [Kč]'
+					},
+                    credits: {
+                          enabled: false
+                    },
+					legend: {
+						shadow: true,
+						width: 900,
+						//itemWidth: 80,
+						itemDistance: 70,
+						align: 'center',
+					},
+					xAxis: {
+						categories: ['']
+					},
+					yAxis: {
+						min: 0,
+						opposite: true,
+						tickInterval: 25,
+						title: {
+							text: ''
+						}
+					},
+					tooltip: {
+						formatter: function() {
+							return ''+
+								 this.series.name +': '+ Highcharts.numberFormat(this.y/1000,0) +' tis. Kč ('+ Math.round(this.percentage*10)/10 +'%)';
+						}
+					},
+					plotOptions: {
+						series: {
+							stacking: 'percent',
+							pointWidth: 120
+						},
+						bar: {
+							dataLabels: {
+								enabled: true,
+								color: 'white',
+								rotation: 270,
+								formatter: function() {
+									return ''+
+										Highcharts.numberFormat(this.y/1000000,2) +' M';
+								}
+							},
+						},
+					},
+					series: {!$nakl_bar},
+			});	
+	
+	});
+
+</script>

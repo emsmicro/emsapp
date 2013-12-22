@@ -1,0 +1,94 @@
+{extends '../@layout.latte'}
+
+
+{control navigation}
+{block #drobecky2} » <a n:href="Obchod:default">Obchod</a>{block #drobecky3}{/block}{/block}
+
+{block #content}
+<h1 n:block="title">{$titul}</h1>
+
+<div class="graf" style="background-color: #FFF; min-height: 380px;">
+	{if $data_bar<>"" || $data<>""}
+			<div id="container" class="graf2"></div>
+			<div style="float:left;width:1%">&nbsp;</div>
+			<div id="container2" class="graf2">
+				{if $data==""}
+				<span class="center"><a n:href="Produkt:">Zvolte oceněný produkt ...</a></span>
+				{/if}
+			</div>
+	{/if}
+</div>
+
+<div class="graf" style="background-color: #666; margin: 0;">	
+	<div class="kolaps">
+
+		<div class="clear" style="padding-top: 20px;">
+			{if $pnezap>0}
+				<div class="kol-1">
+					<h3>Nabídky, na kterých nebyly započaty žádné práce ({$pnezap})</h3>
+					<div>
+						{include '../Nabidka/offers_list.latte', items => $nezapocate}
+					</div>
+				</div>
+			{/if}
+			{if $pneoc>0}
+				<div class="kol-2">
+					<h3>Nabídky, u kterých nebylo dokončeno ocenění ({$pneoc})</h3>
+					<div>
+						{include '../Nabidka/offers_list.latte', items => $neocenene}
+					</div>
+				</div>
+			{/if}
+		</div>
+
+		{if $is_todo}
+			<div class="kol-0">
+				<h3>{$subtitle}</h3>
+				<div class="todob">
+					{block #todolist}
+						{foreach $todos as $oblast=>$item}
+						<ul>
+							<li id="todoc"><span>{$oblast}</span>
+									{if is_array($item)} 
+										{include #todolist, 'todos' => $item}
+									{else}
+										{if $item <> ''}
+											<span n:if="$user->isAllowed($item)" class="ref"><a n:href="{$item}" title="Přejít">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+										{/if}
+									{/if}
+							</li>
+						</ul>
+						{/foreach}
+					{/block}
+				</div>
+			</div>
+		{/if}
+	</div>
+</div>
+
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $(".kol-0,.kol-1,.kol-2").collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+					
+                 },
+				head: 'h3',
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+
+</script>
+
+
+
+{* grafy *}
+{if $data_bar<>"" || $data<>""}
+	{include 'graph.latte', data_bar => $data_bar, catg_bar => $catg_bar, data => $data }
+{/if}

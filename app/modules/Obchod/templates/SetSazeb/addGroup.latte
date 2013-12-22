@@ -1,0 +1,52 @@
+{extends 'default.latte'}
+{block #drobecky4} » Hromadné zadání režijních sazeb{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+
+<h2 n:block="title">{$titul}</h2>
+<h1>{$subtitul}</h1>
+
+<div class="manual">
+
+{control addGroupForm begin}
+{control addGroupForm errors}
+
+<table>
+	<tr>
+		<th>#</th>
+		<th>Popis</th>
+		<th>Sazba [%]</th>
+		<th>Pravidlo (meze hodnot sazby)</th>
+	</tr>
+	{var $i = 0}
+	{foreach $items as $item}
+		{var $i++}
+        <tr>
+			<td>{$item->poradi}</td>
+			<td class="ntext2">{$item->nazev}<span class="mini"> ({$item->id})</span></td>
+			<td class="cislo input">{$control['addGroupForm']['mpole']['hodnota'.$i]->control}</td>
+			<td class="popis input">{$control['addGroupForm']['mpole']['pravidlo'.$i]->control}</td>
+        </tr>
+	{/foreach}
+	<tr class="noborder">
+		<td colspan="4" class="tdcenter">
+			<span>{$control['addGroupForm']['save']->control}</span>
+			<span>{$control['addGroupForm']['saveas']->control}</span>
+			<span>{$control['addGroupForm']['cancel']->control}</span>
+		</td>
+	</tr>
+
+</table>
+
+{control addGroupForm end}
+
+</div>
+
+{include 'helpRate.latte'}
+
+{if $vzorce}
+	{include '../vzorce.latte'}
+{/if}
+
+{include '../../../Base/templates/js_number.latte', mDec => 2}

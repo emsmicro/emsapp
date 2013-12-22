@@ -1,0 +1,55 @@
+<ul id="menu">
+	<li n:if="$useHomepage">
+		{if $homepage->isMain}
+			{if $homepage->isCurrent}
+				<span class="main active"><a href="{$homepage->url}"><img src="{$basePath}/images/logom.png" alt="{$homepage->label}"></a></span>
+			{else}
+				<span class="main"><a href="{$homepage->url}"><img src="{$basePath}/images/logom1.png" alt="{$homepage->label}"></a></span>
+			{/if}
+		{else}
+			{if $homepage->isCurrent}
+				<span class="nomain active"><a href="{$homepage->url}"><img src="{$basePath}/images/logom.png" alt="{$homepage->label}"></a></span>
+			{else}
+				<span class="nomain"><a href="{$homepage->url}"><img src="{$basePath}/images/logom1.png" alt="{$homepage->label}"></a></span>
+			{/if}
+		{/if}
+	</li>
+
+	{block #menu}
+	<li n:foreach="$children as $item">
+		{if $item->isMain}
+			{if !$item->isHidden}
+				{if $item->isCurrent}
+					<span class="main active" title="{$item->tag}"><a href="{$item->url}"><strong>{$item->label}</strong></a></span>
+				{else}
+					<span class="main" title="{$item->tag}"><a href="{$item->url}">{$item->label}</a></span>
+				{/if}
+			{/if}
+		{else}
+			{if $item->isCurrent}
+				<span class="nomain active"><a href="{$item->url}" ><strong>{$item->label}</strong></a></span>
+			{else}
+				<span class="nomain"><a href="{$item->url}">{$item->label}</a></span>
+			{/if}
+		{/if}
+		{if $renderChildren && count($item->getComponents()) > 0}
+			<ul>
+				{include #menu, children => $item->getComponents()}
+			</ul>
+		{/if}
+	</li>
+</ul>
+	{/block}
+
+	
+	
+	
+{*
+<ul id="gmenu">
+	<li n:foreach="$children as $gmain">
+		{if $gmain->isMain}
+			<span class="{$gmain->tag}"><a href="{$gmain->url}" title="{$gmain->label}"></a></span>
+		{/if}	
+	</li>
+</ul>
+*}

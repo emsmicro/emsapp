@@ -1,0 +1,190 @@
+{**
+ * Layout of Nette Framework example CD collection (Akrabat)
+ *
+ * @package    MyApplication
+ *
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ * @param Nette\Web\User $user  current user
+ 
+
+<!DOCTYPE html>*}
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="cs" />
+	<meta name="description" content="EMS nabídky Mikroelektronika" />
+	<meta n:ifset="$robots" name="robots" content="{$robots}">
+
+	<title>{block #title|striptags|trim}{/block} | EMS nabídky</title>
+    <link rel="shortcut icon" href="{$basePath}/images/favicon.ico" />
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css" type="text/css" />
+	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/base.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_gold.css" title="Gold" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_green.css" title="Green" disabled="disabled" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_blue.css" title="Blue" disabled="disabled" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_gray.css" title="Gray" disabled="disabled" />
+	<script type="text/javascript" src="{$basePath}/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/autoNumeric.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery.cookie.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(init);
+
+		function init()
+		{
+			setStyle($.cookie("style"));
+		}
+
+
+		function setStyle(name)
+		{
+		  if (name)
+			$.cookie("style", name, { expires: 300, path: '/' }); // 300 dni
+		  else
+			name = 'Gold';
+
+		  $('link[rel$=stylesheet][title]:not([title='+name+'])').attr('disabled', 'disabled');
+		  $('link[rel$=stylesheet][title='+name+']').removeAttr('disabled');
+		}
+	
+	
+		document.onkeydown = function (e) { 
+		  e = e || window.event;
+		  var keyCode = e.keyCode || e.which,
+			  arrow = { left: 37, up: 38, right: 39, down: 40 };
+
+		  if (e.ctrlKey) {
+			switch (keyCode) {
+			  case arrow.left:
+			  //... handle Ctrl-LeftArrow
+				  history.back()
+				  break;
+			  case arrow.right:
+			  //... handle Ctrl-RightArrow
+				  history.forward()
+				  break;
+			}
+		  } else {
+			if(keyCode === 27){ // escape, close box, esc 
+				 //... Go back one page
+				history.back()
+			} 
+		  }
+		};	
+				
+	</script>
+	
+		
+	{ifset $is_addon}{include #addon}{/ifset}
+
+</head>
+
+<body>	
+	<div id="main" style="position:relative;width:100%;margin: 0 auto;">
+	<div id="topcont">
+
+		<div id="logo"></div>
+		<div id="titul">mikroelektronika :: EMS 
+			<a n:if="$user->isAllowed('Nabidka','default')" n:href="Nabidka:default" title="Seznam nabídek">nabídky</a>
+			<span n:if="!$user->isAllowed('Nabidka','default')">nabídky</span>
+		</div>
+		<div id="slogan">Systém pro správu nabídek a kalkulací cen
+				<a n:if="$user->isAllowed('Produkt','default')" n:href="Produkt:default" title="Seznam produktů">služeb a produktů</a>
+						v oblasti EMS ...
+		</div>
+		<div id="fixMe">
+		{include 'mysetting.latte'}
+		{control navigation}
+		</div>
+
+		<div id="breadcrumbs">
+			{block #drobecky} {/block}&nbsp;
+			<span id="back" title="zpět">
+					<a href="#">&#x25C0;</a>
+					<script type="text/javascript">
+							document.getElementById("back").innerHTML =
+									'<a href="javascript:window.history.go(-1);">&#x25C0;<\/a>';
+					</script>
+			</span>
+		</div>
+		<div id="messages">
+			{ifset $is_filter}
+				{if $is_filter} {control uFilter} {/if}
+			{/ifset}
+
+			<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+		</div>
+	</div>
+	
+	<div id="content">
+
+		<div id="logged-in" n:if="$user->loggedIn">
+				<a n:href="Homepage:editMe, $user->getIdentity()->id" title="{$user->getIdentity()->nrole}">{$user->getIdentity()->jmeno} {$user->getIdentity()->prijmeni}</a>
+				<a n:href="Sign:out">Odhlásit se.</a>
+				<span n:if="$user->isAllowed('Sprava','default')" class="config" title="Správa systému">
+					<a n:href="Sprava:default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+		</div>
+		<div id="style-sw">
+			<ul title="Změnit schéma">
+			  <li><a href="javascript:setStyle('Gold')"	>Gold	</a></li>
+			  <li><a href="javascript:setStyle('Blue')"	>Blue	</a></li>
+			  <li><a href="javascript:setStyle('Green')">Green	</a></li>
+			  <li><a href="javascript:setStyle('Gray')"	>Gray	</a></li>
+			</ul>			
+		</div>
+
+								
+		{include #content}
+				
+		<div style="height:30px;"></div>
+		
+		<div style="clear:both;"></div>	
+	</div>
+	
+	<script type="text/javascript">
+		var divID = '#mysetting';
+		$(window).scroll(function() {					
+			var currentScroll = $(window).scrollTop();	
+			if (currentScroll >= 120) {					
+				$(divID).css({
+					position: 'fixed',
+					left: '50px',
+					top: '2px',
+					width: '100%'
+				});	
+				$('#menu').css({
+					position: 'fixed',
+					left: '48px',
+					top: '32px',
+					width: '100%'
+				});	
+			} else {									
+				$(divID).css({
+					position: 'relative',
+					left: '20px',
+					top: '-85px'
+				});
+				$('#menu').css({
+					position: 'relative',
+					left: '16px',
+					top: '-80px'
+				});	
+			}
+		});		
+	
+	</script>
+		
+		
+	<div id="footer">
+           Copyright © 2011 - 2013, Bc. Štěpán Mračko, Powered by Apache, PHP, MSSQL, Nette.&nbsp;&nbsp;&nbsp;&nbsp;
+           <a href='mailto:emsmicro@gmail.com?subject=Zpráva%20pro%20administrátora%20EMS nabídky...&body=Drahý%20správče!%0D' title='Poslat mail správci'>Poslat zprávu správci</a>
+	</div>
+	</div>
+</body>
+</html>

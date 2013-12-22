@@ -1,0 +1,91 @@
+{extends '../Obchod/default.latte'}
+{block #drobecky2} » <a n:href="default">Produkty</a>{block #drobecky3}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+{var $cond = $user->isAllowed('Produkt','add') || $user->isAllowed('Produkt','edit') || $user->isAllowed('Produkt','delete')}
+
+<table class="grid" style="width:100%;">
+<tr>
+	<th>Nabídka</th>
+	<th n:if="$user->isAllowed('Produkt','setProduct')"><img src="{$basePath}/images/select.png" title="Zvolit jako aktuální"/></th>
+	<th title="Číslo produktu" style="text-align:right;">ID</th>
+	<th>K2 číslo</th>
+	<th>Název produktu</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Přidat nový produkt">
+			<a n:if="$user->isAllowed('Produkt','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+	<th>Status produktu</th>
+</tr>
+
+{foreach $items as $it}
+	{var $unlocked = $it->id_stav<>21}
+{if $unlocked}
+	<tr>
+{else}
+	<tr class="locked">
+{/if}
+	<td>
+		{if $inabidka>0 && $it->nabidka=='.. nepřiřazen ..'  && $unlocked}
+			<a n:href="assign, $it->id">Přiřadit k nabídce...</a>
+		{else}
+			{if $it->nabidka<>'.. nepřiřazen ..'}
+				<span n:if="$user->isAllowed('Produkt','eraseOffer') && $unlocked" class="disconn">
+					<a n:href="eraseOffer, $it->id, $it->idn" title="Zrušit přiřazení">
+						&nbsp;
+					</a>
+				</span>
+			{/if}
+			<a n:if="$user->isAllowed('Nabidka','detail')" n:href="Nabidka:detail, $it->idn"  title="{$it->idn}/{$it->ze_dne|date:'%Y'}">{$it->nabidka|truncate:60} </a>
+			<span n:if="!$user->isAllowed('Nabidka','detail')">{$it->nabidka}</span>
+			<span class="mini" style="float:right;">ze dne {$it->ze_dne|date:'%d.%m.%Y'}</span>
+		{/if}
+	</td>
+	<td n:if="$user->isAllowed('Produkt','setProduct')"><span class="iconsel"><a n:href="setProduct, $it->id" title="Zvolit">&nbsp&nbsp;</a></span></td>
+	<td class="tcislo">{$it->id}</td>
+	<td class="tcislo">{$it->id_k2}</td>
+	<td><a n:href="detail, $it->id">{$it->nazev}</a></td>
+	<td n:if="$cond" class="takce" title="stav: {$it->id_stav}">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Produkt','edit') && $unlocked" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span class="setdel" title="Odstranit">
+			<a n:if="$user->isAllowed('Produkt','delete') && $unlocked" n:href="delete, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span n:if="!$unlocked" title="{$it->nstav}: {$it->uzivatel}, {$it->datzmeny|date:'%d.%m.%Y v %H:%I:%S'}">
+			<img src="{$basePath}/images/stat21.png"/>
+		</span>
+	</td>
+	
+	<td title="{$it->nstav} {$it->username} {$it->datzmeny|date:'%d.%m.%Y %H:%I:%S'}">
+			{if $it->id_stav < 3}
+				<span class="status s1">
+			{/if}
+			{if $it->id_stav > 2 && $it->id_stav < 5}
+				<span class="status s2">
+			{/if}
+			{if $it->id_stav > 4 && $it->id_stav < 7}
+				<span class="status s4">
+			{/if}
+			{if $it->id_stav == 7}
+				<span class="status s5">
+			{/if}
+			{if $it->id_stav > 7}
+				<span>
+					<img src="{$basePath}/images/stat{$it->id_stav}.png" style="height:24px;width:24px;"/>
+			{/if}
+				<span class="mini">{$it->stav}</span>
+			</span>
+	</td>		
+	
+</tr>
+{/foreach}
+</table>
+	
+{* paginator *}
+{control vp}

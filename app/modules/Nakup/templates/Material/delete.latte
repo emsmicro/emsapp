@@ -1,0 +1,21 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $item}
+	{if $id>0}
+		<p>Opravdu chcete smazat materiál: {$nazev}?</p>
+		{control deleteForm}
+	{else}
+		<div class="flash exclamation">
+			<p>Chcete opravdu odstranit {$nazev}?</p>
+			{control deleteForm}
+		</div>
+	{/if}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

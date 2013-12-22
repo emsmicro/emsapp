@@ -1,0 +1,42 @@
+<script type='text/javascript'>
+
+	//formát čísel, desetinná čárka mezera mezi tisíci
+	$('input[type=text].cislo').autoNumeric({ aSep: ' ', aDec: ',', mDec: '{$mDec}' }); 
+	$('input[type=text].cisloLong').autoNumeric({ aSep: ' ', aDec: ',', mDec: '0' }); 
+	$('input[type=text].tcislo').autoNumeric({ aSep: ' ', aDec: ',', mDec: '0' }); 
+	
+	//výmaz editačního pole, pokud je hodnota nulová
+	$("input:text").each(function ()
+		{
+			// store default value
+			var v = this.value;
+			
+			/*
+			var textLength = this.value.length;
+			if(textLength > 8)
+			{
+				this.style.width = (textLength)*8 + 'px';
+			}
+			*/
+
+			/*
+			$(this).blur(function ()
+			{
+				// if input is empty, reset value to default 
+				if (this.value.length == 0) this.value = v;
+			});
+			*/
+			$(this).focus(function ()
+			{
+				var t = this.value.replace(",",".");
+				// when input is focused, clear its contents
+				if (t == 0) this.value = "";
+				//this.select();
+			}); 
+		});
+		
+	// označení textu v editačním poli při kliknutí myší do pole
+	$(document).on('click','input[type=text]',function(){ this.select(); });
+
+
+</script>		

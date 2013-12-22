@@ -1,0 +1,62 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<ul id="navi">
+	<li n:if="$user->isAllowed('SetSazeb','add')" title="Nový set sazeb"><a n:href="add">Nová...</a></li>
+	<li n:if="$user->isAllowed('SetSazeb','edit')" title="Změnit set sazeb"><a n:href="edit, $item->id">Změnit</a></li>
+	<li n:if="$user->isAllowed('SetSazeb','addGroup')" title="Nové režijní sazby..."><a n:href="addGroup, $idss">&#10010 sazby</a></li>
+</ul>
+
+<table class="grid">
+
+<tr><th>Název</th><td>{$item->nazev}</td></tr>
+<tr><th>Platnost od</th><td>{$item->platnost_od|date:'%d.%m.%Y'}</td></tr>
+<tr><th>Platnost do</th><td>{$item->platnost_do|date:'%d.%m.%Y'}</td></tr>
+<tr><th>Kalk. vzorec</th><td title="{$item->popis}"><b>{$item->kzkratka}</b>: {$item->knazev}</td></tr>
+</table>
+<p>
+
+{if $sazby}
+	{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+	{var $cond = $user->isAllowed('SetSazeb','add') || $user->isAllowed('SetSazeb','edit') || $user->isAllowed('SetSazeb','delete')}
+
+	<table class="grid" style="width:100%;">
+	<tr>
+		<th>#</th>
+		<th>Sazby</th>
+		<th>Zkratka</th>
+		<th>Def. hodnota [%]</th>
+		<th>Pravidlo</th>
+		<th style="text-align:center">Akce</th>
+	</tr>
+	{foreach $sazby as $saz}
+	<tr>
+		<td><i>{$saz->poradi}</i></td>
+		<td><i>{$saz->typ}</i></td>
+		<td>{$saz->zkratka}</td>
+		<td class="tcislo"><b>{$saz->hodnota|number:1:',':' '} %</b></td>
+		<td>{$saz->pravidlo}</td>
+		<td class="takce">
+			{if $saz->sid > 0}
+				<span class="setedit" title="Změnit">
+					<a n:if="$user->isAllowed('SetSazeb','editRate')" n:href="editRate, $saz->sid, $saz->tid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+				<span class="setdel" title="Odstranit">
+					<a n:if="$user->isAllowed('SetSazeb','deleteRate')" n:href="deleteRate, $saz->sid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+			{else}
+				<span class="setadd" title="Přidat...">
+					<a n:if="$user->isAllowed('SetSazeb','addRate')" n:href="addRate, $saz->tid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+			{/if}
+		</td>
+	</tr>
+	{/foreach}
+	</table>
+{/if}
+{if $vzorce}
+	{include '../vzorce.latte'}
+{/if}

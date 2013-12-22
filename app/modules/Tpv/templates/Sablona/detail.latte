@@ -1,0 +1,60 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('Sablona','addTypo') || $user->isAllowed('Sablona','editTypo') || $user->isAllowed('Sablona','deleteTypo')}
+
+<ul id="navi">
+	<li n:if="$user->isAllowed('Sablona','add')" title="Nová šablona TP"><a n:href="add">Nová...</a></li>
+	<li n:if="$user->isAllowed('Sablona','edit')" title="Změnit šablonu"><a n:href="edit, $ids">Změnit</a></li>
+</ul>
+
+<table class="grid">
+	<tr><th>#</th><td>{$item->id}</td></tr>
+	<tr><th>Zkratka</th><td>{$item->zkratka}</td></tr>
+	<tr><th>Název</th><td>{$item->nazev}</td></tr>
+</table>
+<p></p>
+<h2>Přiřazené typové operace šabloně</h2>
+<ul id="navi" style="margin-top: 0;">
+	<span n:if="$user->isAllowed('Sablona','addTypo')">
+		<li title="Přidat libovolnou typovou operaci"><a n:href="addTypo, $ids">Přidat TO ...</a></li>
+		{foreach $druhy as $druh}
+			<li title="Přidat typovou operaci {$druh->nazev}"><a n:href="addTypo, $ids, $druh->id">&#10010 {$druh->zkratka}</a></li>
+		{/foreach}
+	</span>
+</ul>
+<table class="grid" style="width:99%;">
+<tr>
+	<th>Pořadí</th>
+	<th>Druh</th>
+	<th>Zkratka TO</th>
+	<th>Název operace</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('Sablona','addTypo')" n:href="addTypo, $ids">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+
+</tr>
+{foreach $typo as $typ}
+<tr>
+	<td>{$typ->poradi}</td>
+	<td>{$typ->dnazev}</td>
+	<td>{$typ->tzkratka}</td>
+	<td>{$typ->nazev}</td>
+	<td class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Sablona','editTypo')" n:href="editTypo, $ids, $typ->idto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span class="setdel" title="Odstranit">
+			<a n:if="$user->isAllowed('Sablona','deleteTypo')" n:href="deleteTypo, $ids, $typ->idto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>
+

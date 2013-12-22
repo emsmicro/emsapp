@@ -1,0 +1,249 @@
+html {
+   /*	font: 16px/1.5 sans-serif;  */
+
+}
+
+body {
+  /*	font: 16px/1.5 "Trebuchet MS", "Geneva CE", lucida, sans-serif;    */
+	font: inherit;
+	margin: 0;
+	background: white;
+	color: #333;
+}
+
+h1 {
+	font-size: 1.9em;
+	color: #1C4E80;
+	padding-bottom: 10px;
+}
+
+
+#titul {
+	position: absolute;
+	top: 60px;
+	left: 145px;
+	color:#FFFFFF;
+	font-size: x-large;
+}
+
+
+code {
+	color: #666;
+}
+
+hr {
+	visibility: visible;
+	height: 1px;
+}
+
+img {
+	border: none;
+}
+
+
+.todod {
+  color: #091726;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+#todo li {
+  color: #000066;
+  font-weight: normal;
+  font-size: medium;
+  border-bottom: dotted 1px;
+  margin-right: 50px;
+}
+
+#todo span.ne {
+  float: right;
+  text-transform: uppercase;
+  margin-left: 10px;
+  color: #FF3333;
+}
+
+#todo span.ano {
+  float: right;
+  text-transform: capitalize;
+  margin-left: 20px;
+  color: #339933;
+  font-weight: bold;
+}
+
+
+h3 {
+  background-color: #F8F8F8;
+  border: solid 1px #AAAAAA;
+  border-bottom: solid 1px #FFFFFF;
+  margin-top: 15px;
+  padding: 0 15px 0 15px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-right-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+
+}
+
+
+div#odstavec {
+	color: black;
+    text-align: justify;
+	padding: 1em;
+	margin: 1em 0em;
+    font-size: 80%;
+}
+
+
+/*------------------------------------------------------------------*/
+div#centered {
+    margin: 0 auto;
+}
+
+.address {
+ /*   position: fixed;
+    overflow: visible;   */
+
+    float: right;
+    left: 0;
+    width: 75mm;
+/*  margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;  */
+    margin-right: 15mm;
+    border: 1px dotted #999999;
+	border-radius: 10px;
+	padding: 10px;
+    background-color: #F4F4F4;
+}
+
+/*-------------------------Tables------------------------------------*/
+
+table {
+    clear: both;
+	padding: 0;
+	margin: 0;
+	border-collapse:collapse;
+}
+
+table td {
+	border: none;
+}
+
+table th {
+	border: none;
+	font-size: 90%;
+}
+
+table.grid {
+	margin-top: 15px;
+    font-size: small;
+	border: 1px solid #ADD4FB;
+}
+
+table.grid td {
+    max-width: 250px;
+	background-color: #FFFFFF;
+	border: 1px solid #ADD4FB;
+	padding: 6px 6px 6px 6px;
+}
+
+
+table.grid th {
+	color: #3484D2;
+	background: #EFF5FC;
+	text-align: left;
+	font-weight: normal;
+	font-size: 90%;
+	border: 1px solid #ADD4FB;
+	padding: 3px 6px 3px 6px;
+}
+
+
+table.grid .alt td {
+	background: #FFFFFF;
+}
+
+
+table.grid tr:hover {
+	border-right: solid 2px #FFCC66;
+	border-left: solid 2px #FFCC66;
+}
+
+table.grid td.alt {
+	background: #EEEEEE;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/*------------------------------------------------------------------*/
+table.detail {
+	margin-top: 15px;
+    font-size: small;
+   	border: 1px solid #ADD4FB;
+}
+
+table.detail td {
+    max-width: 250px;
+	background-color: #FFFFFF;
+  /*	border: 1px solid #ADD4FB;   */
+	padding: 6px 6px 6px 15px;
+}
+
+
+table.detail th {
+	color: #3484D2;
+	background: #EFF5FC;
+	text-align: left;
+	font-weight: normal;
+	font-size: 90%;
+	border: 1px solid #ADD4FB;
+	padding: 3px 6px 3px 6px;
+}
+
+
+.tcislo {
+	text-align: right;
+}
+
+.takce td {
+    border: none;
+    background-color: #FFFFFF;
+    padding: 0px;
+    z-index: 1;
+}
+
+.takce {
+    padding: 0px;
+	text-align: center;
+}
+
+
+td.takce {
+    border: solid 1px #FFFFFF;
+}
+
+.takce a:hover {
+    color: #FFFFFF;
+}
+
+
+/*------------------------------------------------------------------*/
+
+.mini {
+  font-size: 8pt;
+}
+
+.invisible {
+  color: #FFFFFF;
+}
+
+.allwhite {
+  color: white;
+  background: white;
+  border-color: white;
+}
+
+
+

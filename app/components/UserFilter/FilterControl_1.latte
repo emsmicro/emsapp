@@ -1,0 +1,13 @@
+{*control filterForm*}
+
+{* Manuální vykreslení formuláře, ekvivalent $control->getComponent('filterForm')->render() *}
+
+
+<div style="position:absolute;z-index:2;float:right;top:230px;left:680px;padding:0;margin:0;">
+	
+	{form filterForm class => 'hledat', autocomplete => "off"}
+		{input filter class => 'text', autofocus => TRUE, onClick => 'this.select();', style => 'background:#FFF;padding-left:5px;'}
+		{input setfilter class => 'button', style => 'min-width:40px;max-width:50px;left:-14px;font-weight:normal;'}
+	{/form}
+	
+</div>

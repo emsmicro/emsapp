@@ -1,0 +1,47 @@
+
+
+	<table class="grid" style="width:98%;">
+	<tr>
+		<th>Zákazník</th>
+		<th>Č. nab.</th>
+		<th style="min-width:150px;">Nabídka</th>
+		<th>Založeno</th>
+		<th>Vyřízení do</th>
+		<th n:if="$user->isAllowed('Nabidka','toPdf')">PDF</th>
+		<th colspan="2">Status nabídky</th>
+	</tr>
+
+	{foreach $items as $it}
+		<tr>
+			<td title="{$it->firma}"><a n:if="$user->isAllowed('Firma','detail')" n:href="Firma:detail, $it->id_firmy">{$it->zfirma}</a></td>
+			<td class="cislo">{$it->id}/{$it->prij_datum|date:'%Y'}</td>
+			<td><a n:if="$user->isAllowed('Nabidka','detail')" n:href="Nabidka:detail, $it->id">{$it->popis}</a></td>
+			<td>{$it->prij_datum|date:'%d.%m.%Y'}</td>
+			<td>{$it->pozad_datum|date:'%d.%m.%Y'}</td>
+			<td n:if="$user->isAllowed('Nabidka','toPdf')" class="iconpdf">
+				<a n:href="Nabidka:toPdf, $it->id"  title="Export do PDF">&nbsp;&nbsp;&nbsp;</a>
+			</td>
+
+			<td title="{$it->nstav}, {$it->username}, {$it->datzmeny|date:'%d.%m.%Y %H:%I:%S'}">
+				{if $it->id_stav == 1}
+					<span class="status s1" title="{$it->nstav}">
+				{/if}
+				{if $it->id_stav > 1 && $it->id_stav < 5}
+					<span class="status s2" title="{$it->nstav}">
+				{/if}
+				{if $it->id_stav == 5}
+					<span class="status s3" title="{$it->nstav}">
+				{/if}
+				{if $it->id_stav == 6}
+					<span class="status s4" title="{$it->nstav}">
+				{/if}
+				{if $it->id_stav == 7}
+					<span class="status s5" title="{$it->nstav}">
+				{/if}
+					<span class="mini" title="{$it->nstav}">{$it->stav}</span>
+				</span>
+			</td>		
+		</tr>
+	{/foreach}
+	</table>
+

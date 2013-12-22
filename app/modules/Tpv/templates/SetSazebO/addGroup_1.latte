@@ -1,0 +1,41 @@
+{extends 'default.latte'}
+{block #drobecky4} » Hromadné zadání sazeb operací{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+
+<h1 n:block="title">{$titul}</h1>
+
+<div class="manual">
+<?php $form->render('begin') ?>
+
+<?php $form->render('errors') ?>
+
+<p></p>
+
+<table>
+	<tr>
+		<th>Popis</th>
+		<th>Sazba [Kč/hod]</th>
+	</tr>
+<?php $i=0; ?>
+	{foreach $items as $item}
+	<?php $i++; ?>
+        <tr>
+			<td class="ntext">{$item->typ}<span class="mini"> ({$item->idto})</span></td>
+			<td class="cislo"><?php echo $form['mpole']['hodnota'.$i]->control ?></td>
+        </tr>
+	{/foreach}
+	<tr class="noborder">
+		<td colspan="2" class="tdcenter">
+			<p></p>
+			<span><?php echo $form['save']->control ?></span>
+			<span><?php echo $form['cancel']->control ?></span>
+		</td>
+	</tr>
+
+</table>
+
+<?php $form->render('end') ?>
+
+</div>

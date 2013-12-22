@@ -1,0 +1,14 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $osoba}
+	<p>Opravdu chcete smazat osobu: {$osoba->jmeno} {$osoba->prijmeni}?</p>
+	{control deleteForm}
+
+{else}
+	<p>Osoba nebyla nalezena.</p>
+{/if}

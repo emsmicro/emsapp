@@ -1,0 +1,27 @@
+{extends 'detail.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+<h3>{$company}</h3>
+<h3>{$subtitle}</h3>
+
+{control pricenForm}
+
+{include '../../../Base/templates/js_number.latte', mDec => 2}
+
+<script type='text/javascript'>
+
+	$("input:text").each(function ()
+		{
+			//prodloužení editačního pole dle délky textu
+			var textLength = this.value.length;
+			if(textLength > 8)
+			{
+				this.style.width = (textLength)*8 + 'px';
+			}
+		});
+</script>

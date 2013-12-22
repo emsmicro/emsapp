@@ -1,0 +1,19 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul} {$item->popis}</h1>
+
+{if $item}
+
+	<div class="flash exclamation">
+		<p>Opravdu chcete roli "<b>{$item->popis}</b>" odstranit z databáze?</p>
+		<p><b>Upozornění</b>: Zrušíte tím přístup uživatelů, u kterých je tato role přiřazena!</p>
+	</div>
+	<p></p>
+	{control deleteForm}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

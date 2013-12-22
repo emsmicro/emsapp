@@ -1,0 +1,94 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » {$titul}{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h2>{$titul}</h2>
+<span class="mini" style="position:relative;float:right;top:-20px;right:20px;"><i>Jen SQL příkaz SELECT</i></span>
+
+{form qForm class => 'hledat'}
+
+<!-- Jednoduché vykreslení chyb -->
+<ul class="errors" n:if="$form->hasErrors()">
+    <li n:foreach="$form->errors as $error">{$error}</li>
+</ul>
+
+	<div style="position:relative; width:880px;">
+		<span style="position:absolute;float:left; left:250px; width:500px; top:-40px;">
+			{input gou class => 'button default'}
+			<span style="margin-left: 150px;">
+				{input tbs class => 'button small'}
+				{input sch class => 'button small'}
+				{input srv class => 'button small'}
+			</span>
+		</span>
+		{*<span>{input cancel class => 'button'}</span>*}
+		{input dotaz class => 'text', style => 'width:100%; padding:10px;', autofocus => TRUE, placeholder => 'Zadejte SQL dotaz SELECT'}
+	</div>
+{/form qForm}
+
+
+<div id="centered">
+	
+{if isset($head)}
+	<p></p>
+	<table class="grid" style="width:100%;">
+		<thead
+		<tr>
+			{foreach $head as $item}
+				<th title="{$iterator->counter}"><i>{$item}</i></th>
+			{/foreach}
+
+		</tr>
+		</thead>
+{/if}
+		
+{if isset($data)}
+	{block #qdata}
+		<tr>
+			{var $ii = 0}
+			{foreach $data as $item}
+				{if is_array($item)}
+					{var $ii = 0}
+					{include #qdata, 'data' => $item}
+				{else}
+					{var $ii++}
+					{if is_numeric($item) && gettype($item)<>'object'}
+						{var $cislo = str_replace(',','.',$item)}
+						<td class="tcislo">
+							{if gettype($item)=='double'}
+								{$cislo|number:6:',':''}
+							{elseif gettype($item)=='integer'}
+								{$cislo}
+							{elseif strpos($cislo,',') !== false}
+								{$cislo|number:4:',':''}
+							{else}
+								{$cislo}
+							{/if}
+					{elseif gettype($item)=='object'}
+						<td>
+							{$item|date:'%d. %m. %Y'}
+					{elseif gettype($item)=='NULL'}
+						<td style="text-align:center;">
+							<span class="mini"><i>null</i></span>
+					{else}
+						<td>
+							{if $ii == $idc}
+								<a n:href="default, $csql . $item" title="Data tabulky">{$item}</a>
+							{else}
+								{$item}
+							{/if}
+					{/if}
+					</td>
+				{/if}
+			{/foreach}
+		</tr>
+	{/block}
+
+	</table>
+
+	
+{/if}
+
+</div>
+<p></p>

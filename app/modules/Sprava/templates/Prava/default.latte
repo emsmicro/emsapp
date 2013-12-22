@@ -1,0 +1,93 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » Práva/Role{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('Prava','add') || $user->isAllowed('Prava','edit') || $user->isAllowed('Prava','delete') || $user->isAllowed('Prava','setRights')}
+
+<table id="mtab" class="grid">
+<tr>
+	<th title="Název role">Role</th>
+	<th title="Seznam povolených funkcí aplikace" style="width:680px;">
+		Práva k funkcím jednotlivých agend
+		<span style="font-size:x-small; color:#999999; margin-left:20px;"><i>(Pod kursorem myši je popis funkce.)</i></span>
+	</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Nová role">
+			<a n:if="$user->isAllowed('Prava','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{var $rol = $items[0]->prole}
+{var $mod = "**"}
+{var $tpr = "**"}
+{var $iid = 0}
+{foreach $items as $it}
+	{if $rol <> $it->prole}
+			<td n:if="$cond" style="vertical-align:bottom;" class="takce">
+				<span class="setperm" title="Nastavit práva pro roli"><a n:if="$user->isAllowed('Prava','setRights')" n:href="setRights, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+				<span class="setedit" title="Změnit roli"><a n:if="$user->isAllowed('Prava','edit')" n:href="edit, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+				<span class="setdel" title="Odstranit roli"><a n:if="$user->isAllowed('Prava','delete')" n:href="delete, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			</td>
+		</tr>
+	{/if}
+	{if $iterator->first || $rol <> $it->prole}
+		{var $iid = $it->idr}
+		{var $rol = $it->prole}
+		<tr>
+			<td style="vertical-align:top;font-size:medium;" title="{$it->role}={$it->idr}">
+				{$it->prole}
+			</td>
+			<td class="mini" style="position:relative">
+					<ul id="modprava" n:if="$user->isAllowed('Prava','setRights')">
+						<li><a n:href="setRights, $iid, 'Base'" title="Nastavit práva pro základní modul Base">Home</a></li>
+						<li><a n:href="setRights, $iid, 'Obchod'" title="Nastavit práva pro modul Obchod">Obchod</a></li>
+						<li><a n:href="setRights, $iid, 'Nakup'" title="Nastavit práva pro modul Nákup">Nákup</a></li>
+						<li><a n:href="setRights, $iid, 'Tpv'" title="Nastavit práva pro modul TPV">TPV</a></li>
+						<li><a n:href="setRights, $iid, 'Sprava'" title="Nastavit práva pro modul Správa">Správa</a></li>
+					</ul>
+				</ul>
+				<ul>
+	{/if}
+
+	{if $mod<>$it->modul}
+		{var $mod=$it->modul}
+		{if !is_null($mod)}
+			<p style="font-size:larger; margin:0 0 0 -15px; padding:5px 0 3px 10px;background:#EFF5FC;">
+				<span><i>Modul:</i> <b>{$mod}</b></span>
+			</p>
+		{/if}
+	{/if}
+	{if $tpr<>$it->presenter}
+		{if !is_null($it->presenter)}
+				</li>
+			<li>
+				<span><b>{$it->presenter} : </b></span>
+		{/if}
+			{var $tpr=$it->presenter}
+	{/if}
+	{var $fce = $it->funkce}
+	{if !is_null($fce)}
+		{var $tit = "• ".$it->presenter.' : '.$it->funkce.' - '.$it->popis}
+		<span title="{$tit}">{$fce} | </span>
+	{/if}
+
+	{if $iterator->last}
+				</ul>
+			</td>
+			<td n:if="$cond" style="vertical-align:bottom;" class="takce">
+				<span class="setperm" title="Nastavit práva pro roli"><a n:if="$user->isAllowed('Prava','setRights')" n:href="setRights, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+				<span class="setedit" title="Změnit roli"><a n:if="$user->isAllowed('Prava','edit')" n:href="edit, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+				<span class="setdel" title="Odstranit roli"><a n:if="$user->isAllowed('Prava','delete')" n:href="delete, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			</td>
+		</tr>
+	{/if}
+{/foreach}
+
+</table>

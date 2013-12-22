@@ -1,0 +1,14 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $item}
+	<p>Opravdu chcete smazat agendu/funkci: {$item->presenter} / {$item->funkce}?</p>
+	{control deleteForm}
+
+{else}
+	<p>Agenda nebyla nalezena.</p>
+{/if}

@@ -1,0 +1,42 @@
+{extends './default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}: {$item->hodinova_cena|number:2:',':' '} Kč/h</h1>
+<h2>{$item->nazev}</h2>
+<ul id="navi">
+	<li n:if="$user->isAllowed('Stroj','add')" title="Nový stroj"><a n:href="add">Nový...</a></li>
+	<li n:if="$user->isAllowed('Stroj','edit')" title="Změnit údaje"><a n:href="edit, $item->id">Změnit</a></li>
+</ul>
+{var $sazba_instalace = $item->sazba_instalace * 100}
+{var $vytizeni = $item->vytizeni * 100}
+{var $naklady_udrzba = $item->naklady_udrzba * 100}
+{var $naklady_ostatni = $item->naklady_ostatni * 100}
+
+<table class="grid" style="min-width: 50%;">
+	<tr class="tsepbot"><th>ID</th><td colspan="2">{$item->id}</td></tr>
+	<tr><th>Zkratka</th><td colspan="2">{$item->zkratka}</td>	</tr>
+	<tr><th>Název</th><td colspan="2">{$item->nazev}</td>		</tr>
+	<tr><th>Rok pořízení</th><td colspan="2">{$item->rok_porizeni}</td></tr>
+	<tr><th>Pořizovací cena (PC)</th><td class="cislo">{$item->poriz_cena|number:2:',':' '}</td><td>Kč</td></tr>
+	<tr><th>Podíl na instalaci</th><td class="cislo">{$sazba_instalace|number:2:',':' '}</td><td>% z PC</td></tr>
+	<tr><th>Směnnost</th><td class="cislo">{$item->smennost|number:2:',':' '}</td><td>směn/den</td></tr>
+	<tr><th>Vytížení</th><td class="cislo">{$vytizeni|number:2:',':' '}</td><td>%</td></tr>
+	<tr><th>Stáří stroje</th><td class="cislo">{$item->stari|number:1:',':' '}</td><td>let</td></tr>
+	<tr><th>Doba odepisování</th><td class="cislo">{$item->doba_odpisu|number:0:',':' '}</td><td>let</td></tr>
+	<tr><th>Zabraná plocha</th><td class="cislo">{$item->plocha|number:2:',':' '}</td><td>m2</td></tr>
+	<tr><th>Instalovaný příkon</th><td class="cislo">{$item->prikon|number:2:',':' '}</td><td>kW (kVA)</td></tr>
+	<tr><th>Spotřeba dusíku</th><td class="cislo">{$item->spotreba_dusiku|number:2:',':' '}</td><td>m3/hod</td></tr>
+	<tr><th>Podíl na údržbě</th><td class="cislo">{$naklady_udrzba|number:2:',':' '}</td><td>% z PC</td></tr>
+	<tr><th>Podíl ostatních nákladů</th><td class="cislo">{$naklady_ostatni|number:2:',':' '}</td><td>% z PC</td></tr>
+	<tr class="tseptop"><th>Roční kapacita</th><td class="cislo">{$item->kapacita|number:2:',':' '}</td><td>hod/rok</td></tr>
+	<tr><th>Fixní náklady</th><td class="cislo">{$item->naklady_fixni|number:2:',':' '}</td><td>Kč/hod</td></tr>
+	<tr><th style="text-align: right;"> - z toho odpisy</th><td class="cislo">{$item->odpisy_hod|number:2:',':' '}</td><td>Kč/hod</td></tr>
+	<tr><th>Variabilní náklady</th><td class="cislo">{$item->naklady_variabilni|number:2:',':' '}</td><td>Kč/hod</td></tr>
+	<tr class="tseptop" style="font-size: medium;">
+		<th><b>Hodinová sazba</b></th><td class="cislo"><b>{$item->hodinova_cena|number:2:',':' '}</b></td><td>Kč/hod</td>
+	</tr>
+	
+</table>
+

@@ -1,0 +1,11 @@
+{extends 'detail.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+{block #content}
+
+<h2 n:block="title">{$titul}</h2>
+<h4>{$subtitul}</h4>
+
+{control typoForm}
+
+{include '../../../Base/templates/js_edit.latte', cselect => '#frmtypoForm-id_typy_operaci', ctext => '#frmtypoForm-nazev'}
+

@@ -1,0 +1,308 @@
+{extends '../Nakup/default.latte'}
+{block #drobecky3} » <a n:href="Material:default">Materiál</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title">{$titul}</h2>
+
+<div id="setstat">
+	{var $title3=""}
+	{var $title6=""}
+	{var $activ3=""}
+	{var $activ6=""}
+	
+	{if $stavy3 || $stavy6}
+	<span class="mini">Stav produktu:</span>
+		<span class="mini">
+		{foreach $stavy3 as $st3}
+			{$st3->zkratka}, 
+			{$st3->datzmeny|date:'%d.%m.%Y %H:%I:%S'}, 
+			{$st3->username}.
+			{var $activ3="active"}
+			{var $title3=$st3->zkratka, $st3->datzmeny|date:'%d.%m.%Y %H:%I:%S', $st3->username.}
+		{/foreach}
+		</span>
+		<span class="mini">
+		{foreach $stavy6 as $st6}
+			{$st6->zkratka}, 
+			{$st6->datzmeny|date:'%d.%m.%Y %H:%I:%S'}, 
+			{$st6->username}.
+			{var $activ6="active"}
+			{var $title6=$st6->zkratka, $st6->datzmeny|date:'%d.%m.%Y %H:%I:%S', $st6->username.}
+		{/foreach}
+		</span>
+	{/if}
+	
+	{if $title3==""}
+		{var $title3="Nastavit status: Čekání na ocenění."}
+	{/if}
+	{if $title6==""}
+		{var $title6="Nastavit status: Materiál oceněn."}
+	{/if}
+	<ul n:if="$user->isAllowed('Material','changeStatus') and $unlocked" id="navstat">
+		<li class="{$activ3}"><a n:href="changeStatus, $idp, 3" title="{$title3}">Čekám na ceny</a>
+		</li>
+		<li class="{$activ6}"><a n:href="changeStatus, $idp, 6" title="{$title6}">Oceněno</a>
+		</li>
+	</ul>
+</div>
+{if $sProdej/$sNaklad > $koefmat}
+	{var $colclass = "green"}
+{elseif $sProdej/$sNaklad < $koefmat*0.95}
+	{var $colclass = "red"}
+{else}
+	{var $colclass = "orange"}
+{/if}
+{if $sProAlt/$sNaklad > $koefmat}
+	{var $colclasa = "green"}
+{elseif $sProAlt/$sNaklad < $koefmat*0.95}
+	{var $colclasa = "red"}
+{else}
+	{var $colclasa = "orange"}
+{/if}
+{if $is_rows}
+	<div style="position: relative; 
+				float: right; 
+				width: 100%; 
+				padding: 10px 20px 10px 10px; 
+				margin-bottom: -35px;
+				left: 10px;
+				top: -30px; 
+				background-color: #EEE;
+				border: 1px solid #888;
+			">
+		{if !$noAltProdej}
+			<div style="float:right;border: solid 2px #BBB; padding: 0;">
+			<div class="infosum">
+				<span>Prodej alt.: </span><span><b>{$sProAlt|number:2:',':' '}</b> Kč/ks</span>
+			</div>
+			<div class="infosum2 {$colclasa}">
+				<span><b>{$procpra|number:2:',':' '} %</b></span>
+			</div>
+			</div>
+		{/if}
+		<div style="float:right;border: solid 2px #BBB; padding: 0;">
+			<div class="infosum">
+				<span>Prodej: </span><span><b>{$sProdej|number:2:',':' '}</b> Kč/ks</span>
+			</div>
+			<div class="infosum2 {$colclass}">
+				<span><b>{$procprd|number:2:',':' '} %</b></span>
+			</div>
+		</div>
+		<div style="float:right;border: solid 2px #444; padding: 0; margin-right: 5px;">
+			<div class="infosum gray">
+				<span>Náklad:  </span><span><b>{$sNaklad|number:2:',':' '}</b> Kč/ks</span>
+			</div>
+		</div>
+		{if $noprices > 0}
+			<div class="infosum2 red" style="margin-right:15px;border-width: 5px;" title="Zbývá k ocenění {$noprices} položek">
+				<span>Ocenit:  </span><span><b>{$noprices}</b> z {$rows}</span>
+			</div>
+		{else}
+			<div class="infosum2 white" style="margin-right:15px; border-width: 5px;">
+				<span>Vše bylo oceněno.</span>
+			</div>
+		{/if}
+	</div>
+{/if}
+<ul id="navi">
+	{if $is_rows}
+		{if $co>0}
+			<li n:if="$user->isAllowed('Material','default')">	<a n:href="default">Všechno</a></li>
+		{/if}
+		{if $co==1}
+			<li n:if="$user->isAllowed('Material','list')" class="active">
+				<a n:href="list,1">Neoceněné položky</a>
+			</li>
+		{else}
+			<li n:if="$user->isAllowed('Material','list')">
+				<a n:href="list,1">Neoceněné položky</a>
+			</li>
+		{/if}
+		{if $co==2}
+			<li n:if="$user->isAllowed('Material','list')" class="active">
+				<a n:href="list,2">Oceněné položky</a>
+			</li>
+		{else}
+			<li n:if="$user->isAllowed('Material','list')">
+				<a n:href="list,2">Oceněné položky</a>
+			</li>
+		{/if}
+	{else}
+		<li n:if="$user->isAllowed('Material','add') and $unlocked" title="Přidat nový materiál"><a n:href="add">Přidat materiál</a></li>
+	{/if}
+	{if $co==0}
+		<li n:if="$user->isAllowed('Import','default') and $unlocked"><a n:href="Import:default">Import BOM z CSV</a></li>
+		<li n:if="$user->isAllowed('Kurz','default')"><a n:href="Kurz:default">Kurzy</a></li>
+		{if $is_rows}
+			<li n:if="$user->isAllowed('Material','delete') and $unlocked" title="Odstranit celý BOM produktu"><a n:href="delete, 0">Smazat vše</a></li>
+			<li n:if="$user->isAllowed('Material','export')" title="Export BOM do CSV"><a n:href="export">Export BOM</a></li>
+			<li n:if="$user->isAllowed('Material','matPrice') and $unlocked" title="Výpočet prodejní ceny materiálu"><a n:href="matPrice, $idp">Prodejní ceny</a></li>
+			<li n:if="$user->isAllowed('Material','matPrice') and $unlocked" title="Snulování prodejních cen"><a n:href="matPriceErase, $idp">Snulovat PC</a></li>
+		{/if}
+	{/if}
+</ul>
+
+{var $c = 0}
+{if $is_rows}
+
+	{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+	{var $cond = $user->isAllowed('Material','add') || $user->isAllowed('Material','edit') || $user->isAllowed('Material','delete')}
+
+	<table class="grid" style="width:100%;">
+	<tr>
+		<th style="text-align:center;">ID</th>
+		<th>Název</th>
+		<th style="text-align:center;">K2 číslo</th>
+		<th style="text-align:center;">Počet</th>
+		<th style="text-align:right;"><u><a n:href="default, $idp, -9" title="Setřídit sestupně">Nákup [Kč]</a></u></th>
+		<th style="text-align:right;">Prodej [Kč]</th>
+		<th n:if="!$noAltProdej" style="text-align:right;">Prodej alt.</th>
+		<th n:if="!$noAltProdej" style="text-align:right;" title="Diference alternativní ceny k prodejní.">Diference</th>
+		<td n:if="$cond and $unlocked" class="takce">
+			<span class="setadd" title="Přidat novou položku"><a n:if="$user->isAllowed('Material','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		</td>
+	</tr>
+	{var $cm = 0}
+	{var $dif = 0}
+	{foreach $items as $it}
+	<tr>
+		{if $it->id_k2}
+			<td class="zkrat50" style="text-align:right;" title="{$it->zkratka}">
+				{if $user->isAllowed('Material','detail')}
+					<a n:href="detail, $it->id">{$it->id}</a>
+				{else}
+					{$it->id}
+				{/if}
+				{*
+				{if $user->isAllowed('K2','find')}
+					<a n:href="K2:find, 0, $it->zkratka" title="Najít zkratku v K2" style="position:relative;float:right;">&#x25B7;</a>
+				{/if}
+				*}
+			</td>
+		{else}
+			<td class="zkrat50" title="{$it->zkratka}" class="redlight">
+				{if $user->isAllowed('Material','detail')}
+					<a n:href="detail, $it->id">{$it->zkratka|truncate:25}</a>
+				{else}
+					{$it->zkratka|truncate:25}
+				{/if}
+				{if $user->isAllowed('K2','find')}
+					<a n:href="K2:find, 0, $it->zkratka" title="Najít zkratku v K2" style="position:relative;float:right;">&#x25B7;</a>
+				{/if}
+			</td>
+		{/if}
+		<td class="midi90">
+			{$it->nazev}
+			{if $it->id_k2 && $user->isAllowed('K2','find')}
+			<span style="position:relative;float:right;"><a n:href="K2:find, $it->id" title="Najít název v K2">&#x25B7;</a></span>
+			{/if}
+		</td>
+		{if $it->id_k2}
+			<td class="tcislo">
+				{if $user->isAllowed('K2','find')}
+					<a n:href="K2:find, $it->id, $it->id_k2,'N'" title="Info z K2">{$it->id_k2}</a>
+				{else}
+					{$it->id_k2}
+				{/if}
+			</td>
+		{else}
+			<td style="text-align:center; padding:0; margin:0;">
+				<span n:if="$user->isAllowed('K2','find')" class="icon20">
+					<a n:href="K2:find, $it->id" title="Najít v K2">&nbsp&nbsp;</a>
+				</span>
+			</td>
+		{/if}
+		<td class="tcislo">
+			{$it->mnozstvi|number:0:',':' '}
+		</td>
+		{if $it->cena_kc <> $it->cena_cm}
+			<td class="tcislo"><span n:if="$it->cena_kc>0" class="look" 
+					title="{$it->cena_cm|number:6:',':' '} {$it->mena}">
+				{$it->cena_kc|number:4:',':' '}</span>
+			</td>
+			{var $cm++}
+		{else}
+			<td class="tcislo">
+				<span n:if="$it->cena_kc>0" title="{$it->cena_cm|number:6:',':' '}">
+					{$it->cena_kc|number:4:',':' '}
+				</span>
+			</td>
+		{/if}
+		{if $it->cena_kc2 <= 0}
+			<td class="tcislo tselorange" title="Tato cena není uložena v databázi.">
+				<span>
+					{$it->cena_kc*$koefmat|number:4:',':' '}
+				</span>
+			</td>
+		{elseif $it->cena_kc2 < round($it->cena_kc*$koefmat,4)}
+			<td class="tcislo tselred">
+				<span>
+					{$it->cena_kc2|number:4:',':' '}
+				</span>
+			</td>
+		{elseif $it->cena_kc2 > round($it->cena_kc*$koefmat,4)}
+			<td class="tcislo tselgreen">
+				<span>
+					{$it->cena_kc2|number:4:',':' '}
+				</span>
+			</td>
+		{else}
+			<td class="tcislo">
+				<span n:if="$it->cena_kc2>0">
+					{$it->cena_kc2|number:4:',':' '}
+				</span>
+			</td>
+		{/if}
+		{if !$noAltProdej}
+			
+			{if $it->cena_kc3 < $it->cena_kc2}
+				<td class="tcislo tselorange" title="Tato cena je horší.">
+					<span n:if="$it->cena_kc3>0">
+						{$it->cena_kc3|number:4:',':' '}
+					</span>
+				</td>
+			{elseif $it->cena_kc3*1.05 < $it->cena_kc2}
+				<td class="tcislo tselored" title="Tato cena je výrazně horší.">
+					<span n:if="$it->cena_kc3>0">
+						{$it->cena_kc3|number:4:',':' '}
+					</span>
+				</td>
+			{else}
+				<td class="tcislo tselgreen" title="Tato cena je lepší.">
+					<span n:if="$it->cena_kc3>0">
+						{$it->cena_kc3|number:4:',':' '}
+					</span>
+				</td>
+			{/if}
+			{if $it->cena_kc3>0}
+				{var $dif = ($it->cena_kc3 - $it->cena_kc2)/($it->cena_kc2)*100}
+			{else}
+				{var $dif = 0}
+			{/if}
+			<td class="tcislo">
+				<span n:if="$it->cena_kc2>0">
+					{$dif|number:2:',':' '} %
+				</span>
+			</td>
+
+		{/if}
+		<td n:if="$cond and $unlocked" class="takce">
+			<span class="setedit" title="Změnit"><a n:if="$user->isAllowed('Material','edit')" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('Material','delete')" n:href="delete, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+
+		</td>
+	</tr>
+	{var $c++}
+
+	{/foreach}
+	</table>
+	
+	{* paginator *}
+	{control vp}
+	<div>
+		{if $cm>0}
+			<span class="mini"><i>(Podtržené ceny mají cenu v cizí měně, která se zobrazí po najetí kurzorem myši nad cenu v Kč.)</i></span>
+		{/if}
+	</div>
+{/if}

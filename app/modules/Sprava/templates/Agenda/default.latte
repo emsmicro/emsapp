@@ -1,0 +1,40 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » Agendy/funkce{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('Agenda','add') || $user->isAllowed('Agenda','edit') || $user->isAllowed('Agenda','delete')}
+
+<table class="grid" style="width:880px;">
+<tr>
+	<th>#ID</th>
+	<th>Modul</th>
+	<th>Agenda</th>
+	<th>Pořadí</th>
+	<th>Funkce</th>
+	<th>Popis</th>
+	<td n:if="$cond" class="takce add">
+		Akce
+		<span class="setadd" title="Přidat novou agendu/funkci"><a n:if="$user->isAllowed('Agenda','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+</tr>
+
+{foreach $items as $it}
+<tr>
+	<td class="tcislo">{$it->id}</td>
+	<td>{$it->modul}</td>
+	<td>{$it->presenter}</td>
+	<td class="tcislo">{$it->poradi}</td>
+	<td>{$it->funkce}</td>
+	<td class="ntext">{$it->popis}</td>
+	<td n:if="$cond" class="takce setwidth">
+		<span class="setadd" title="Nová agenda/funkce za tento záznam"><a n:if="$user->isAllowed('Agenda','add')" n:href="add, $it->modul, $it->presenter, $it->poradi">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		<span class="setedit" title="Změnit"><a n:if="$user->isAllowed('Agenda','edit')" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('Agenda','delete')" n:href="delete, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+</tr>
+{/foreach}
+</table>

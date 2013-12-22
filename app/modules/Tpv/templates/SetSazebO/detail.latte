@@ -1,0 +1,75 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<ul id="navi">
+	<li n:if="$user->isAllowed('SetSazebO','add')" title="Nový set sazeb"><a n:href="add">Nová...</a></li>
+	<li n:if="$user->isAllowed('SetSazebO','edit')" title="Změnit set sazeb"><a n:href="edit, $item->id">Změnit</a></li>
+	<li n:if="$user->isAllowed('SetSazebO','addGroup')" title="Nový set sazeb..."><a n:href="addGroup, $idss">&#10010 sazby</a></li>
+	<li n:if="$user->isAllowed('SetSazebO','updSazby')" title="Přepočítat a uložit nové sazby"><a n:href="updSazby, $idss">Aktualizovat sazby</a></li>
+</ul>
+
+<table class="grid">
+	<tr><th>Název</th><td>{$item->nazev}</td></tr>
+	<tr><th>Platnost od</th><td>{$item->platnost_od|date:'%d.%m.%Y'}</td></tr>
+	<tr><th>Platnost do</th><td>{$item->platnost_do|date:'%d.%m.%Y'}</td></tr>
+	<tr><th>Aktuální set tarifních sazeb</th><td>{$sazby[0]->settarifu}</td></tr>{*$settar*}
+</table>
+<br/>
+<table class="grid" style="min-width:100%;">
+<tr>
+	<th>#</th>
+	<th>Druh</th>
+	<th>Název sazby služby</th>
+	<th>Hodinová sazba [Kč/h]</th>
+	<th class="tsepleft">Stroj</th>
+	<th>Sazba stroje [Kč/h]</th>
+	<th>Obsluha</th>
+	<th>Sazba obsluhy [Kč/h]</th>
+	<th>Sazba celkem [Kč/h]</th>
+	<th class="tsepleft" style="text-align:center;">Akce</th>
+</tr>
+
+{foreach $sazby as $saz}
+	{if round($saz->sazba_celkem,2) > round($saz->hodnota,2)}
+		{var $stl = "#FFD7D7"}
+	{elseif round($saz->sazba_celkem,2) < round($saz->hodnota,2)}
+		{var $stl = "#ECFFEC"}
+	{else}
+		{var $stl = "#FFF"}
+	{/if}
+	{if $saz->sazba_stroje>0}
+		{var $str = "#E2F0FE"}
+	{else}
+		{var $str = "#FAF8F1"}
+	{/if}
+	<tr>
+		<td>{$saz->poradi}</td>
+		<td>{$saz->druh}</td>
+		<td><i>{$saz->typ}</i></td>
+		<td class="tcislo"><b><span n:if="$saz->hodnota>0">{$saz->hodnota|number:2:',':' '}</span></b></td>
+		<td class="tsepleft" title="{$saz->nstroj}" style="background-color:{$str};">{$saz->stroj}</td>
+		<td class="tcislo" style="background-color:{$str};"><span n:if="$saz->sazba_stroje>0">{$saz->sazba_stroje|number:2:',':' '}</span></td>
+		<td>{$saz->obsluha}</td>
+		<td class="tcislo"><span n:if="$saz->sazba_obsluhy>0">{$saz->sazba_obsluhy|number:2:',':' '}</span></td>
+		<td class="tcislo" style="background-color:{$stl};"><span n:if="$saz->sazba_celkem>0">{$saz->sazba_celkem|number:2:',':' '}</span></td>
+		<td class="takce tsepleft">
+			{if $saz->sid > 0}
+				<span class="setedit" title="Změnit">
+					<a n:if="$user->isAllowed('SetSazebO','editRate')" n:href="editRate, $saz->sid, $saz->tid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+				<span class="setdel" title="Odstranit">
+					<a n:if="$user->isAllowed('SetSazebO','deleteRate')" n:href="deleteRate, $saz->sid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+			{else}
+				<span class="setadd" title="Přidat...">
+					<a n:if="$user->isAllowed('SetSazebO','addRate')" n:href="addRate, $saz->tid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+			{/if}
+		</td>
+	</tr>
+{/foreach}
+</table>
+

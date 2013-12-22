@@ -1,0 +1,33 @@
+{extends '../@layout.latte'}
+
+{control navigation}
+{block #drobecky2} » <a n:href="Obchod:default">Obchod</a>{block #drobecky3}{/block}{/block}
+
+{block #content}
+<h1 n:block="title">{$titul}</h1>
+
+
+{if $is_todo}
+	<h2>{$subtitle}</h2>
+	<div class="todod">
+		{block #todolist}
+			{foreach $todos as $oblast=>$item}
+			<ul>
+				<li id="todo"><span>{$oblast}</span>
+						{if is_array($item)} 
+							{include #todolist, 'todos' => $item}
+						{else}
+							{if $item == 'ne'}
+								<span class="ne">{$item}</span>
+							{else}
+								<span class="ano">{$item}</span>
+							{/if}
+						{/if}
+				</li>
+			</ul>
+			{/foreach}
+		{/block}
+	</div>
+{/if}
+
+

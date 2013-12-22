@@ -1,0 +1,68 @@
+	
+{* KAPACITY *}
+	<div class="kol-c">
+		<h3>Kapacita</h3>
+		<div>
+			{var $i = 0}
+			<table class="grid">
+				<tr class="tsepbot">
+					<th class="tsepright">Druh operace - typ</th>
+					<th class="tsepright">Kapacita [hod]</th>
+					<th>Směny / rok</th>
+					<th>Počet / vytížení</th>
+				</tr>
+
+				{var $sr = 0}
+				{var $rr = 0}
+				{var $sums = 0}
+				{var $sumr = 0}
+				{foreach $capac as $it}
+					{var $i++;}
+					{var $klas = ""}
+					<tr>
+						{var $smen = $it->TC/$mypar['rucni_smena']}
+						{if substr($it->druh,0,1)=='S'}
+							{var $pocet = $it->TC * 100/($mypar['fond_strojni'] * $mypar['rucni_smena'] * $mypar['smennost_strojni'])}
+							{var $mj = "% kap."}
+							{if $sr == 0}
+								{var $klas = "tseptop"}
+							{/if}
+							{var $sr++}
+							{var $sums += $it->TC}
+						{else}
+							{var $pocet = $it->TC/($mypar['fond_rucni'] * $mypar['rucni_smena'])}
+							{var $mj = "prac."}
+							{var $rr++}
+							{var $sumr += $it->TC}
+						{/if}
+						<td class="tsepright {$klas}" style="min-width:45%;max-width:60%;">{$it->druh}</td>
+						<td class="tcislo tsepright {$klas}">{$it->TC|number:1:',':' '}</td>
+						<td class="tcislo {$klas}">{$smen|number:1:',':' '}</td>
+						<td class="tcislo {$klas}"><b>{$pocet|number:2:',':' '}</b> {$mj}</td>
+					</tr>
+				{/foreach}
+				{var $kklas = "tseptop"}
+				{if $rr > 1}
+					{var $kklas = ""}
+					{var $sumrm = $sumr/$mypar['rucni_smena']}
+					{var $sumpp = $sumr/($mypar['fond_rucni'] * $mypar['rucni_smena'])}
+					<tr>
+						<td class="tsepright tseptop" style="min-width:45%;max-width:60%;"><b>CELKEM ruční práce</b></td>
+						<td class="tcislo tsepright tseptop">{$sumr|number:1:',':' '}</td>
+						<td class="tcislo tseptop">{$sumrm|number:1:',':' '}</td>
+						<td class="tcislo tseptop"><b>{$sumpp|number:2:',':' '}</b> prac.</td>
+					</tr>
+				{/if}
+				{if $sr > 0}
+					{var $sumsm = $sums/$mypar['rucni_smena']}
+					{var $sumpo = $sums * 100/($mypar['fond_strojni'] * $mypar['rucni_smena'] * $mypar['smennost_strojni'] * $sr)}
+					<tr>
+						<td class="tsepright {$kklas}" style="min-width:45%;max-width:60%;"><b>CELKEM strojní práce</b></td>
+						<td class="tcislo tsepright {$kklas}">{$sums|number:1:',':' '}</td>
+						<td class="tcislo {$kklas}">{$sumsm|number:1:',':' '}</td>
+						<td class="tcislo {$kklas}"><b>{$sumpo|number:2:',':' '}</b> % kap.</td>
+					</tr>
+				{/if}
+			</table>
+		</div>
+	</div>

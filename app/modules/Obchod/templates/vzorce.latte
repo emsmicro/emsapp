@@ -1,0 +1,37 @@
+	{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+	{var $cond = $user->isAllowed('SetSazeb','addKalk') || $user->isAllowed('SetSazeb','editKalk') || $user->isAllowed('SetSazeb','deleteKalk')}
+
+<div class="kvzorce">
+	<h2>Kalkulační vzorce    
+		{if $isakce}
+		<span class="setadd akce" title="Nový kalkulační vzorec ...">
+			<a n:if="$user->isAllowed('SetSazeb','addKalk')" n:href="addKalk">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		{/if}
+	</h2>
+	{foreach $vzorce as $it}
+	{var $light = ""}
+	{if isset($vzorec)}
+		{if $vzorec == $it->id}
+			{var $light = "light"}
+		{/if}
+	{/if}
+	<div class="vzorec {$light}">
+		<span style="font: Curier;">{$it->id}</span>
+		<span class="iditemin" style="font-size:medium;" title="id: {$it->id}"><b> {$it->zkratka} </b></span>
+		<span class="nazev">{$it->nazev}</span>
+		{if $isakce}
+		<span class="akce">
+			<span class="setedit" title="Změnit">
+				<a n:if="$user->isAllowed('SetSazeb','editKalk')" n:href="editKalk, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+			<span class="setdel" title="Odstranit">
+				<a n:if="$user->isAllowed('SetSazeb','deleteKalk')" n:href="deleteKalk, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		</span>
+		{/if}
+		<div class="popis">{$it->popis}</div>
+	</div>
+	{/foreach}
+
+</div>

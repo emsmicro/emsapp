@@ -1,0 +1,25 @@
+{* Latte template *}
+
+<div style="font-size: small; margin-top: 20px;">
+	<i>Vysvětlivky:</i><br />
+	<ul>
+
+	<li>Pole: Procedura obsahuje název uložené procedury pro výpočet jednotlivých položek ceny v SQL databázi.</li>
+		
+	<li>Pole: Parametry procedury může mít následující hodnoty:
+		<ul>
+		<li><b>= 0 .. cena materiálu</b> = náklady materiálu + zásobovací režie, tedy MaterialC = MaterialN * (1 + ZasR)</li>
+		<li><b>> 0 .. cena materiálu</b> = náklady materiálu + zásobovací režie + materiálová marže, tedy MaterialC = MaterialN * (1 + ZasR + MatM)</li>
+		<li><b>= 4 .. cena materiálu</b> = náklady materiálu + zásobovací režie + materiálová marže dle pravidel - mezí pro nákupní ceny materiálu, tedy MaterialC = MaterialN * (1 + ZasR + MatM)</li>
+		<li><b>= 1 .. správní režie</b>  = výrobní náklady (bez ceny materiálu) * zvýšená sazba správní režie, tedy SprvRezie = (VyrobniN - MaterialC) * SprR2</li>
+		<li><b>= 0, 2, 4 .. správní režie</b>  = výrobní náklady (vč. ceny materiálu) * základní sazba správní režie, tedy SprvRezie = VyrobniN * SprR1</li>
+		</ul>
+	</li>
+
+	<li>Pole: Cena materiálu (definice kalkulace prodejní ceny materiálu) se uvede v souladu s parametrem procedury. Slouží k operativnímu ocenění BOMu v modulu Nákup.</li>
+
+	<li>Volba: Uložit kopii má smysl při editaci stávajícího KV, je nutno změnit název zkratky vzorce, aby nedošlo k jeho záměně.</li>
+
+	
+	</ul>
+</div>	

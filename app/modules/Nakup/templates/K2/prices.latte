@@ -1,0 +1,77 @@
+{extends 'find.latte'}
+{block #drobecky5} » Ceny{block #drobecky6}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title">
+		Přiřazení cen z K2
+</h2>
+
+
+{if count($items)>0}
+	<h4>Dodavatelské ceny: [{$subtitle}]</h4>
+	<table class="grid" style="width:100%;">
+	<tr>
+		<th>id K2</th>
+		<th>Dodavatel</th>
+		<th>Množství</th>
+		<th>Cena</th>
+		<th>Měna</th>
+		<th>Odběr</th>
+		<th>Popis</th>
+		<th>Aktualizace</th>
+		<td n:if="$user->isAllowed('K2','setPrice') && $actidp>0">Výběr</td>
+	</tr>
+
+	{foreach $items as $it}
+		<tr>
+			<td>{$it->id}</td>
+			<td title="{$it->dodavatel}">{$it->ZFir}</td>
+			<td class="tcislo">{$it->mnoz|number:0:',':' '} ks</td>
+			<td class="tcislo">{$it->cena|number:4:',':' '}</td>
+			<td>{$it->mena}</td>
+			<td class="tcislo">{$it->odber|number:0:',':' '}</td>
+			<td>{$it->popis}</td>
+			<td>{$it->datum|date:'%d.%m.%Y'}</td>
+			<td n:if="$user->isAllowed('K2','setPrice') && $actidp>0" class="takce">
+				<a n:href="setPrice, $idm, $it->idc">&#x25C0; Zvolit&nbsp;</a>
+			</td>
+		</tr>
+	{/foreach}
+	</table>
+{/if}
+
+{if isset($purch)}
+	{if $cnp>0}
+		<h4>{$cnp} {$txlabel}: [{$czbo} - {$purch[0]->nazev}]</h4>
+		<table class="grid" style="width:80%;">
+		<tr>
+			<th>Dodavatel</th>
+			<th>Množství</th>
+			<th>Cena/MJ</th>
+			<th>Datum</th>
+			<td n:if="$user->isAllowed('K2','setPrice') && $actidp>0">Výběr</td>
+		</tr>
+
+		{foreach $purch as $it}
+			<tr>
+				<td title="{$it->dodavatel}">{$it->ZFir}</td>
+				<td class="tcislo">{$it->mnozstvi|number:2:',':' '}</td>
+				<td class="tcislo">{$it->cena|number:4:',':' '} Kč</td>
+				<td class="tcislo">
+					{$it->datum|date:'%d.%m.%Y'}
+				</td>
+				<td n:if="$user->isAllowed('K2','setPriceValue') && $actidp>0" class="takce">
+					{if $it->TooOld == "NO"	}
+						<a n:href="setPriceValue, $idm, $czbo, $it->cena">&#x25C0; Zvolit&nbsp;</a>
+					{else}
+						<span style="color:#b81900;" title="Starší cena nákupu">&#8855; <i>nelze</i></span>
+					{/if}
+				</td>
+			</tr>
+		{/foreach}
+		</table>
+	{/if}
+
+{/if}
+		

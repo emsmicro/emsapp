@@ -1,0 +1,189 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+
+
+<div id="contbase">
+	
+	<h1 n:block="title">{$titul}</h1>
+	<table class="grid">
+	<tr>
+		<td class="takce"><a n:if="$user->isAllowed('Firma','add')" n:href="add">Nová...</a></td>
+		<td class="takce"><a n:if="$user->isAllowed('Firma','edit')" n:href="edit, $firma->id">Změnit</a></td>
+		<td n:if="$user->isAllowed('Nabidka','offer')" class="takce ucho">
+			<a n:href="Nabidka:offer, $firma->id">Vybrat nabídku</a>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Název</th><td>{$firma->nazev}</td>
+	</tr>
+	<tr>
+		<th>Zkratka</th><td>{$firma->zkratka}</td>
+		<td n:if="$user->isAllowed('Osoba','people')" class="takce ucho">
+			<a n:href="Osoba:people, $firma->id">Vybrat kontakt</a>
+		</td>
+	</tr>
+	<tr><th>Adresa</th><td>{$firma->a_ulice} {$firma->a_cp}<br />
+						   {$firma->m_obec} {$firma->m_psc}<br />
+						   {$firma->m_stat}
+						</td></tr>
+	<tr><th>IČO</th><td>{$firma->ico}</td></tr>
+	<tr><th>DIČ</th><td>{$firma->dic}</td></tr>
+	<tr><th>Účet</th><td>{$firma->cislo_uctu}, {$firma->banka}</td></tr>
+	<tr><th>Poznámka</th><td>{$firma->poznamka}</td></tr>
+	</table>
+	<p></p>
+
+<div class="kolaps">
+		
+	<div id="contcol2">
+		
+		{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+		{var $cond = $user->isAllowed('Firma','addContact') || $user->isAllowed('Firma','editContact') || $user->isAllowed('Firma','deleteContact')}
+		<div class="kol-1">
+			<h3>Firemní kontakty</h3>
+			<div>
+				<table class="grid">
+				<tr>
+					<th>Kontakt (typ)</th>
+					<td n:if="$cond" class="takce"><a n:if="$user->isAllowed('Firma','addContact')" n:href="addContact, $ido">Přidat kontakt</a></td>
+				</tr>
+				{foreach $kontakty as $kon}
+				<tr>
+					<td><i>{$kon->ktyp}</i>: <b><span style="color:green">{$kon->hodnota}</span></b></td>
+					<td n:if="$cond" class="takce">
+						<a n:if="$user->isAllowed('Firma','editContact')" n:href="editContact, $kon->id, $ido">Změnit</a>
+						<a n:if="$user->isAllowed('Firma','deleteContact')" n:href="deleteContact, $kon->id, $ido">Odstranit</a>
+					</td>
+				</tr>
+				{/foreach}
+				</table>
+			</div>
+		</div>
+		
+		{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+		{var $cond = $user->isAllowed('Osoba','add') || $user->isAllowed('Osoba','edit') || $user->isAllowed('Osoba','delete')}
+
+		<div class="kol-2">
+			<h3>Kontaktní osoby</h3>
+			<div>
+				<table class="grid">
+				<tr>
+					<th>Přijmení, jméno</th>
+					<th>Kontakt</th>
+					<td n:if="$cond" class="takce">
+						<a n:if="$user->isAllowed('Osoba','add')" n:href="Osoba:add">Přidat osobu</a>
+					</td>
+				</tr>
+				{var $ido = 0}
+				{foreach $osoby as $os}
+				<tr>
+					<td>
+						{if $ido<>$os->id}
+							<a n:href="Osoba:detail, $os->id" title="Detail">{$os->titul_pred} {$os->prijmeni} {$os->jmeno} {$os->titul_za}</a>
+						{/if}
+					</td>
+					<td>
+						{if $os->idk==1}
+							<a href="mailto:{$os->kontakt}" title="Poslat mail">{$os->kontakt}</a>
+						{else}
+							{$os->kontakt}
+						{/if}
+					</td>
+					<td n:if="$cond" class="takce">
+						{if $ido<>$os->id}
+							<a n:if="$user->isAllowed('Osoba','edit')" n:href="Osoba:edit, $os->id">Změnit</a>
+							<a n:if="$user->isAllowed('Osoba','delete')" n:href="Osoba:delete, $os->id">Odstranit</a>
+							{var $ido = $os->id}
+						{/if}
+					</td>
+				</tr>
+				{/foreach}
+				</table>	
+			</div>
+		</div>
+	
+	</div>
+	</div>
+	
+
+
+<div class="kolaps">
+	<div class="kol-3">
+		<h3>Nabídky</h3>
+		<div>
+
+				<table class="grid">
+				<tr>
+					<th style="min-width:150px;">Nabídka</th>
+					<th>Založeno</th>
+					<th>Vyřízení do</th>
+					<th n:if="$user->isAllowed('Nabidka','toPdf')">PDF</th>
+					<th colspan="2">Status nabídky</th>
+				</tr>
+
+				{foreach $nabidky as $it}
+					<tr>
+						<td><a n:if="$user->isAllowed('Nabidka','detail')" n:href="Nabidka:detail, $it->id">{$it->popis}</a></td>
+						<td>{$it->prij_datum|date:'%d.%m.%Y'}</td>
+						<td>{$it->pozad_datum|date:'%d.%m.%Y'}</td>
+						<td n:if="$user->isAllowed('Nabidka','toPdf')" class="iconpdf">
+							<a n:href="Nabidka:toPdf, $it->id"  title="Export do PDF">&nbsp;&nbsp;&nbsp;</a>
+						</td>
+
+						<td title="{$it->nstav}, {$it->username}, {$it->datzmeny|date:'%d.%m.%Y %H:%I:%S'}">
+							{if $it->id_stav == 1}
+								<span class="status s1" title="{$it->nstav}">
+							{/if}
+							{if $it->id_stav > 1 && $it->id_stav < 5}
+								<span class="status s2" title="{$it->nstav}">
+							{/if}
+							{if $it->id_stav == 5}
+								<span class="status s3" title="{$it->nstav}">
+							{/if}
+							{if $it->id_stav == 6}
+								<span class="status s4" title="{$it->nstav}">
+							{/if}
+							{if $it->id_stav == 7}
+								<span class="status s5" title="{$it->nstav}">
+							{/if}
+								<span class="mini" title="{$it->nstav}">{$it->stav}</span>
+							</span>
+						</td>		
+					</tr>
+					<tr>
+						<td colspan="5">
+							{include 'prods.latte', nabid => $it->id}
+						</td>
+					</tr>
+				{/foreach}
+				</table>
+			
+			
+		
+		</div>
+	
+	</div>
+</div>	
+</div>
+
+
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $(".kol-1, .kol-2, .kol-3").collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+                 },
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+</script>

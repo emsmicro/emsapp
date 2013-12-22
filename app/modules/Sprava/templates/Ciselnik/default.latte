@@ -1,0 +1,166 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » <a n:href="default">Číselníky</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+
+<h2 n:block="title1">Druhy firem</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+</tr>
+
+{foreach $dfirem as $df}
+<tr>
+	<td>{$df->id}</td>
+	<td>{$df->zkratka}</td>
+	<td>{$df->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title2">Druhy operací</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+</tr>
+
+{foreach $doperaci as $do}
+<tr>
+	<td>{$do->id}</td>
+	<td>{$do->zkratka}</td>
+	<td>{$do->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title3">Měrné jednotky</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Koeficient</th>
+</tr>
+
+{foreach $merjed as $mj}
+<tr>
+	<td>{$mj->id}</td>
+	<td>{$mj->zkratka}</td>
+<td class="tcislo">{$mj->koeficient|number:4:',':' '}</td>
+</tr>
+{/foreach}
+</table>
+
+
+<h2 n:block="title5">Oslovení</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Název</th>
+</tr>
+
+{foreach $osloveni as $os}
+<tr>
+	<td>{$os->id}</td>
+	<td>{$os->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title6">Role</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Název</th>
+</tr>
+
+{foreach $role as $r}
+<tr>
+	<td>{$r->id}</td>
+	<td>{$r->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title">Typy cen</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+</tr>
+
+{foreach $tcen as $tc}
+<tr>
+	<td>{$tc->id}</td>
+	<td>{$tc->zkratka}</td>
+	<td>{$tc->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+
+<h2 n:block="title7">Typy nákladů</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+</tr>
+
+{foreach $tnakladu as $tn}
+<tr>
+	<td>{$tn->id}</td>
+	<td>{$tn->zkratka}</td>
+	<td>{$tn->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title9">Typy kontaktů</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Název</th>
+</tr>
+
+{foreach $tkontaktu as $tk}
+<tr>
+	<td>{$tk->id}</td>
+	<td>{$tk->nazev}</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title8">Typy sazeb</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+	<th title='Základna pro pravidla'>Zakladna</th>
+</tr>
+
+{foreach $tsazeb as $ts}
+<tr>
+	<td>{$ts->id}</td>
+	<td>{$ts->zkratka}</td>
+	<td>{$ts->nazev}</td>
+	<td>{$ts->zakladna}</td>
+</tr>
+{/foreach}
+</table>
+

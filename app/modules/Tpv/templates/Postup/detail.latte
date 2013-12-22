@@ -1,0 +1,125 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('Postup','addTypo') || $user->isAllowed('Postup','editTypo') || $user->isAllowed('Postup','deleteTypo')}
+
+<ul id="navi">
+	<li n:if="$user->isAllowed('Postup','add')" title="Nový TP"><a n:href="add">Nový...</a></li>
+	<li n:if="$user->isAllowed('Postup','edit')" title="Změnit TP"><a n:href="edit, $idt">Změnit</a></li>
+	<li n:if="$user->isAllowed('Postup','addSabl')" title="Přidat šablonu"><a n:href="addSabl, $idt">Přidat šablonu ...</a></li>
+</ul>
+
+<table class="grid">
+	<tr><th>K2 číslo</th><td>{$item->id_k2}</td></tr>
+	<tr><th>Zkratka</th><td>{$item->zkratka}</td></tr>
+	<tr><th>Název</th><td>{$item->nazev}</td></tr>
+</table>
+
+<div id="cbody">
+
+<h2>
+		Skupiny operací přiřazené technologickému postupu
+		<span class="mini" style="width:200px;float:right;text-align:right;padding:5px 10px;margin:0;">
+			<a href="#" id="closeAll" title="Sbalit vše">Sbalit</a> | <a href="#" id="openAll" title="Rozbalit vše">Rozbalit</a>
+		</span>
+</h2>
+
+<div class="detcol">
+{var $i = 0}
+{foreach $sabl as $sab}
+	{var $i++}
+	<div style="position:relative;">
+	<h3 class="collapsible" id="section{$i}"}>
+		<span class="colid"># {$sab['pporadi']}</span><span style="margin-left:80px;"><b>{$sab['zsablona']}</b> - {$sab['nsablona']}</span>
+		<span class="cpin"></span>
+	</h3>
+	<div class="container">
+		<span class="colakce">
+			<span class="set editgroup" title="Hromadná změna">
+				<a n:if="$user->isAllowed('Postup','addGroup')" n:href="addGroup, $idt, $sab['id_sablony']"></a>
+			</span>
+			<span class="set edit" title="Změnit šablonu">
+				<a n:if="$user->isAllowed('Postup','editSabl')" n:href="editSabl, $idt, $sab['id_sablony']"></a>
+			</span>
+			<span class="set del" title="Odstranit šablonu">
+				<a n:if="$user->isAllowed('Postup','deleteSabl')" n:href="deleteSabl, $idt, $sab['id_sablony']"></a>
+			</span>
+		</span>
+
+		<div class="content">
+			{include 'detOperace.latte', items => $sab['key']}
+		</div>
+	</div>
+	</div>
+{/foreach}
+
+{if $noop}
+	{var $i++}
+	<div style="position:relative;">
+	<h3 class="collapsible" id="section{$i}"} style="background-color:#999;">
+		<span class="colid"># {$i}</span><span style="margin-left:80px;"><b>Ručně zadáno</b> - operace doplněné bez šablony</span>
+		<span class="cpin"></span>
+	</h3>
+	<div class="container">
+		<span class="colakce">
+			<span class="set editgroup" title="Hromadná změna">
+				<a n:if="$user->isAllowed('Operace','addGroup')" n:href="Operace:addGroup, $idt"></a>
+			</span>
+			<span class="set edit" title="Přidat 1 operaci">
+				<a n:if="$user->isAllowed('Operace','add')" n:href="Operace:add, $idt"></a>
+			</span>
+			<span class="set del" title="Odstranit všechny tyto operace">
+				<a n:if="$user->isAllowed('Operace','delete')" n:href="Operace:delete, -1, $idt"></a>
+			</span>
+		</span>
+
+		<div class="content">
+			{include 'detNoOper.latte', items => $noop}
+		</div>
+	</div>
+	</div>
+{/if}	
+	
+</div>
+
+</div>
+
+<script type="text/javascript" src="{$basePath}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{$basePath}/js/jquery.collapsible.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        //collapsible management
+        $('.collapsible').collapsible({
+            defaultOpen: 'section1',
+			cookieName: 'nav',
+			speed: 300,
+        });
+    });
+
+	//assign open/close all to functions
+	function openAll() {
+		$('.collapsible').collapsible('open');
+	}
+	function closeAll() {
+		$('.collapsible').collapsible('close');
+	}
+	
+	//listen for close/open all
+	$('#closeAll').click(function(event) {
+		event.preventDefault();
+		closeAll();
+
+	});
+	$('#openAll').click(function(event) {
+		event.preventDefault();
+		openAll();
+
+	});	
+	
+	
+	
+</script>

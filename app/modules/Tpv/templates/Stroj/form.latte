@@ -1,0 +1,109 @@
+
+<div id="params" style="visibility: hidden;">
+	<span id='urokova_mira'>{$params['urokova_mira']}</span>
+	<span id='naklady_plochy'>{$params['naklady_plochy']}</span>
+	<span id='cena_elekriny'>{$params['cena_elekriny']}</span>
+	<span id='cena_dusiku'>{$params['cena_dusiku']}</span>
+	<span id='stroj_kapcita_sm'>{$params['stroj_kapcita_sm']}</span>
+</div>
+
+<table id='out' class="grid" style='position: absolute; top:35%; left:55%; width:20%;'>
+	<tr><th colspan="3" style="text-align:center; background-color: #FFECC4; color: #000;"><i>Průběžný výpočet</i></th>
+	<tr><th>Kapacita</th><td class="cislo" id="hkapac"></td><td>hod/rok</td></tr>
+	<tr><th>Odpisy</th><td class="cislo" id="hodpis"></td><td>Kč/hod</td></tr>
+	<tr><th>Fixní náklady</th><td class="cislo" id="hfixni"></td><td>Kč/hod</td></tr>
+	<tr><th>Variabil. nák.</th><td class="cislo" id="hvaria"></td><td>Kč/hod</td></tr>
+	<tr><th>Hod. sazba</th><td class="cislo" id="hsazba" style="font-size: medium; font-weight: bold;"></td><td>Kč/hod</td></tr>
+</table>
+
+
+
+{*
+<div class="manual">
+
+{form itemForm}
+
+<table id="tab" class="grid" style="width:100%;">
+	<tr class="required">
+		<th>{label zkratka /}</th>
+		<td style="width:600px;">{input zkratka}</td>
+	</tr>
+	<tr class="required">
+		<th>{label nazev /}</th>
+		<td>{input nazev cols => 90}</td>
+	</tr>
+	<tr class="required">
+		<th>{label rok_porizeni /}</th>
+		<td>{input rok_porizeni cols => 6}</td>
+	</tr>
+	<tr>
+		<th>{label poriz_cena /}</th>
+		<td>{input poriz_cena cols => 50 rule}</td>
+	</tr>
+	<tr>
+		<th>{label sazba_instalace /}</th>
+		<td>{input sazba_instalace}</td>
+	</tr>
+	<tr>
+		<th>{label smennost /}</th>
+		<td>{input smennost}</td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-vytizeni">Vytížení:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="vytizeni" id="frmitemForm-vytizeni" value="90" /> <small>[%], má vliv na roční kapacitu</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-stari">Stáří stroje:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="stari" id="frmitemForm-stari" value=".00000" /> <small>[let]</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-doba_odpisu">Kalk. doba odepisování:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="doba_odpisu" id="frmitemForm-doba_odpisu" value="8.00000" /> <small>[let]</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-plocha">Zabraná plocha:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="plocha" id="frmitemForm-plocha" value="100.00000" /> <small>[m2], vč. pochůzné a odkládací plochy</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-prikon">Elelktrický příkon:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="prikon" id="frmitemForm-prikon" value="28.00000" /> <small>[kVA, kW]</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-vyuziti_prikonu">Využití příkonu:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="vyuziti_prikonu" id="frmitemForm-vyuziti_prikonu" value="60" /> <small>[%]</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-spotreba_dusiku">Spotřeba dusíku:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="spotreba_dusiku" id="frmitemForm-spotreba_dusiku" value=".00000" /> <small>[m3/hod]</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-naklady_udrzba">Podíl nákladů na údržbu:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="naklady_udrzba" id="frmitemForm-naklady_udrzba" value="4" /> <small>[% z PC], obvykle 4 %</small></td>
+	</tr>
+	<tr>
+		<th><label for="frmitemForm-naklady_ostatni">Podíl ost. provozních nákladů:</label></th>
+		<td><input type="text" class="cislo text" autocomplete="off" condition=":filled" rule=":float:Hodnota musí být celé nebo reálné číslo." name="naklady_ostatni" id="frmitemForm-naklady_ostatni" value="2" /> <small>[% z PC], obvykle 2 %</small></td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><input type="submit" class="default button" name="save" id="frmitemForm-save" value="Uložit" /> <input type="submit" formnovalidate="formnovalidate" class="button" name="cancel" id="frmitemForm-cancel" value="Storno" /></td>
+	</tr>
+
+
+</table>
+</div>
+	<div style="width:150%;margin-left:10px;">
+		<span>{input save class => 'default button'}</span>
+		<span>{input cancel}</span>
+		<span style="margin-left:200px;"></span>
+		<span class="butt" onclick="RecalculateSums()">Přepočítat</span>
+	</div>
+</div>
+			
+{/form itemForm}
+
+</div>
+
+{include '../../../Base/templates/js_number.latte', mDec => 3}
+{include 'js_calc_price.latte'}
+*}

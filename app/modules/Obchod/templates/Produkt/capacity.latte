@@ -1,0 +1,38 @@
+	
+{* KAPACITY *}
+	<div class="kol-c" 
+		style="float:left;
+				position:absolute;
+				top: -10px;
+				left: 40%;
+			">
+		<h3>Výrobní časy / kapacita</h3>
+		<div>
+			{var $i = 0}
+			<table class="grid">
+				<tr>
+					<th>Druh operace - typ</th>
+					<th>Ta [min]</th>
+					<th>Tp [min]</th>
+					<th>Kapacita [hod]</th>
+					<th>Směny / rok</th>
+				</tr>
+
+				{foreach $capac as $it}
+				{var $i++;}
+				<tr>
+					{if substr($it->druh,0,1)=='S'}
+						{var $smen = $it->TC * 100/($mypar['fond_strojni'] * $mypar['rucni_smena'] * $mypar['smennost_strojni'])}
+					{else}
+						{var $smen = $it->TC/($mypar['fond_rucni'] * $mypar['rucni_smena'])}
+					{/if}					
+					<td>{$it->druh}</td>
+					<td class="tcislo">{$it->TA|number:2:',':' '}</td>
+					<td class="tcislo">{$it->TP|number:2:',':' '}</td>
+					<td class="tcislo">{$it->TC|number:2:',':' '}</td>
+					<td class="tcislo">{$smen|number:2:',':' '}</td>
+				</tr>
+				{/foreach}
+			</table>
+		</div>
+	</div>

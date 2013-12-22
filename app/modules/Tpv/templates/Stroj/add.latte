@@ -1,0 +1,12 @@
+{extends './default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{control itemForm}
+
+{include 'form.latte'}
+{include '../../../Base/templates/js_number.latte', mDec => 2}
+{include 'js_calc_price.latte'}

@@ -1,0 +1,74 @@
+{extends 'default.latte'}
+{block #drobecky4} » Hromadná editace operací{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h4>{$npostup}</h4>
+<h4>{$nsablona}</h4>
+{*
+<h3>
+	<a n:if="$user->isAllowed('Produkt','detail')" n:href="Produkt:detail, $iprodukt">{$subtitle}</a>
+	<span n:if="!$user->isAllowed('Produkt','detail')">{$subtitle}</span>
+</h3>
+*}
+
+<div class="manual">
+{control addGroupForm begin}
+{control addGroupForm errors}
+
+<table>
+	{*
+	<tr class="noborder" style="border-bottom:solid 1px #4FA3F7;">
+		<td colspan="3"></td>
+		<td colspan="3" class="tdcenter">
+			<span>{$control['addGroupForm']['save']->control}</span>
+			<span>{$control['addGroupForm']['cancel']->control}</span>
+		</td>
+	</tr>
+	*}
+	<tr style="text-align:left;">
+		<th>Druh</th>
+		<th style="text-align:center;">#</th>
+		<th>Popis</th>
+		<th title="Výrobní čas">Ta [min]</th>
+		<th title="Přípravný/dávkový čas">Tp [min]</th>
+		<th>Náklad [Kč]</th>
+	</tr>
+	{var $i = 0}
+	{foreach $items as $item}
+		{var $i++}
+        <tr>
+			<td class="ntext" title="{$item->ido}">{$item->zdruh}<span class="mini"> ({$item->id_typy_operaci})</span></td>
+			<td class="rpopis"><b>{$item->poradi}</b></td>
+			<td class="popis input">{$control['addGroupForm']['mpole']['popis'.$i]->control}</td>
+			{if $item->zdruh == 'Strojní' || $item->zdruh == 'Ruční' || $item->zdruh == 'Montáž'}
+				<td class="cislo input">{$control['addGroupForm']['mpole']['ta_cas'.$i]->control}</td>
+				<td class="cislo input">{$control['addGroupForm']['mpole']['tp_cas'.$i]->control}</td>
+				<td class="lpopis">[min]</td>
+			{/if}
+			{if $item->zdruh == 'Ostatní'}
+				<td class="rpopis" colspan="2">[Kč/ks]</td>
+				<td class="cislo input">{$control['addGroupForm']['mpole']['naklad'.$i]->control}</td>
+			{/if}
+			{if $item->zdruh == 'Jednorázové'}
+				<td class="rpopis" colspan="2">[Kč celkem]</td>
+				<td class="cislo input">{$control['addGroupForm']['mpole']['naklad'.$i]->control}</td>
+			{/if}
+        </tr>
+	{/foreach}
+	<tr class="noborder">
+		<td colspan="3"></td>
+		<td colspan="3" class="tdcenter">
+			<span>{$control['addGroupForm']['save']->control}</span>
+			<span>{$control['addGroupForm']['cancel']->control}</span>
+		</td>
+	</tr>
+</table>
+			
+{control addGroupForm end}
+
+</div>
+
+	
+{include '../../../Base/templates/js_number.latte', mDec => 3}

@@ -1,0 +1,207 @@
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300' rel='stylesheet' type='text/css'>
+<style type="text/css">
+	.bigId {
+		position: absolute; 
+		float:left; 
+		color: #CCC;
+		font-weight: 100;
+		top: -50px; 
+		left: 40%; 
+		font-size: 200px; 
+		font-family: 'Lato','Open Sans',sans-serif;
+	}
+	.midId {
+		font-size: 60px; 
+		color: #ADCDED;
+		font-weight: 300;
+	}
+</style>
+
+	<script>
+		$(function () {	
+				Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+					return {
+						radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
+						stops: [
+							[0, color],
+							[1, Highcharts.Color(color).brighten(-0.2).get('rgb')] // darken
+						]
+					};
+				});
+				Highcharts.setOptions({
+					lang: {
+						decimalPoint: ',',
+						thousandsSep: ' ',
+					},
+				});
+
+			});
+	</script>
+
+		{var $amena = 'CZK'}
+		{var $apocet = 0}
+		{var $spanmn = 3}
+		{var $avzorec = 0}
+		{var $stab = 0}			
+		{var $acena = 0}
+		{var $actclass = ""}
+		{var $acttitle = ""}
+		{var $i = 0}
+			{foreach $prices as $cen}
+				{if $acena<>$cen->id_cena}
+					{if $acena == 0}
+						{var $acena = $cen->id_cena}
+					{/if}
+					{var $actclass = ""}
+					{var $acttile = "Variantní cena"}
+					{if $cen->aktivni == 1}
+						{var $actclass = "aktivni"}
+						{var $acttitle = "Aktivní cena"}
+					{/if}
+					{if $cen->id_vzorec <> $item->vzorec}
+						{var $actclass = "simulacni"}
+					{/if}
+					{if $stab > 0}
+						</table>
+						{var $i++}
+						<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
+						</div>
+						{include 'detaval.latte', item => $aval[$acena]}
+						</div>
+					{/if}
+				<div class="gridseparator">
+					<div style='position: relative;'>
+					<table id="tceny{$cen->id_cena}" class="grid">
+					<thead>
+						<tr title="{$acttitle}">
+							<th style="background:#EEE;">
+								<span class="refresh" title="Přepočítat">
+									<a n:if="$user->isAllowed('Produkt','priceRefresh') && $unlocked" n:href="priceRefresh, $cen->id_cena">
+									&nbsp;&nbsp;&nbsp;
+									</a>
+								</span>
+							</th>
+							{if $cen->id_vzorec == $item->vzorec}
+								{if $cen->aktivni == 1}
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span></th>
+								{else}
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Variantní cena</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span>
+										<span class="setactive" style="float:right;" title="Aktivovat tuto cenu ({$cen->id_cena})">
+											<a n:if="$user->isAllowed('Produkt','priceActivate') && $unlocked" n:href="priceActivate, $cen->id, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+										</span>
+									</th>
+								{/if}
+							{else}
+								<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Simulační cena</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span></th>
+							{/if}
+							<th class="{$actclass}" style="min-width:80px; text-align:right;">Cena [Kč]</th>
+							{if $cen->idm <> 1}
+								<th class="{$actclass}">Cena [{$cen->mena}]</th>
+								{var $spanmn = 4}
+							{else}
+								{var $spanmn = 3}
+							{/if}
+
+						</tr>
+					</thead>
+					<tr>
+						<td class="alt" colspan="{$spanmn}" style="text-align:right; font-size:90%;">
+							<div class="popup">
+							  <span class="title">Kalkulační vzorec:</span>
+							  <span class="subtitle">{$cen->nvzorec}</span>
+							  <br>
+							  {$cen->pvzorec}
+							  <a n:if="$user->isAllowed('SetSazeb','editKalk')" n:href="SetSazeb:editKalk, $cen->id_vzorec">&nbsp;edit&nbsp;</a>
+									
+							  <span class="hlp" style="float:right;">
+								  <span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
+								  
+							  {if$cen->definice<>''}
+								  [Definiční vzorec]
+									  <span class="def" style="width:400px;">
+										  {var $dd = str_replace(';',';<br/>',$cen->definice)}
+										  {var $dd = str_replace('*/','*/<br/>',$dd)}
+										  {!$dd}
+									  </span>
+							  {else}
+								  [Uložená procedura]
+									  <span class="def" style="width:200px;">
+										<b>{$cen->procedura} <span n:if="$cen->param<>''">[{$cen->param}]</span></b>
+										<span n:if="$cen->mater_c<>''"><br/>MaterialC = {$cen->mater_c}</span>
+									  </span>
+							  {/if}
+							  </span>
+							</div>	
+							<span class="kvzorec {$actclass}">
+								<span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
+								{$cen->kvzorec}
+							</span>
+							<i>Množství: {$cen->mnozstvi|number:0:',':' '} ks, výr.&nbsp;dávka&nbsp;<b>{$cen->davka|number:0:',':''}</b>&nbspks.</i>
+						</td>
+					</tr> 
+					{var $stab++}
+					{var $acena = $cen->id_cena}
+					{var $apocet = $cen->davka}
+					{var $avzorec = $cen->id_vzorec}
+					{var $amena = $cen->mena}
+				{/if}
+				<tr>
+				{if $cen->zkratka=="ProdCenaP"} {* zvýraznění ceny *}
+					<td class="cena mini {$actclass}">{$cen->poradi}</td>
+					<td class="cena {$actclass}">{$cen->nazev}
+						{if $inabidka>0}
+							<span class="setdel" style="float:right;" title="Odstranit tyto ceny">
+								<a n:if="$user->isAllowed('Produkt','erasePrices') && $unlocked" n:href="erasePrices, $cen->id, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+							</span>
+						{/if}					
+					</td>
+					<td class="tcislo cena {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
+					{if $cen->idm <> 1}
+						<td class="tcislo cena {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
+					{/if}
+				{elseif $cen->zkratka=="CenaNab"} {* zvýraznění ceny nabidkove *}
+					<td class="cenanab mini {$actclass}">{$cen->poradi}</td>
+					<td class="cenanab {$actclass}">{$cen->nazev}
+						{if $inabidka>0}
+							<span class="setedit" style="float:right;" title="Změnit nabídkovou cenu">
+								<a n:if="$user->isAllowed('Produkt','editPricen') && $unlocked" n:href="editPricen, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+							</span>
+						{/if}					
+					</td>
+					<td class="tcislo cenanab {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
+					{if $cen->idm <> 1}
+						<td class="tcislo cenanab {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
+					{/if}
+				{else}
+					<td class="mini {$actclass}">{$cen->poradi}</td>
+					<td class="{$actclass}">{$cen->nazev}</td>
+					<td class="tcislo {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
+					{if $cen->idm <> 1}
+						<td class="tcislo {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
+					{/if}
+				{/if}
+			</tr>
+			{/foreach}
+		</table>
+		{var $i++}
+		<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
+		</div>
+			{if $stab > 0}
+				{include 'detaval.latte', item => $aval[$acena]}
+			{/if}
+		</div>
+
+		<div class="subtit">
+			<span class="hlp mini"><i><span class="tooltip">&nbsp;&nbsp;&nbsp;</span>Defaultní set sazeb režií:</i> 
+				<a n:if="$user->isAllowed('SetSazeb','detail')" n:href="SetSazeb:detail, $item->idss">
+					{$item->sazby}.
+					<span class="def">
+						{include 'viewSazby.latte'}
+					<span>
+				</a>
+			</span>
+			<span class="mini">
+				<i>Defaultní kalkul. vzorec:</i> {$item->kalkzkratka}: {$item->kalknazev}
+			</span>
+		</div>
+		

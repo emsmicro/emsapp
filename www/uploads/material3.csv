@@ -1,0 +1,31 @@
+poèet;nazev;Cena
+1;Dioda, pouzdro MICROMELF 1N4148;18,5
+1;Schottkyho dioda, pouzdro SMD-B STPS3L60U;22,5
+1;Dioda SMD, pouzdro SOD-323 BAT60A;19
+1;Usmìròovací dioda SMD. 1N4007 SMA;14
+1;Transil, pouzdro SMA SMAJ36A;16,5
+1;Filtr Murata DSS6NE52A222Q55B;12,5
+2;Keramický kondenzátor, pouzdro 1210 10uF/50V;8
+1;Keramický kondenzátor, pouzdro 0603 100pF;17
+1;Keramický kondenzátor, pouzdro 0603 330nF;19
+1;tantalový kondenzátor, pouzdro SMD-C 100uF/10VT;30
+1;Rezistor, pouzdro 0414/2W, rozteè 15,2mm 0,47R/2W;14,9
+1;Rezistor, pouzdro SMD 0603 12k;15
+1;Rezistor, pouzdro SMD 0603 100k1%;12
+1;Tlumivka, pouzdro SMT75 (výška soušástky max 5mm) 33uH;9
+1;Stabilizátor, pouzdro TSSOP16 LT1976;18
+2;Keramický kondenzátor, pouzdro 0603 4,7uF/10V;24
+3;Rezistor, pouzdro SMD 0603 10k;10
+1;Tranzistor P-kanál, pouzdro SOT23 IRLML6401;13
+1;Tranzistor, pouzdro SOT323,  2x rezistor 47k BCR148W_SMD;14,5
+1;Mikrospínaè, výška 10mm P-B1720 (10mm);12
+1;Záložní a dobíjecí obvod, pouzdro S-PVQFN-N16 BQ24074;16
+1;Tantalový kondenzátor, pouzdro SMD-D 220uF/6,3VT;18
+1;Rezistor, pouzdro SMD 0603 33k-1%;17
+1;Stabilizátor ADJ, pouzdro SOT23-5 ADP123;19
+1;Procesor ST, pouzdro LQFP64, Flash256k / 32k RAM STM32F103RCT6;21
+1;Krystal, pouzdro HC49U 8MHz;23
+1;Podložka pod krystal HC49U Podložka;15,5
+1;Krystal hodinový, 6pF, pouzdro TC38H 32.768-6pF;34
+1;Dobíjecí baterie, kapacita 5,5mAh, prùmìr 9,3mm MS621FE-FL11E;120
+1;Schottkyho dioda, pouzdro SOT23, Vf 330 mV BAR43C;36

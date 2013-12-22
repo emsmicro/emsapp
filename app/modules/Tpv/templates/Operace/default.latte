@@ -1,0 +1,120 @@
+{extends '../Tpv/default.latte'}
+{block #drobecky3} » <a n:href="default">Operace</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h2>{$subtitle}</h2>
+<h3>{$company}</h3>
+
+<div id="setstat">
+	{var $title4=""}
+	{var $title5=""}
+	{var $activ4=""}
+	{var $activ5=""}
+	<span class="mini">Stav produktu:</span>
+		<span class="mini">
+		{foreach $stavy4 as $st4}
+			{$st4->zkratka}, 
+			{$st4->datzmeny|date:'%d.%m.%Y %H:%I:%S'}, 
+			{$st4->username}.
+			{var $activ4="active"}
+			{var $title4=$st4->zkratka, $st4->datzmeny|date:'%d.%m.%Y %H:%I:%S', $st4->username.}
+		{/foreach}
+		</span>
+		<span class="mini">
+		{foreach $stavy5 as $st5}
+			{$st5->zkratka}, 
+			{$st5->datzmeny|date:'%d.%m.%Y %H:%I:%S'}, 
+			{$st5->username}.
+			{var $activ5="active"}
+			{var $title5=$st5->zkratka, $st5->datzmeny|date:'%d.%m.%Y %H:%I:%S', $st5->username.}
+		{/foreach}
+		</span>
+		<span class="mini" title="Produkt: {$idp}">Počet operací: {$isoper}.</span>
+	{if $title4==""}
+		{var $title4="Nastavit status: Započetí prací na TPV."}
+	{/if}
+	{if $title5==""}
+		{var $title5="Nastavit status: Dokončení TPV."}
+	{/if}
+	<ul id="navstat">
+		<li class="{$activ4}"><a n:href="changeStatus, $idp, 4" title="{$title4}">TPV zahájeno</a>
+		</li>
+		<li class="{$activ5}"><a n:href="changeStatus, $idp, 5" title="{$title5}">TPV dokončeno</a>
+		</li>
+	</ul>
+</div>
+
+
+<ul id="navi">
+	<li n:if="$user->isAllowed('Operace','addGroup') and $unlocked">	<a n:href="Operace:addGroup" title="Hromnadné zadání dle typových operací">&#10010 operace</a></li>
+	<li n:if="$user->isAllowed('Operace','add') and $unlocked">		<a n:href="Operace:add" title="Přidat jednu operaci">&#10010 1 </a></li>
+	{if $isoper}
+		<li n:if="$user->isAllowed('Operace','delete') and $unlocked">	<a n:href="Operace:delete, 0" title="Odstranit všechny operace">Smazat vše</a></li>
+		<li n:if="$user->isAllowed('Operace','export')" title="Export TPV do CSV"><a n:href="export">Export TPV</a></li>
+	{/if}
+</ul>
+
+{if $isoper>0}
+{/if}
+	{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+	{var $cond = $user->isAllowed('Operace','add') || $user->isAllowed('Operace','edit') || $user->isAllowed('Operace','delete')}
+
+	<table class="grid" style="width: 100%;">
+	<tr>
+		<th>#</th>
+		<th>Operace</th>
+		<th>Popis</th>
+		<th>Druh</th>
+		<th title="Výrobní čas">Ta [min]</th>
+		<th title="Přípravný/dávkový čas">Tp [min]</th>
+		<th>Náklad [Kč]</th>
+		<th class='tsepleft' title="Výrobní náklady">Ta [Kč]</th>
+		<th class='tsepright' title="Dávkové náklady">Tp [Kč]</th>
+		<td n:if="$cond" colspan="2" class="takce">
+			<span class="setadd" title="Přidat novou operaci"><a n:if="$user->isAllowed('Operace','add') and $unlocked" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		</td>
+	</tr>
+	{var $styl1=""}
+	{var $titl1="Kalkulace času"}
+	{if $unlocked}
+		{var $styl1="border-right:none;"}
+		{var $titl1="Kalkulovat čas"}
+	{/if}
+	{foreach $items as $it}
+	<tr>
+		<td>{$it->oporadi}</td>
+		<td>{$it->nazev}</td>
+		<td><a n:href="detail, $it->id">{$it->popis}</a></td>
+		<td>{$it->druh}</td>
+
+		<td n:if="$it['ta_cas'] <> 0" class="tcislo">{$it['ta_cas']|number:3:',':' '}</td>
+		<td n:if="$it['ta_cas'] == 0"></td>
+		<td n:if="$it['tp_cas'] <> 0" class="tcislo">{$it['tp_cas']|number:3:',':' '}</td>
+		<td n:if="$it['tp_cas'] == 0"></td>
+		<td n:if="$it['naklad'] <> 0" class="tcislo">{$it['naklad']|number:3:',':' '}</td>
+		<td n:if="$it['naklad'] == 0"></td>
+		<td class="tcislo tsepleft" n:if="$it['ta_naklad'] <> 0" class="tcislo">{$it['ta_naklad']|number:2:',':' '}</td>
+		<td class="tcislo tsepleft" n:if="$it['ta_naklad'] == 0"></td>
+		<td class="tcislo tsepright" n:if="$it['tp_naklad'] <> 0" class="tcislo">{$it['tp_naklad']|number:2:',':' '}</td>
+		<td class="tcislo tsepright" n:if="$it['tp_naklad'] == 0"></td>
+		
+		{*
+		<td class="tcislo">{$it->ta_cas|number:3:',':' '}</td>
+		<td class="tcislo">{$it->tp_cas|number:3:',':' '}</td>
+		<td class="tcislo">{$it->naklad|number:3:',':' '}</td>
+		<td class="tcislo tsepleft">{$it->ta_naklad|number:2:',':' '}</td>
+		<td class="tcislo tsepright">{$it->tp_naklad|number:2:',':' '}</td>
+		*}
+		<td n:if="$user->isAllowed('Operace','tcalc')" class="takce" style="padding:2px;{$styl1}">
+			<span n:if="$it->pocet>0" class="setcalc" title="{$titl1}"><a n:if="$user->isAllowed('Operace','tcalc')" n:href="tcalc, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		</td>
+		<td n:if="$cond and $unlocked" class="takce" style="padding:2px;border-left:none;">
+			<span class="setedit" title="Změnit"><a n:if="$user->isAllowed('Operace','edit')" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('Operace','deleteOne')" n:href="deleteOne, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		</td>
+	</tr>
+	{/foreach}
+	</table>
+{*/if*}

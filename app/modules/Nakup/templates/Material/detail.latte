@@ -1,0 +1,29 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title">
+		{if $item->id_k2>0}
+			{$item->id_k2} : 
+		{/if}
+	{$titul}
+</h2>
+
+{var $cond = $user->isAllowed('Material','add') || $user->isAllowed('Material','edit') }
+
+<table class="grid">
+	<tr n:if="$cond">
+		<td class="takce"><a n:if="$user->isAllowed('Material','add')" n:href="add">Nová...</a></td>
+		<td class="takce"><a n:if="$user->isAllowed('Material','edit')" n:href="edit, $item->id">Změnit</a></td>
+	</tr>
+
+	<tr><th>Zkratka</th><td>{$item->zkratka}</td></tr>
+	<tr><th>Název</th><td>{$item->nazev}</td></tr>
+	<tr><th>Cena Kč</th><td class="tcislo">{$item->cena_kc|number:4:',':' '}</td></tr>
+	<tr><th>Cena CM</th><td class="tcislo">{$item->cena_cm|number:4:',':' '}</td></tr>
+	<tr><th>K2 ID</th><td>{$item->id_k2}</td></tr>
+	<tr><th>Měrná jednotka</th><td>{$item->jednotka}</td></tr>
+	<tr><th>Kurz</th><td>{$item->kurz_nakupni}</td></tr>
+	<tr><th>Měna</th><td>{$item->mena}</td></tr>
+</table>

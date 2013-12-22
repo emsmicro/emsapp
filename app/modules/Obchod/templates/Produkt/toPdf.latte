@@ -1,0 +1,114 @@
+require {$dirm} . '/PdfResponse/PDFResponse.php';
+{extends '../@pdf.layout.latte'}
+
+{block #content}
+
+	
+			<h1 n:block="title">{$titul}</h1>
+			<h2>{$company}
+				Nabídka: {$item->nabidka}
+			</h2>
+
+			<table class="grid">
+			<tr>
+			</tr>
+
+			<tr><th>Firma</th><td>{$item->firma}</td></tr>
+			<tr><th>Zkratka</th><td>{$item->zkratka}</td></tr>
+			<tr><th>Název</th><td>{$item->nazev}</td></tr>
+			<tr><th>Popis</th><td>{$item->popis}</td></tr>
+			<tr><th>Nabídka</th><td>{$item->nabidka}</td></tr>
+
+			</table>
+
+			<p></p>
+
+			<span>
+				<h3>Plánovaná množství</h3>
+			</span>
+
+			<table class="grid">
+				<tr>
+					<th>Celkové množství</th>
+					<th>Výrobní dávka</th>
+				</tr>
+
+				{foreach $pocet as $poc}
+				<tr>
+					<td class="tcislo">{$poc->mnozstvi|number:0:',':' '}</td>
+					<td class="tcislo">{$poc->vyrobni_davka|number:0:',':' '}</td>
+				</tr>
+				{/foreach}
+			</table>
+
+
+				<span>
+					<h3>Náklady</h3>
+				</span>
+			{if $costs}
+				<table class="grid">
+					<tr>
+						<th>Popis</th>
+						<th>Náklad [Kč]</th>
+					</tr>
+
+					{foreach $costs as $nak}
+					<tr>
+						<td>{$nak->nazev}</td>
+						<td class="tcislo">{$nak->hodnota|number:2:',':' '}</td>
+					</tr>
+					{/foreach}
+				</table>
+				<span class="mini"><i>Set sazeb operací:</i> {$item->sazby_o}</span>
+			{/if}
+			<div>
+				<h3>Ceny</h3>
+			</div>
+
+			{if $prices}
+
+				{var $amena = 'CZK'}
+				{var $apocet = 0}
+				<table class="grid">
+					<thead>
+						<tr>
+							<th>Popis</th>
+							<th>Cena [Kč]</th>
+						</tr>
+					</thead>
+
+					{foreach $prices as $cen}
+						{if $apocet<>$cen->davka}
+							<tr>
+								<td class="alt" colspan="2" style="text-align:right; font-size:85%;">
+									<i>Množství: {$cen->mnozstvi|number:0:',':' '} ks, výrobní dávka: {$cen->davka|number:0:',':' '} ks.</i>
+								</td>
+							</tr> 
+							{var $apocet = $cen->davka}
+						{/if}
+						<tr>
+						{if $amena<>$cen->mena}
+							<tr title="{$cen->nabidka}"><th>Měna: {$cen->n_mena} ({$cen->mena})</th>
+							<th>Cena [Kč]</th>
+							<th>Cena [{$cen->mena}]</th>
+							<th>Kurz [Kč/{$cen->mena}]</th>
+							</tr>
+							{var $amena = $cen->mena}
+						{/if}
+
+						<td>{$cen->nazev}</td>
+						<td class="tcislo">{$cen->hodnota|number:2:',':' '}</td>
+						{if $cen->kurz <> 1}
+							<td class="tcislo">{$cen->hodnota_cm|number:2:',':' '}</td>
+							<td class="tcislo">{$cen->kurz|number:4:',':' '}</td>
+						{/if}
+						</tr>
+					{/foreach}
+				</table>
+				<span class="mini"><i>Set sazeb režií:</i> {$item->sazby}</span>
+
+			{/if}
+
+			</div>
+
+	

@@ -1,0 +1,24 @@
+{layout '../@layout.latte'}
+{var $robots = noindex}
+
+{block #content}
+<div style="margin-left:220px;">
+	<h1 n:block="title">Přihlášení do systému</h1>
+
+	<div style="position:relative;top:10px;">
+	{form signInForm class => 'sign'}
+
+		<table>
+
+			<tr><td>{input username class => 'text', autofocus => TRUE}</td></tr>
+			<tr><td>{input password class => 'text'}</td></tr>
+			<tr><td><center>{input send class => 'button default'}</center></td></tr>
+		</tr>
+		</table>
+
+		<img src="{$basePath}/images/login.png" 
+			 style="position:absolute; top: 20px; left: 220px;"
+			 />
+	</div>
+	{/form signInForm}
+</div>

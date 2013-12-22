@@ -1,0 +1,14 @@
+{block #addon}
+	{include '../../../Base/templates/date.latte'}
+{/block}
+
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{control itemForm}
+
+{include '../../../Base/templates/js_number.latte', mDec => 2}

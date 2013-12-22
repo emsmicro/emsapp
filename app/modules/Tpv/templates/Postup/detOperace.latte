@@ -1,0 +1,59 @@
+{var $cond = $user->isAllowed('Operace','add') || $user->isAllowed('Operace','edit') || $user->isAllowed('Operace','delete')}
+
+<table class="grid" style="width:99%;margin: 0 5px 0 5px;">
+<tr>
+	<th>#</th>
+	<th>Popis</th>
+	<th class="cislo">Ta [min]</th>
+	<th class="cislo">Tp [min]</th>
+	<th class="cislo">Náklad [Kč]</th>
+	<th colspan="2" style="text-align:center;">
+		Akce
+		{*
+		<span class="set editgroup" title="Hromadná změna">
+			<a n:if="$user->isAllowed('Operace','addGroup')" n:href="Operace:addGroup, 1"></a>
+		</span>
+		*}
+	</th>
+	{*
+	<td n:if="$cond" colspan="2" class="takce">
+		<span class="setadd" title="Přidat novou operaci"><a n:if="$user->isAllowed('Operace','add') and $unlocked" n:href="Operace:add, 1">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+	*}
+</tr>
+{foreach $items as $item}
+	{var $ido = $item['ido']}
+	{if $ido == 0}
+		{var $ido=''}
+	{/if}
+<tr>
+	<td>{$item['poradi']}</td>
+	<td>{$item['popis']}<span class="mini" title="oper/typ"> ({$ido}/{$item['id_typy_operaci']})</span></td>
+	<td n:if="$item['ta_cas'] <> 0" class="tcislo">{$item['ta_cas']|number:2:',':' '}</td>
+	<td n:if="$item['ta_cas'] == 0"></td>
+	<td n:if="$item['tp_cas'] <> 0" class="tcislo">{$item['tp_cas']|number:2:',':' '}</td>
+	<td n:if="$item['tp_cas'] == 0"></td>
+	<td n:if="$item['naklad'] <> 0" class="tcislo">{$item['naklad']|number:2:',':' '}</td>
+	<td n:if="$item['naklad'] == 0"></td>
+	
+	<td n:if="$user->isAllowed('Operace','tcalc')" class="takce" style="padding:0;" title="Kalkulovat čas">
+		<span n:if="$item['atr_ks']>0" class="setcalc"><a n:if="$user->isAllowed('Operace','tcalc')" n:href="Operace:tcalc, $item['ido'], $item['id_tpostup']">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+	
+	<td n:if="$cond and $unlocked" class="takce" style="padding:2px;border-left:none;">
+		{if $item['ido'] > 0}
+			<span class="setedit" title="Změnit"><a n:if="$user->isAllowed('Operace','edit')" n:href="Operace:edit, $item['ido'], $item['id_tpostup']">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('Operace','delete')" n:href="Operace:delete, $item['ido'], $item['id_tpostup']">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		{else}
+			<span class="setadd" title="Přidat tuto operaci">
+				<a n:if="$user->isAllowed('Postup','addOper')" n:href="addOper, $item['id_tpostup'], $item['id_sablony'], $item['poradi']">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		{/if}
+	</td>
+	
+	
+	
+</tr>
+{/foreach}
+</table>
+

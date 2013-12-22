@@ -1,0 +1,36 @@
+{extends '../Obchod/default.latte'}
+{block #drobecky3} » <a n:href="default">Osoby</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+{var $cond = $user->isAllowed('Osoba','add') || $user->isAllowed('Osoba','edit') || $user->isAllowed('Osoba','delete')}
+
+<table class="grid">
+<tr>
+	<th n:if="$user->isAllowed('Osoba','setContact')">
+		<img src="{$basePath}/images/select.png" title="Zvolit jako aktuální"/>
+	</th>
+	<th>Přijmení, jméno</th>
+	<td n:if="$cond" class="takce">
+		<a n:if="$user->isAllowed('Osoba','add')" n:href="add">Přidat záznam</a>
+	</td>
+</tr>
+
+{foreach $osoby as $os}
+<tr>
+	<td n:if="$user->isAllowed('Osoba','setContact')">
+		<span class="iconsel">
+			<a n:href="setContact, $os->idf" title="Zvolit">&nbsp&nbsp;</a>
+		</span>
+	</td>
+	<td><a n:href="detail, $os->id">{$os->prijmeni} {$os->jmeno}</a></td>
+	<td n:if="$cond" class="takce">
+		<a n:if="$user->isAllowed('Osoba','edit')" n:href="edit, $os->id">Změnit</a>
+		<a n:if="$user->isAllowed('Osoba','delete')" n:href="delete, $os->id">Odstranit</a>
+	</td>
+</tr>
+{/foreach}
+</table>

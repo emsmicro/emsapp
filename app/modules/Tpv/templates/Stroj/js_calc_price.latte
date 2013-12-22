@@ -1,0 +1,73 @@
+<script type='text/javascript'>
+
+	$(document).ready(function(){
+		CalcValues();
+		$("input").each(function() {
+			$(this).keyup(function(){
+				//alert("Jsem tu");
+				CalcValues();
+			});
+		});
+	});
+
+	function myFloat(str) { 
+		if(str==''){ str='0'; }
+		return parseFloat(str.replace(',', '.').replace(/ /g, '')); 
+	}
+
+	function CalcValues()
+	{
+		var hodsac = 0;
+		var odpisc = 0;
+		var porcen = myFloat($('input[name=poriz_cena]').val());
+		var sainst = myFloat($('input[name=sazba_instalace]').val())/100;
+		var smenno = myFloat($('input[name=smennost]').val());
+		var vytize = myFloat($('input[name=vytizeni]').val())/100;
+		var dodpis = myFloat($('input[name=doba_odpisu]').val());
+		var plocha = myFloat($('input[name=plocha]').val());
+		var prikon = myFloat($('input[name=prikon]').val());
+		var vyprik = myFloat($('input[name=vyuziti_prikonu]').val())/100;
+		var sdusik = myFloat($('input[name=spotreba_dusiku]').val());
+		var nakudr = myFloat($('input[name=naklady_udrzba]').val())/100;
+		var nakost = myFloat($('input[name=naklady_ostatni]').val())/100;
+		
+		var p_urok = myFloat($('#urokova_mira').text());
+		var p_nplo = myFloat($('#naklady_plochy').text());
+		var p_nele = myFloat($('#cena_elekriny').text());
+		var p_ndus = myFloat($('#cena_dusiku').text());
+		var p_kstr = myFloat($('#stroj_kapcita_sm').text());
+				
+		var kapacita = p_kstr * smenno * vytize;
+
+		var investice = porcen * (1 + sainst);
+		var cenapenez = investice * p_urok/100;
+		var naklploch = plocha * p_nplo;
+
+		var odpisy_hod	= investice / dodpis / kapacita;
+		var naklady_fixni	= odpisy_hod + (cenapenez + naklploch) / kapacita;
+
+		var elektrina	= prikon * vyprik * p_nele;
+		var dusik		= sdusik * p_ndus;
+		var varnakost	= (nakudr + nakost) * investice / kapacita;
+		var naklady_variabilni = elektrina + dusik + varnakost;
+		var hodinova_cena = naklady_fixni + naklady_variabilni;
+		
+		writeInner('hkapac', kapacita);
+		writeInner('hodpis', odpisy_hod);
+		writeInner('hfixni', naklady_fixni);
+		writeInner('hvaria', naklady_variabilni);
+		writeInner('hsazba', hodinova_cena);	
+		
+	}
+	
+	function writeInner(id, h){
+		var Display = document.getElementById(id);
+		h = h.toFixed(2);
+		if(!isNaN(h) && h.length!==0) {
+			Display.innerHTML = h.toString().replace(".",",");
+		} else {
+			Display.innerHTML = "N/A";
+		}		
+	}
+
+</script>

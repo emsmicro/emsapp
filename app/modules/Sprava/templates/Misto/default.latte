@@ -1,0 +1,88 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » <a n:href="default">Místo</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title1">Státy</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+	<td class="takce">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('Misto','adds')" n:href="adds">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{foreach $stat as $s}
+<tr>
+	<td>{$s->id}</td>
+	<td>{$s->zkratka}</td>
+	<td>{$s->nazev}</td>
+	<td class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Misto','edits')" n:href="edits, $s->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title2">Kraje</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+	<td class="takce">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('Misto','addk')" n:href="addk">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{foreach $kraj as $k}
+<tr>
+	<td>{$k->id}</td>
+	<td>{$k->zkratka}</td>
+	<td>{$k->nazev}</td>
+	<td class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Misto','editk')" n:href="editk, $k->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>
+
+<h2 n:block="title3">Obce</h2>
+
+<table class="grid">
+<tr>
+	<th>Id</th>
+	<th>Název</th>
+	<th>PSČ</th>
+	<td class="takce">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('Misto','addo')" n:href="addo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{foreach $obec as $o}
+<tr>
+	<td>{$o->id}</td>
+	<td>{$o->nazev}</td>
+	<td>{$o->psc}</td>
+	<td class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Misto','edito')" n:href="editos, $o->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>

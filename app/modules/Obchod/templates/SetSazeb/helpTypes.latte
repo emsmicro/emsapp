@@ -1,0 +1,121 @@
+<script type="text/javascript">
+//modified version of http://www.webmaster...orum91/4686.htm
+//myField accepts an object reference, myValue accepts the text string to add
+function insertAtCursor(myField, myValue) {
+	//fixed scroll position
+	textAreaScrollPosition = myField.scrollTop;
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        //in effect we are creating a text range with zero length at the cursor location and replacing it with myValue
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    //Mozilla/Firefox/Netscape 7+ support
+    } else if (myField.selectionStart || myField.selectionStart == '0') {
+        myField.focus();
+        //Here we get the start and end points of the selection. Then we create substrings up to the
+        //start of the selection and from the end point of the selection to the end of the field value.
+        //Then we concatenate the first substring, myValue, and the second substring to get the new value.
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+        myField.setSelectionRange(endPos+myValue.length, endPos+myValue.length);
+    } else {
+        myField.value += myValue;
+    }
+	//fixed scroll position
+	myField.scrollTop = textAreaScrollPosition;
+}
+</script>	
+
+<style>
+	.suda {
+		background-color:beige;
+		padding: 3px;
+		margin: 3px 0 3px 0;
+		cursor:pointer;
+	}
+	.licha {
+		background-color:bisque;
+		padding: 3px;
+		margin: 3px 0 3px 0;
+		cursor:pointer;
+	}
+	.licha:hover, .suda:hover {
+		background-color:#ffffff;
+	}
+	.onklik {
+		cursor:pointer;
+	}
+	.hlp {
+		float:left;
+		text-align:left;
+		font-style:italic;
+	}
+</style>
+{var $top = 76}
+{var $hlp = "Kliknutím na zkratku typu ji umístíte na místo kursoru do pole definice."}
+{var $txarea = "frmkalkForm-definice"}
+
+<div class="skryvat3" style="right: 120px; top:{$top}px;">
+	Typy sazeb
+	<div class="skryto3">
+		<table class="grid">
+		{foreach $tsazb as $item}
+		<tr>
+			<td class="onklik" onClick='insertAtCursor(document.getElementById({$txarea}), {$item->zkratka}+" ");'><b>{$item->zkratka}</b></td>
+			<td>{$item->nazev}</td>
+		</tr>
+		{/foreach}
+		</table>
+		<span class='mini hlp'>{$hlp}</span>
+	</div>
+</div>
+<div class="skryvat2" style="right: 225px; top:{$top}px;">
+	Typy nákladů
+	<div class="skryto2">
+		<table class="grid">
+		{foreach $tnakl as $item}
+		<tr>
+			<td class="onklik" onClick='insertAtCursor(document.getElementById({$txarea}), {$item->zkratka}+" ");'><b>{$item->zkratka}</b></td>
+			<td>{$item->nazev}</td>
+		</tr>
+		{/foreach}
+		<tr>
+			<td class="onklik" id="zkr" title="lomeno dávka" onClick='insertAtCursor(document.getElementById({$txarea}), "/Davka ");'><b>Davka</b></td>
+			<td>Kalkulovaná výrobní dávka v kusech</td>
+		</tr>
+		</table>
+		<span class='mini hlp'>{$hlp}</span>
+	</div>
+</div>
+<div class="skryvat1" style="right: 330px; top:{$top}px;">
+	Typy cen
+	<div class="skryto1">
+		<table class="grid">
+		{foreach $tceny as $item}
+		<tr>
+			<td class="onklik" onClick='insertAtCursor(document.getElementById({$txarea}), {$item->zkratka}+" = ");'><b>{$item->zkratka}</b></td>
+			<td>{$item->nazev}</td>
+		</tr>
+		{/foreach}
+		</table>
+		<span class='mini hlp'>{$hlp}</span>
+	</div>
+</div>
+<div class="skryvat1" style="right:120px; width:306px; padding:3px; margin:0; background-color:#E4F1FC;">
+	Vložit:
+	<b>
+	<span class="licha" title='použití "Pravidel"'	onClick='insertAtCursor(document.getElementById({$txarea}), "/**PRAVIDLA**/\n");'>&nbsp;P&nbsp;</span>
+	<span class="suda"  title="rovná se"	onClick='insertAtCursor(document.getElementById({$txarea}), "= ");'>&nbsp;=&nbsp;</span>
+	<span class="licha" title="plus"		onClick='insertAtCursor(document.getElementById({$txarea}), "+ ");'>&nbsp;+&nbsp;</span>
+	<span class="suda"  title="mínus"		onClick='insertAtCursor(document.getElementById({$txarea}), "- ");'>&nbsp;-&nbsp;</span>
+	<span class="licha" title="násobeno"	onClick='insertAtCursor(document.getElementById({$txarea}), "* ");'>&nbsp;*&nbsp;</span>
+	<span class="suda"  title="lomeno"		onClick='insertAtCursor(document.getElementById({$txarea}), "/ ");'>&nbsp;/&nbsp;</span>
+	<span class="licha" title="závorka otevřená"	onClick='insertAtCursor(document.getElementById({$txarea}), "(");'>&nbsp;(&nbsp;</span>
+	<span class="suda"  title="závorka uzavřená"	onClick='insertAtCursor(document.getElementById({$txarea}), ")");'>&nbsp;)&nbsp;</span>
+	<span class="licha" title="středník"	onClick='insertAtCursor(document.getElementById({$txarea}), ";");'>&nbsp;;&nbsp;</span>
+	<span class="suda"  title="1 plus"		onClick='insertAtCursor(document.getElementById({$txarea}), "1 + ");'>&nbsp;1 +&nbsp;</span>
+	<span class="licha" title="středník + nový řádek"	onClick='insertAtCursor(document.getElementById({$txarea}), ";\n");'>&nbsp;E&nbsp;</span>
+	</b>
+</div>

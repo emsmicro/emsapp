@@ -1,0 +1,40 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » <a n:href="default">Uživatelé</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('Uzivatel','add') || $user->isAllowed('Uzivatel','edit') || $user->isAllowed('Uzivatel','delete')}
+
+<table class="grid">
+<tr>
+	<th>UserName</th>
+	<th>Příjmení a jméno</th>
+	<th>E-mail</th>
+	<th>Role</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('Uzivatel','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{foreach $items as $item}
+<tr>
+	<td>{$item->username}</td>
+	<td>{$item->prijmeni} {$item->jmeno}</td>
+	<td>{$item->email}</td>
+	<td>{$item->prole}</td>
+	<td n:if="$cond" class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Uzivatel','edit')" n:href="edit, $item->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span class="setdel" title="Odstranit">
+			<a n:if="$user->isAllowed('Uzivatel','delete')" n:href="delete, $item->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>

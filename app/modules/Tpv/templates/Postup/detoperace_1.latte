@@ -1,0 +1,44 @@
+{var $cond = $user->isAllowed('Operace','add') || $user->isAllowed('Operace','edit') || $user->isAllowed('Operace','delete')}
+
+<table class="grid" style="width:99%;margin: 0 5px 0 5px;">
+<tr>
+	<th>#</th>
+	<th>Popis</th>
+	<th>Ta [min]</th>
+	<th>Tp [min]</th>
+	<th>Náklad [Kč]</th>
+	
+	<td n:if="$cond" colspan="2" class="takce">
+		<span class="set add" title="Přidat novou operaci"><a n:if="$user->isAllowed('Operace','add') and $unlocked" n:href="Operace:add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+	
+</tr>
+{foreach $items as $item}
+<tr>
+	<td>{$item['oporadi']}</td>
+	<td>{$item['popis']}</td>
+	<td class="tcislo">{$item['ta_cas']|number:2:',':' '}</td>
+	<td class="tcislo">{$item['tp_cas']|number:2:',':' '}</td>
+	<td class="tcislo">{$item['naklad']|number:2:',':' '}</td>
+	
+	<td n:if="$user->isAllowed('Operace','tcalc')" class="takce" style="padding:0;" title="Kalkulovat čas">
+		<span n:if="$item['atr_ks']>0" class="set calc"><a n:if="$user->isAllowed('Operace','tcalc')" n:href="Operace:tcalc, $item['ido']">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+	
+	<td n:if="$cond and $unlocked" class="takce" style="padding:2px;border-left:none;">
+		{if $item['ido'] > 0}
+			<span class="set edit" title="Změnit"><a n:if="$user->isAllowed('Operace','edit')" n:href="Operace:edit, $item['ido']">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('Operace','delete')" n:href="Operace:delete, $item['ido']">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		{else}
+			<span class="set add" title="Přidat tuto operaci">
+				<a n:if="$user->isAllowed('Postup','addOper')" n:href="addOper, $item['id_postup'], $item['id_sablona'], $item['oporadi']">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		{/if}
+	</td>
+	
+	
+	
+</tr>
+{/foreach}
+</table>
+

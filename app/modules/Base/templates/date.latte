@@ -1,0 +1,52 @@
+
+	<script type='text/javascript' src="{$basePath}/js/jquery-ui-custom.min.js"></script>
+	{*<script type='text/javascript' src="{$basePath}/js/jquery-ui-timepicker-addon.js"></script>*}
+	<script type='text/javascript' src="{$basePath}/js/jquery-ui-datepicker-cs.js"></script>
+	<script type='text/javascript' src="{$basePath}/js/jquery-ui-timepicker-cs.js"></script>
+	<script type='text/javascript' src="{$basePath}/js/dateInput.js"></script>
+	<link rel="stylesheet" type="text/css" href="{$basePath}/css/redmond/jquery-ui-custom.css ">
+	<link rel="stylesheet" type="text/css" href="{$basePath}/css/dateInput.css"></link>
+
+	<script type="text/javascript">
+
+	$(function() {
+		$.timepicker.regional['cs'] = {
+			timeOnlyTitle: 'Vyberte čas',
+			timeText: 'Čas',
+			hourText: 'Hodiny',
+			minuteText: 'Minuty',
+			secondText: 'Vteřiny',
+			currentText: 'Nyní',
+			closeText: 'Zavřít',
+			timeFormat: 'h:m',
+			ampm: false
+		};
+		$.timepicker.setDefaults($.timepicker.regional['cs']);
+
+		$('input[data-dateinput-type]').dateinput({
+			datetime: {
+				dateFormat: 'd.m.yy',
+				timeFormat: 'h:mm'
+			},
+			'datetime-local': {
+				dateFormat: 'd.m.yy',
+				timeFormat: 'h:mm'
+			},
+			date: {
+				dateFormat: 'd.m.yy'
+			},
+			month: {
+				dateFormat: 'MM yy'
+			},
+			week: {
+				dateFormat: "w. 'týden' yy"
+			},
+			time: {
+				timeFormat: 'h:mm'
+			}
+		});
+
+		
+	});
+
+	</script>

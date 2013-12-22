@@ -1,0 +1,16 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h2>{$item->id} - {$item->nazev}</h2>
+
+{if $item}
+	<div class="flash exclamation">
+		<p>Opravdu chcete tento produkt zkopírovat včetně materiálového kusovníku a TPV operací?</p>
+		{control copyProdForm}
+	</div>
+{else}
+	<p>Produkt nebyl nalezen.</p>
+{/if}

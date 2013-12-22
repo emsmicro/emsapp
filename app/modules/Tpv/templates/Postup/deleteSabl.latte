@@ -1,0 +1,13 @@
+{extends 'detail.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $post}
+	<p>Opravdu chcete odstranit tuto šablonu z postupu?</p>
+	{control deleteSabl}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

@@ -1,0 +1,76 @@
+<script type='text/javascript'>
+$(function () {	
+		Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')] // darken
+		        ],
+		    };
+		});
+	
+        var colors = Highcharts.getOptions().colors,
+            data = {!$pdata};
+			
+		Highcharts.setOptions({
+			lang: {
+				decimalPoint: ',',
+				thousandsSep: ' ',
+			},
+		});
+			
+		$('#pgraph').highcharts({
+				chart: {    
+						backgroundColor: 'transparent',
+						plotBorderWidth: null,
+						plotShadow: false,
+						style: {
+							right: '95px',
+							top: '-50px',
+						},
+					},
+					title: {
+						text: '', //Skladba nákladů a PH
+						style: {
+							color: '#000'
+						},
+					},
+                    credits: {
+                          enabled: false
+                    },
+					tooltip: {
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y/1000) +' tis. Kč';
+						}
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							size: 280,
+							dataLabels: {
+								enabled: true,
+								//color: '#000',
+								//connectorWidth: 0,
+								connectorColor: '#999',
+								//distance: 5,
+								formatter: function() {
+									return this.point.name +': '+ Math.round(this.percentage*10)/10 +' %';
+								},
+								style: {
+									padding: 3,
+									fontSize: '10px'
+								},
+							}
+						}
+					},
+				    series: [{
+						type: 'pie',
+						name: 'ceny',
+						data: data
+					}]
+				});
+			});
+			
+</script>

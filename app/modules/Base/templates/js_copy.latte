@@ -1,0 +1,24 @@
+<script type="text/javascript" src="{$basePath}/js/jquery.zclip.js"></script>
+<script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+
+		$("#c2c").zclip({
+			path:'{!$basePath}/js/ZeroClipboard.swf',
+			copy:$('{!$sourceID}').text(),
+			beforeCopy:function(){
+				$('#{!$sourceID}').css('background','#D0F0F4');
+				$('#{!$sourceID}').css('color','black');
+				$(this).css('background','white');
+				$(this).css('color','green');
+			},
+			afterCopy:function(){
+				$('#{!$sourceID}').css('background','#1C7380');
+				$('#{!$sourceID}').css('color','white');
+				$(this).css('background','#D0F0F4');
+				$(this).css('color','black');
+				$(this).text('Copied');
+			}
+		});
+
+	});
+</script>

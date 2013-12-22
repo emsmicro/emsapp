@@ -1,0 +1,32 @@
+	{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+	{var $cond = $user->isAllowed('SetSazeb','addCalc') || $user->isAllowed('SetSazeb','editCalc') || $user->isAllowed('SetSazeb','deleteCalc')}
+
+	<table class="grid">
+	<tr>
+		<th>#</th>
+		<th>Zkratka</th>
+		<th>Nazev</th>
+		<th>Popis</th>
+		<th style="text-align:center">
+			<span class="setadd" title="Přidat...">
+				<a n:if="$user->isAllowed('SetSazeb','addCalc')" n:href="addCalc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		</th>
+	</tr>
+	{foreach $vzorce as $it}
+	<tr>
+		<td>{$it->id}</td>
+		<td>{$it->zkratka}</td>
+		<td>{$it->nazev}</td>
+		<td>{$it->popis}</td>
+		<td class="takce">
+			<span class="setedit" title="Změnit">
+				<a n:if="$user->isAllowed('SetSazeb','editCalc')" n:href="editCalc, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+			<span class="setdel" title="Odstranit">
+				<a n:if="$user->isAllowed('SetSazeb','deleteCalc')" n:href="deleteCalc, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			</span>
+		</td>
+	</tr>
+	{/foreach}
+	</table>

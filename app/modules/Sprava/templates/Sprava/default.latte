@@ -1,0 +1,61 @@
+{extends '../@layout.latte'}
+{block #drobecky2} » <a n:href="Sprava:default">Správa</a>{block #drobecky3}{/block}{/block}
+
+{block #content}
+<h1 n:block="title">Stránka správy systému</h1>
+
+<div class="kolaps">
+	{if $is_todo}
+		<div class="kol-0">
+			<h3>{$subtitle}</h3>
+			<div class="todod">
+				{block #todolist}
+					{foreach $todos as $oblast=>$item}
+					<ul>
+						<li id="todo"><span>{$oblast}</span>
+								{if is_array($item)} 
+									{include #todolist, 'todos' => $item}
+								{else}
+									{if $item <> ''}
+										<span n:if="$user->isAllowed($item)" class="ref"><a n:href="{$item}" title="Přejít">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+									{/if}
+								{/if}
+						</li>
+					</ul>
+					{/foreach}
+				{/block}
+			</div>
+		</div>
+	{/if}
+		<div class="kol-1">
+			<h3>Další funkce</h3>
+			<div class="todod">
+				<ul>
+					<li id="todo"><span>Php Info</span>
+						<span class="ref"><a n:href="phpinfo" title="Přejít">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+</div>
+
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $(".kol-0,.kol-1").collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+					
+                 },
+				head: 'h3',
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+
+</script>

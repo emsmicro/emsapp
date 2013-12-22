@@ -1,0 +1,45 @@
+{extends 'default.latte'}
+{block #drobecky4} » Hromadné zadání sazeb operací{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+
+<h2 n:block="title">{$titul}</h2>
+<h1>{$subtitul}</h1>
+
+<div class="manual">
+
+{control addGroupForm begin}
+{control addGroupForm errors}
+
+<table style="min-width:800px;">
+	<tr>
+		<th>#</th>
+		<th>Druh</th>
+		<th>Popis</th>
+		<th>Sazba [Kč/hod]</th>
+	</tr>
+	{var $i = 0}
+	{foreach $items as $item}
+		{var $i++}
+        <tr>
+			<td style="width:30px;text-align:center;">{$item->poradi}</td>
+			<td style="width:50px;">{$item->zkratka}</td>
+			<td class="ntext" style="min-width:400px;">{$item->typ}<span class="mini"> ({$item->idto})</span></td>
+			<td class="cislo input" style="width:100px;">{$control['addGroupForm']['mpole']['hodnota'.$i]->control}</td>
+        </tr>
+	{/foreach}
+	<tr class="noborder">
+		<td colspan="4" class="tdcenter">
+			<span>{$control['addGroupForm']['save']->control}</span>
+			<span>{$control['addGroupForm']['saveas']->control}</span>
+			<span>{$control['addGroupForm']['cancel']->control}</span>
+		</td>
+	</tr>
+
+</table>
+
+{control addGroupForm end}
+
+</div>
+{include '../../../Base/templates/js_number.latte', mDec => 2}

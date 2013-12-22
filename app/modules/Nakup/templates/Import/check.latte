@@ -1,0 +1,60 @@
+{extends './default.latte'}
+{block #drobecky3} » {$titul}{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1>Import materiálové rozpisky (BOM)</h1>
+<h2 n:block="title">2/3 {$titul}</h2>
+
+<div id="centered">
+	{if $pocet>0}
+		Pro první posouzení stavu importovaných dat bylo načteno jen prvních {$pocet} záznamů
+		<a n:href="check, $soubor, 0"> (zobrazit všechna data).</a>
+	{/if}	
+
+	<table class="csv">
+		<thead
+		<tr>
+			{foreach $head as $item}
+				<th>{$item} ({$iterator->counter})</th>
+			{/foreach}
+
+		</tr>
+		</thead>
+
+	{block #datacsv}
+		<tr>
+			{foreach $data as $item}
+				{if is_array($item)} {include #datacsv, 'data' => $item}
+				{else}
+					{var $cislo = str_replace(',','.',$item)}
+					{if is_numeric($cislo)}
+						<td class="tcislo">
+					{else}
+						<td>
+					{/if}
+						{$item}
+					</td>
+				{/if}
+			{/foreach}
+		</tr>
+	{/block}
+
+	</table>
+	{if $pocet>0}
+		<span id="odkaz"><a n:href="check, $soubor, 0">Zobrazit všechna data</a></span>
+	{/if}		
+
+
+<div class="flash">
+	Přiřaďte jednotlivým sloupcům načtených dat z CSV zdroje názvy příslušných polí pro správné uložení dat BOMu do databáze položek materiálové rozpisky.
+</div>
+
+<div class="flash warning">
+	DŮLEŽITÉ UPOZORNĚNÍ<BR />
+	Nesprávné přiřazení sloupců polím databáze může mít za následek nemožnost provést další zpracování TPV produktu vč. ocenění, popř. způsobit velké množství chyb.<br />
+	Věnujte proto tomuto kroku <b>náležitou pozornost</b>.
+</div>
+	<p></p>
+	{control checkForm}
+</div>

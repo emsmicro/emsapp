@@ -1,0 +1,24 @@
+Mnozstvi;Nazev;Cena
+1;deska PS DKP 063 04 05;200
+1;rezistor SMD100k;0,6
+10;rezistor SMD1k;0,73
+1;rezistor SMD510k;0,84
+4;rezistor SMD68R;0,13
+1;rezistor SMD220k;0,16
+2;rezistor SMD150k;0,59
+1;rezistor SMD62k;0,28
+1;rezistor SMD0,1R;0,22
+11;rezistor SMD270R;0,6
+2;kondenzátor keramický SMD100n;0,25
+1;kondenzátor keramický SMD33p;0,31
+1;kondenzátor keramický SMD15p;0,12
+1;kondenzátor tantalový SMD100uF;0,91
+5;kondenzátor keramický SMD1n;0,17
+2;kondenzátor keramický SMD22u;0,92
+1;kondenzátor keramický SMD1u;0,16
+3;kondenzátor tantalový SMD1000uF;0,52
+3;dioda zenerova SMDBZV55C6V2;0,98
+3;dioda zenerova SMD1SMB5920;3,74
+3;dioda zenerova SMD1SMB5924;0,74
+1;tranzistor P-MOSFET SMDIRLML5203;2,25
+1;tranzistor D-MOS N-kanal SMD BSS138;4,89

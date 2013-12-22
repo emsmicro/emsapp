@@ -1,0 +1,416 @@
+{extends 'default.latte'}
+
+{block #drobecky3} » {$titul}{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+{var $unlocked = $item->id_stav<>21}
+
+<h1 n:block="title"><span class="iditem"># {$item->id}</span>{$titul}</h1>
+<h2></h2>
+
+<ul id="navi">
+	<li n:if="$user->isAllowed('Produkt','add')" title="Nový produkt"><a n:href="add">Nový...</a></li>
+	<li n:if="$user->isAllowed('Produkt','edit') && $unlocked" title="Změnit produkt"><a n:href="edit, $item->id">Změnit</a></li>
+	<li n:if="$user->isAllowed('Material','default')" title="Materiálový kusovník"><a n:href="Material:">BOM</a></li>
+	<li n:if="$user->isAllowed('Operace','default')" title="Výrobní operace"><a n:href="Operace:">TPV</a></li>
+	<li n:if="$user->isAllowed('Produkt','toPdf')" title="Výstup do PDF"><a n:href="toPdf, $item->id">► do PDF</a></li>
+	<li n:if="$user->isAllowed('Produkt','copyProdukt')" title="Vytvořit kopii produktu"><a n:href="copyProdukt, $item->id">Kopie</a></li>	
+</ul>
+
+<table class="grid">
+
+<tr>
+	<th>Firma</th><td>{$item->firma}</td>
+</tr>
+<tr><th>Zkratka</th><td>{$item->zkratka}</td></tr>
+<tr><th>K2 číslo</th><td><b>{$item->id_k2}</b></td></tr>
+<tr>
+	<th>Název</th><td>{$item->nazev}</td>
+</tr>
+<tr><th>Popis</th><td>{$item->popis}</td></tr>
+<tr>
+	<th>Nabídka</th><td>{$item->nabidka}</td>
+	{if $inabidka>0 && $item->nabidka=='.. nepřiřazen ..'}
+		<td class="takce ucho"><a n:href="assign, $item->id">Přiřadit k nabídce...</a></td>
+	{/if}
+</tr>
+
+</table>
+
+{* status produktu *}
+
+<div class="statusbig">
+	{if $item->id_stav < 4}
+		<img src="{$basePath}/images/stav_0.png" class="find" />
+	{/if}
+	{if $item->id_stav >= 4 && $item->id_stav < 7}
+		<img src="{$basePath}/images/stav_1.png" />
+	{/if}
+	{if $item->id_stav == 21}
+		<a n:if="$user->isAllowed('Produkt','unlock')" n:href="Produkt:unlock, $item->id, 22">
+			<img src="{$basePath}/images/stav{$item->id_stav}.png" title="Odemknout"/>
+		</a>
+		<span n:if="!$user->isAllowed('Produkt','unlock')" n:href="Produkt:unlock, $item->id, 22">
+			<img src="{$basePath}/images/stav{$item->id_stav}.png" title="Odemknout nelze"/>
+		</span>			
+	{/if}
+	{if $item->id_stav == 22}
+		<a n:if="$user->isAllowed('Produkt','lock')" n:href="Produkt:lock, $item->id, 21">
+			<img src="{$basePath}/images/stav{$item->id_stav}.png" title="Uzamknout"/>
+		</a>
+		<span n:if="!$user->isAllowed('Nabidka','lock')" n:href="Produkt:lock, $item->id, 21">
+			<img src="{$basePath}/images/stav{$item->id_stav}.png" title="Uzamknout nelze"/>
+		</span>			
+	{/if}		
+	{if $item->id_stav == 7}
+		<a n:if="$user->isAllowed('Produkt','lock')" n:href="Produkt:lock, $item->id, 21">
+			<img src="{$basePath}/images/stav_2.png" title="Uzamknout"/>
+		</a>
+		<span n:if="!$user->isAllowed('Nabidka','lock')" n:href="Produkt:lock, $item->id, 21">
+			<img src="{$basePath}/images/stav_2.png" title="Uzamknout nelze"/>
+		</span>			
+	{/if}	
+		
+</div>
+
+<div class="kolaps">
+	
+{* historie změn stavů produktu *}
+
+{if $history}
+<div class="history" style="top:100px;">
+	<div class="kol-h">
+		<h3 title="Historie stavů produktu">
+				{$item->nstav} <span class="midi" title="{$item->uzivatel}">{$item->datzmeny|date:'%d.%m.%Y'}</span>
+		</h3>
+		<div>
+			<table class="grid small">
+				{foreach $history as $hist}
+				<tr>
+					<td>{$hist->zkratka}</td>
+					<td>{$hist->datzmeny|date:'%d.%m.%Y %H:%I:%S'}</td>
+					<td>{$hist->uzivatel}</td>
+					<td n:if="$user->isAllowed('Produkt','eraseStatus') && $unlocked">
+						<span class="serase">
+							<a n:href="eraseStatus, $hist->id_produkty, $hist->id_stav, $hist->id_user" title="Zrušit status">&nbsp;</a>
+						</span>
+					</td>
+				</tr>
+				{/foreach}
+			</table>
+		</div>
+	</div>
+</div>
+{/if}
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+{var $cond = $user->isAllowed('Produkt','addAmount') || $user->isAllowed('Produkt','editAmount') || $user->isAllowed('Produkt','deleteAmount')}
+
+		
+{* Množství *}
+<div class="kol-0">
+	<h3>Plánovaná množství</h3>
+	<div>
+		<table class="grid">
+			<tr>
+				<th>Celkové množství</th>
+				<th>Výrobní dávka</th>
+				<td n:if="$cond && $unlocked" class="takce">
+					{* $cond .. pokud jsou práva na add zobrazí se link *}
+					<span class="setadd" title="Přidat množství">
+						<a n:if="$user->isAllowed('Produkt','addAmount') && $unlocked" n:href="addAmount, $idp">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					</span>
+				</td>
+			</tr>
+
+			{foreach $pocet as $poc}
+			<tr>
+				<td class="tcislo">{$poc->mnozstvi|number:0:',':' '}</td>
+				<td class="tcislo">{$poc->vyrobni_davka|number:0:',':' '}</td>
+				<td n:if="$cond && $unlocked" class="takce">
+					<span class="setedit" title="Změnit množství">
+						<a n:if="$user->isAllowed('Produkt','editAmount') && $unlocked" n:href="editAmount, $poc->id, $idp">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					</span>
+					<span class="setdel" title="Odstranit množství">
+						<a n:if="$user->isAllowed('Produkt','deleteAmount') && $unlocked" n:href="deleteAmount, $poc->id, $idp">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					</span>
+				</td>
+			</tr>
+			{/foreach}
+		</table>
+	</div>
+</div>
+
+	
+{* NAKLADY *}
+<div class="kol-1">
+	<h3>Náklady</h3>
+	<div>
+		<ul id="navi">
+		{if !$isnaklady}
+			<li n:if="$user->isAllowed('Produkt','costsUpd') && $unlocked"><a n:href="costsUpd,$item->id">Spočítat náklady...</a></li>
+		{else}
+			<li n:if="$user->isAllowed('Produkt','costsUpd') && $unlocked"><a n:href="costsUpd,$item->id">Aktualizovat...</a></li>
+		{/if}
+
+		<li n:if="$user->isAllowed('Material','default')" title="Materiálový kusovník"><a n:href="Material:">BOM</a></li>
+		<li n:if="$user->isAllowed('Operace','default')" title="Výrobní operace"><a n:href="Operace:">TPV</a></li>
+		
+		{if $isnaklady}
+			<li n:if="$user->isAllowed('Material','changeStatus') && $unlocked" title="Nastavit status">
+				<a n:href="Material:changeStatus, $item->id, 6"  title="Nastavit status">Materiál oceněn</a></li>
+			<li n:if="$user->isAllowed('Operace','changeStatus') && $unlocked" title="Nastavit status">
+				<a n:href="Operace:changeStatus, $item->id, 5"  title="Nastavit status">TPV dokončeno</a></li>
+		{/if}
+		</ul>
+
+		<div n:if="$user->isAllowed('Produkt','viewCosts')">
+
+			{if $isnaklady}
+				{var $i = 0}
+				<table class="grid">
+					<tr>
+						<th>Popis</th>
+						<th>Náklad [Kč]</th>
+					</tr>
+
+					{foreach $costs as $nak}
+					{var $i++;}
+					<tr>
+						{if $nak->zkratka=="MaterialPC"} {* zvýraznění ceny materialu *}
+							<td class="cena">{$nak->nazev}</td>
+							<td class="tcislo cena">{$nak->hodnota|number:2:',':' '}</td>
+						{else}
+							<td>{$nak->nazev}</td>
+							<td class="tcislo">{$nak->hodnota|number:2:',':' '}</td>
+						{/if}
+					</tr>
+					{/foreach}
+				</table>
+				<div class="subtit">
+					<span class="mini"><i>Set sazeb operací:</i> {$item->sazby_o}</span>
+				</div>
+			{/if}
+
+		</div>
+	</div>
+</div>
+
+{* CENY *}
+<div n:if="$user->isAllowed('Produkt','viewPrices')">
+
+	{if $isnaklady}
+		<div style="position:relative;">
+			<div class="kol-2">
+				<h3>Ceny</h3>
+				<div>
+				<div style="height:30px;">
+				<ul id="navi">
+					<li n:if="$user->isAllowed('Produkt','priceUpd') && $unlocked" ><a n:href="pricesUpd, $item->id">Spočítat cenu...</a></li>
+					<li n:if="$user->isAllowed('Produkt','changeStatus') && $unlocked"><a n:href="changeStatus, $item->id, 7"  title="Nastavit status">Produkt oceněn</a></li>
+				</ul>
+				</div>
+				<div class="gridseparator"></div>
+	{/if}
+
+	{if $isceny}
+
+		{var $amena = 'CZK'}
+		{var $apocet = 0}
+		{var $spanmn = 3}
+		{var $avzorec = 0}
+		{var $stab = 0}			
+		
+
+			{foreach $prices as $cen}
+				{if $apocet<>$cen->davka or $avzorec<>$cen->id_vzorec or $amena <> $cen->mena}
+					{var $actclass = ""}
+					{var $acttitle = "Variantní cena"}
+					{if $cen->aktivni == 1}
+						{var $actclass = "aktivni"}
+						{var $acttitle = "Aktivní cena"}
+					{/if}
+					{if $cen->id_vzorec <> $item->vzorec}
+						{var $actclass = "simulacni"}
+					{/if}
+					{if $stab > 0}
+						</table>
+						{include 'detaval.latte', item => $aval[$cen->id_cena]}
+						</div>
+					{/if}
+					<div class="gridseparator">
+					<table id="tceny{$cen->id_cena}a" class="grid">
+					{var $stab++}
+					<thead>
+						<tr title="{$acttitle}">
+							<th style="background:#EEE;">
+								<span class="refresh" title="Přepočítat">
+									<a n:if="$user->isAllowed('Produkt','priceRefresh') && $unlocked" n:href="priceRefresh, $cen->id_cena">
+									&nbsp;&nbsp;&nbsp;
+									</a>
+								</span>
+							</th>
+							{if $cen->id_vzorec == $item->vzorec}
+								{if $cen->aktivni == 1}
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b></th>
+								{else}
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b>
+										<span class="setactive" style="float:right;" title="Aktivovat tuto cenu ({$cen->id_cena})">
+											<a n:if="$user->isAllowed('Produkt','priceActivate') && $unlocked" n:href="priceActivate, $cen->id, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+										</span>
+									</th>
+								{/if}
+							{else}
+								<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}">Simulační cena</th>
+							{/if}
+							<th class="{$actclass}" style="min-width:80px; text-align:right;">Cena [Kč]</th>
+							{if $cen->mena <> 'CZK'}
+								<th class="{$actclass}">Cena [{$cen->mena}]</th>
+								{var $spanmn = 4}
+							{else}
+								{var $spanmn = 3}
+							{/if}
+
+						</tr>
+					</thead>
+					<tr>
+						<td class="alt" colspan="{$spanmn}" style="text-align:right; font-size:90%;">
+							<div class="popup">
+							  <span class="title">Kalkulační vzorec:   </span>
+							  <span class="subtitle">{$cen->nvzorec}</span>
+							  <br>
+							  {$cen->pvzorec}
+							</div>	
+							<span class="kvzorec {$actclass}">
+								<span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
+								{$cen->kvzorec}
+							</span>
+							<i>Množství: {$cen->mnozstvi|number:0:',':' '} ks, výrobní&nbsp;dávka&nbsp;<b>{$cen->davka|number:0:',':''}</b>&nbspks.</i>
+						</td>
+					</tr> 
+					{var $apocet = $cen->davka}
+					{var $avzorec = $cen->id_vzorec}
+					{var $amena = $cen->mena}
+				{/if}
+				<tr>
+				{if $cen->zkratka=="ProdCenaP"} {* zvýraznění ceny *}
+					<td class="cena mini {$actclass}">{$cen->poradi}</td>
+					<td class="cena {$actclass}">{$cen->nazev}
+						{if $inabidka>0}
+							<span class="setdel" style="float:right;" title="Odstranit tyto ceny">
+								<a n:if="$user->isAllowed('Produkt','erasePrices') && $unlocked" n:href="erasePrices, $cen->id, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+							</span>
+						{/if}					
+					</td>
+					<td class="tcislo cena {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
+					{if $cen->kurz <> 1}
+						<td class="tcislo cena {$actclass}">{$cen->hodnota_cm|number:2:',':' '}</td>
+					{/if}
+				{elseif $cen->zkratka=="CenaNab"} {* zvýraznění ceny nabidkove *}
+					<td class="cenanab mini {$actclass}">{$cen->poradi}</td>
+					<td class="cenanab {$actclass}">{$cen->nazev}
+						{if $inabidka>0}
+							<span class="setedit" style="float:right;" title="Změnit nabídkovou cenu">
+								<a n:if="$user->isAllowed('Produkt','editPricen') && $unlocked" n:href="editPricen, $cen->idn, $cen->id, $cen->idm, $cen->idpoc">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+							</span>
+						{/if}					
+					</td>
+					<td class="tcislo cenanab {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
+					{if $cen->kurz <> 1}
+						<td class="tcislo cenanab {$actclass}">{$cen->hodnota_cm|number:2:',':' '}</td>
+					{/if}
+				{else}
+					<td class="mini {$actclass}">{$cen->poradi}</td>
+					<td class="{$actclass}">{$cen->nazev}</td>
+					<td class="tcislo {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
+					{if $cen->kurz <> 1}
+						<td class="tcislo {$actclass}">{$cen->hodnota_cm|number:2:',':' '}</td>
+					{/if}
+				{/if}
+			</tr>
+			{/foreach}
+		</table>
+			{include 'detaval.latte', item => $aval[$cen->id_cena]}
+		</div>
+		{/if}
+				
+		<div class="subtit">
+			<span class="mini"><i>Set sazeb režií:</i> {$item->sazby}, <i>defaultní kalkul. vzorec:</i> {$item->kalkzkratka}: {$item->kalknazev}</span>
+		</div>
+	{/if}
+
+	{if $isnaklady}
+			</div>
+		</div>
+		</div>
+	{/if}
+</div>
+	
+
+{* graf *}
+{if $data_bar<>""}
+	<div class="kol-g">
+		<h3>Graf aktivní ceny</h3>
+		<div>
+			<script type='text/javascript' src='{$basePath}/js/highcharts.js'></script>
+			<script type="text/javascript">
+				{include 'graph.latte', data_bar => $data_bar }
+			</script>
+
+			<div id="container_graph"
+				 style="
+					//position:	relative;
+					//float:	right; 
+					//top:		92px;
+					//right:	20px;
+					margin: 0 auto;
+					width:		600px; 
+					height:		400px;
+					background: transparent;
+					border:		2px solid #CCC;
+					border-radius: 			8px;
+					-webkit-border-radius: 	8px;
+					-moz-border-radius: 	8px;
+					box-shadow:				3px 3px 5px #AAA;
+					-moz-box-shadow:		3px 3px 5px #AAA;
+					-webkit-box-shadow:		3px 3px 5px #AAA;
+
+				">
+			</div>
+			
+		</div>
+	</div>
+{/if}
+	
+</div> {*kolaps*}	
+	
+<div id="odstavec">
+	{if $inabidka>0 && $unlocked}
+		<span n:if="$user->isAllowed('Import','default')" >
+			Materiálovou rozpisku (BOM) produktu můžete také <a n:href="Import:">naimportovat</a> z externího CSV souboru.
+		</span>
+		<span n:if="$user->isAllowed('Operace','default')">
+			Můžete začít pracovat na tvorbě <a n:href="Operace:">technologického postupu</a> zadáním technologických operací.
+		</span>
+	{/if}
+</div>
+
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $(".kol-0, .kol-1, .kol-2, .kol-h, .kol-g").collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+                 },
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+
+</script>
+

@@ -1,0 +1,78 @@
+{extends '../Tpv/default.latte'}
+{block #drobecky3} » <a n:href="default">Atributy času</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('AtrCasu','add') || $user->isAllowed('AtrCasu','edit') || $user->isAllowed('AtrCasu','delete')}
+
+<table class="grid" style="width: 100%;">
+<tr>
+	<th>Zkratka</th>
+	<th>Název</th>
+	<th title="Přiřazení k typovým operacím">Přiřazení</th>
+	<th title="Jaký čas bude spočítán?">Typ času</th>
+	<th title="Čas na montáž/osazení jednoho výskytu prvku.">čas [sec/ks]</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Nový atribut"><a n:if="$user->isAllowed('AtrCasu','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+	</td>
+</tr>
+
+{var $zkr = $items[0]->zkratka}
+{var $naz = ""}
+{var $tna = ""}
+{var $tzk = ""}
+{var $typ = 0}
+{var $cas = 0}
+{var $iid = 0}
+{foreach $items as $it}
+	{if $zkr <> $it->zkratka}
+		<tr>
+			<td>{$zkr}</td>
+			<td>{$naz}</td>
+			<td class="mini" title="{substr($tna,0,-2)}">
+				{substr($tzk,0,-2)}
+				{if $user->isAllowed('AtrCasu','setGroup')}
+					&nbsp;<a n:href="setGroup, $iid" title="Přiřadit typové operaci">&#x25B7;</a>&nbsp;
+				{/if}			
+			</td>
+			<td>{if $typ==1}Přímý{else}Dávkový{/if}</td>
+			<td class="tcislo">{$cas|number:2:',':' '}</td>
+			<td n:if="$cond" class="takce">
+				<span class="setedit" title="Změnit"><a n:if="$user->isAllowed('AtrCasu','edit')" n:href="edit, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+				<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('AtrCasu','delete')" n:href="delete, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			</td>
+		</tr>
+		{var $zkr = $it->zkratka}
+		{var $tna = ""}
+		{var $tzk = ""}
+	{/if}
+	{var $zkr = $it->zkratka}
+	{var $naz = $it->nazev}
+	{var $tna .= "•  ".$it->tonaz.chr(13).chr(10)}
+	{var $tzk .= $it->tozkr.", "}
+	{var $typ = $it->typ}
+	{var $cas = $it->cas_sec}
+	{var $iid = $it->id}
+{/foreach}
+	<tr>
+		<td>{$zkr}</td>
+		<td>{$naz}</td>
+		<td class="mini" title="{substr($tna,0,-2)}">
+			{substr($tzk,0,-2)}
+			{if $user->isAllowed('AtrCasu','setGroup')}
+				&nbsp;<a n:href="setGroup, $iid" title="Přiřadit typové operaci">&#x25B7;</a>&nbsp;
+			{/if}			
+		</td>
+		<td>{if $typ==1}Přímý{else}Dávkový{/if}</td>
+		<td class="tcislo">{$cas|number:2:',':' '}</td>
+		<td n:if="$cond" class="takce">
+			<span class="setedit" title="Změnit"><a n:if="$user->isAllowed('AtrCasu','edit')" n:href="edit, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+			<span class="setdel" title="Odstranit"><a n:if="$user->isAllowed('AtrCasu','delete')" n:href="delete, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,12 @@
+{extends 'detail.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+{block #content}
+
+<h2 n:block="title">{$titul}</h2>
+<h4>{$subtitul1}</h4>
+<h4>{$subtitul2}</h4>
+
+{control operForm}
+
+{*include '../../../Base/templates/js_edit.latte', cselect => '#frmsablForm-id_sablony', ctext => '#frmsablForm-nazev'*}
+

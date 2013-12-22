@@ -1,0 +1,13 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $rate}
+	<p>Opravdu chcete smazat tuto sazbu?</p>
+	{control deleteRate}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

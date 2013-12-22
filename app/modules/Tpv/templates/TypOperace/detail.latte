@@ -1,0 +1,18 @@
+{extends './default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<ul id="navi">
+	<li n:if="$user->isAllowed('TypOperace','add')" title="Nový typ operace"><a n:href="add">Nový...</a></li>
+	<li n:if="$user->isAllowed('TypOperace','edit')" title="Změnit typ operace"><a n:href="edit, $item->id">Změnit</a></li>
+</ul>
+<table class="grid">
+	<tr><th>Druh</th><td>{$item->druh}</td></tr>
+	<tr><th>Zkratka</th><td>{$item->zkratka}</td></tr>
+	<tr><th>Název</th><td>{$item->nazev}</td></tr>
+	<tr><th title="Minimální doba trvání operace [min]">Min. čas [min]</th><td class="cislo">{$item->ta_min|number:2:',':' '}</td></tr>
+	<tr><th title="Časová rezerva [%]">Rezerva</th><td class="cislo">{$item->ta_rezerva * 100|number:0:',':' '} %</td></tr>
+</table>
+

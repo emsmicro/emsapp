@@ -1,0 +1,35 @@
+{extends '../Obchod/default.latte'}
+{block #drobecky3} » <a n:href="default">Produkty</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h3>{$company}</h3>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví *}
+{var $cond = $user->isAllowed('Produkt','add') || $user->isAllowed('Produkt','edit') || $user->isAllowed('Produkt','delete')}
+
+<table class="grid">
+<tr>
+	<th>Nabídka</th>
+	<th n:if="$user->isAllowed('Produkt','setProduct')"><img src="{$basePath}/images/select.png" title="Zvolit jako aktuální"/></th>
+	<th>Název produktu</th>
+	<td n:if="$cond" class="takce"><a n:if="$user->isAllowed('Produkt','add')" n:href="add">Přidat záznam</a></td>
+</tr>
+
+{foreach $items as $it}
+<tr>
+	<td>{$it->nabidka}</td>
+	<td n:if="$user->isAllowed('Produkt','setProduct')">
+		<span class="iconsel">
+			<a n:href="setProduct, $it->id" title="Zvolit">&nbsp&nbsp;</a>
+		</span>
+	</td>
+	<td><a n:href="detail, $it->id">{$it->nazev}</a></td>
+	<td n:if="$cond" class="takce">
+		<a n:if="$user->isAllowed('Produkt','edit')" n:href="edit, $it->id">Změnit</a>
+		<a n:if="$user->isAllowed('Produkt','delete')" n:href="delete, $it->id">Odstranit</a>
+	</td>
+</tr>
+{/foreach}
+</table>

@@ -1,0 +1,62 @@
+<script type='text/javascript'>
+$(function () {	
+
+		var colors = Highcharts.getOptions().colors;
+
+		$('#dgraph_{!$idg}').highcharts({
+				chart: {
+						//renderTo: 'dgraph_{!$idg}',
+						animation: false,
+						backgroundColor: 'transparent',
+						plotBorderWidth: null,
+						plotShadow: false,
+						style: {
+							right: '95px',
+							top: '-50px',
+						},
+					},
+					title: {
+						text: '',
+						style: {
+							//color: '#999'
+						},
+					},
+                    credits: {
+                          enabled: false
+                    },
+					tooltip: {
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y/1000,0) +' tis. Kč ('+ Highcharts.numberFormat(this.percentage,1) +' %)';
+						}
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							size: {!$size},
+							animation: false,
+							dataLabels: {
+								enabled: true,
+								color: '#000',
+								connectorWidth: 0,
+								connectorColor: '#999',
+								distance: 5,
+								formatter: function() {
+									return this.point.name +': '+ Highcharts.numberFormat(this.percentage,1) +' %';
+								},
+								style: {
+									padding: 3,
+									fontSize: '10px'
+								},
+							}
+						}
+					},
+				    series: [{
+						type: 'pie',
+						name: 'ceny',
+						data: {!$gr_data}
+					}]
+				});
+			});
+			
+</script>

@@ -1,0 +1,54 @@
+{extends '../Tpv/default.latte'}
+{block #drobecky3} » <a n:href="default">Stroje</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('Stroj','add') || $user->isAllowed('Stroj','edit') || $user->isAllowed('Stroj','delete')}
+
+<table class="grid" style="width: 100%;">
+<tr>
+	<th>#</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+	<th>Poř. cena [Kč]</th>
+	<th title="Rok pořízení">Rok</th>
+	<th title="Směnnost / den">Směn</th>
+	<th title="Kapacita stroje [hod/rok]" class="tsepleft">Kapacita</th>
+	<th title="Fixní náklady [Kč/hod]">Fixní nákl.</th>
+	<th title="Variablní náklady [Kč/hod]">Variabil. nákl.</th>
+	<th title="Náklady na odpisy [Kč/hod]">Odpisy</th>
+	<th title="Hodinová sazba (cena) [Kč/hod]" class="tsepleft"><b>Sazba Kč/hod</b></th>
+	<td n:if="$cond" class="takce tsepleft">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('Stroj','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{foreach $items as $it}
+<tr>
+	<td>{$it->id}</td>
+	<td style="font-size: medium;" title="{$it->zkratka}"><b>{$it->zkratka|truncate:25}</b></td>
+	<td title="{$it->nazev}"><a n:href="detail, $it->id">{$it->nazev|truncate:42}</a></td>
+	<td class="cislo">{$it->poriz_cena|number:2:',':' '}</td>
+	<td >{$it->rok_porizeni}</td>
+	<td class="cislo">{$it->smennost|number:1:',':' '}</td>
+	<td class="cislo tsepleft">{$it->kapacita|number:0:',':' '}</td>
+	<td class="cislo">{$it->naklady_fixni|number:2:',':' '}</td>
+	<td class="cislo">{$it->naklady_variabilni|number:2:',':' '}</td>
+	<td class="cislo">{$it->odpisy_hod|number:2:',':' '}</td>
+	<td class="cislo tsepleft" style="font-size: medium;"><b>{$it->hodinova_cena|number:2:',':' '}</b></td>
+	<td n:if="$cond" class="takce tsepleft">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('Stroj','edit')" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span class="setdel" title="Odstranit">
+			<a n:if="$user->isAllowed('Stroj','delete')" n:href="delete, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>

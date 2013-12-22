@@ -1,0 +1,16 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h2>{$item->id}/{$item->prij_datum|date:'%Y'} - {$item->popis}</h2>
+
+{if $item}
+	<div class="flash exclamation">
+		<p>Opravdu chcete tuto nabídku zkopírovat včetně všech přiřazených produktů, materiálových položek a TPV operací těchto produktů?</p>
+		{control copyNabidkaForm}
+	</div>
+{else}
+	<p>Nabídka nebyla nalezena.</p>
+{/if}

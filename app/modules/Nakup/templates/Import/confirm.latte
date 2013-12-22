@@ -1,0 +1,33 @@
+{extends './default.latte'}
+{block #drobecky3} » {$titul}{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">3/3 {$titul}</h1>
+
+{if $isok}
+	<div class="flash exclamation">
+		<p>Opravdu chcete pro produkt "<b>{$aprodukt}</b>" importovat ze souboru [{$file}] data do databáze?</p>
+		<p><b>Upozornění</b>: pokud součástí importovaných dat je i pole s cenou, má se za to, že cena je v <strong>Kč</strong>!</p>
+	</div>
+	<div>
+		<p></p>
+		Přehled přiřazení vstupních polí ze souboru <b>{$file}</b> výstupním polím databáze:
+		<table class="csv">
+			<th>Vstupní pole (CSV)</th>
+			<th></th>
+			<th>Výstupní pole (DB)</th>
+			{foreach $info as $k => $v}
+				<tr>
+					<td>{$v}  ({$iterator->counter})</td>
+					<td>--></td>
+					<td>{$k}</td>
+				</tr>
+			{/foreach}
+		</table>
+	</div>
+	{control confirmForm}
+
+{else}
+	<p>Data nelze importovat, nedostatečné vstupní údaje.</p>
+{/if}

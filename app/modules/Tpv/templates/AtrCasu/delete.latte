@@ -1,0 +1,19 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{if $item}
+
+	<div class="flash exclamation">
+		<p>Opravdu chcete tento atribut "<b>{$item->nazev}</b>" odstranit z databáze?</p>
+		<p><b>Upozornění</b>: Zrušíte tím tento parametr u všech dříve provedených výpočtů spotřeby času!</p>
+	</div>
+	<p></p>
+	{control deleteForm}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

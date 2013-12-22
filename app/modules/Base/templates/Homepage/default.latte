@@ -1,0 +1,72 @@
+{block #content}
+<h1 n:block="title">{$titul}</h1>
+
+{if $islogin}
+	<div class="logref">
+	<h4>
+		<a n:href="Sign:in"><span title="Přihlásit se">Do systému se musíte přihlásit zde ...</span></a>
+	</h4>
+	</div>
+{/if}
+
+<div class="kolaps">
+
+	<div class="kol-0">
+		<h2>Jak postupovat při tvorbě nabídky?</h2>
+		<div class="centered flowchart">
+			<img src="{$basePath}/images/flow_1.png" />
+			<a n:if="$user->isAllowed('Nabidka','add')" n:href="Nabidka:add"><div class="newoffer"></div></a>
+			<a n:if="$user->isAllowed('Produkt','add')" n:href="Produkt:add"><div class="newproduct"></div></a>
+			<a n:if="$aproduct>0 && $user->isAllowed('Import','default')" n:href="Import:default"><div class="bomimport"></div></a>
+			<a n:if="$aproduct>0 && $user->isAllowed('Material','default')" n:href="Material:default"><div class="k2material"></div></a>
+			<a n:if="$aproduct>0 && $user->isAllowed('Operace','default')" n:href="Operace:default"><div class="tpvoper"></div></a>
+			<a n:if="$aproduct>0 && $user->isAllowed('Operace','addGroup')" n:href="Operace:addGroup"><div class="tpvgroup"></div></a>
+			<a n:if="$aproduct>0 && $user->isAllowed('Produkt','detail')" n:href="Produkt:detail, $aproduct"><div class="detprod"></div></a>
+			<a n:if="$aoffer>0 && $user->isAllowed('Nabidka','toPdf')" n:href="Nabidka:toPdf, $aoffer"><div class="detoffer"></div></a>
+		</div>
+	</div>
+
+	{if $is_todo}
+		<div class="kol-1">
+			<h2>{$subtitle}</h2>
+			<div class="todod">
+				{block #todolist}
+					{foreach $todos as $oblast=>$item}
+					<ul>
+						<li id="todo"><span>{$oblast}</span>
+								{if is_array($item)} 
+									{include #todolist, 'todos' => $item}
+								{else}
+									{if $item <> ''}
+										<span n:if="$user->isAllowed($item,'default')" class="ref"><a n:href="{$item}:default" title="Přejít">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+									{/if}
+								{/if}
+						</li>
+					</ul>
+					{/foreach}
+				{/block}
+			</div>
+		</div>
+	{/if}
+
+</div>
+
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $(".kol-0, .kol-1").collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+					
+                 },
+				head: 'h2',
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+
+</script>

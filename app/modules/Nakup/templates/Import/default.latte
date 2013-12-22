@@ -1,0 +1,15 @@
+{extends '../Nakup/default.latte'}
+{block #drobecky3} » {$titul}{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1>Průvodce importem materiálové rozpisky (BOM)</h1>
+<h2 n:block="title">1/3 {$titul}</h2>
+<div class="flash exclamation">
+	Vstupní soubor pro import materiálové rozpisky (BOM) musí být ve formátu CSV. Jednotlivá pole musí být oddělena středníkem a textová pole nesmí být v uvozovkách či apostrofech.<br />
+	Pokud používáte MS Excel pro uložení dat do CSV, vyberte oblast dat (bez prázdných řádků a sloupců) a zvolte uložit jako "CSV (oddělený středníkem)".
+</div>	
+
+<p></p>
+
+{control uploadForm}

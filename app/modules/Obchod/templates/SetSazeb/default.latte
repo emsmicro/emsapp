@@ -1,0 +1,43 @@
+{extends '../Obchod/default.latte'}
+{block #drobecky3} » <a n:href="default">Sety sazeb</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+
+{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+{var $cond = $user->isAllowed('SetSazeb','add') || $user->isAllowed('SetSazeb','edit') || $user->isAllowed('SetSazeb','delete')}
+
+<table class="grid">
+<tr>
+	<th>Název</th>
+	<th>Platnost od</th>
+	<th>Platnost do</th>
+	<th>Kalkulační vzorec</th>
+	<td n:if="$cond" class="takce">
+		<span class="setadd" title="Přidat záznam">
+			<a n:if="$user->isAllowed('SetSazeb','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+
+{foreach $items as $it}
+<tr>
+	<td><a n:if="$user->isAllowed('SetSazeb','detail')" n:href="detail, $it->id">{$it->nazev}</a></td>
+	<td>{$it->platnost_od|date:'%d. %m. %Y'}</td>
+	<td>{$it->platnost_do|date:'%d. %m. %Y'}</td>
+	<td title="{$it->popis}"><b>{$it->kzkratka}</b>: {$it->knazev}</td>
+	<td n:if="$cond" class="takce">
+		<span class="setedit" title="Změnit">
+			<a n:if="$user->isAllowed('SetSazeb','edit')" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+		<span class="setdel" title="Odstranit">
+			<a n:if="$user->isAllowed('SetSazeb','delete')" n:href="delete, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		</span>
+	</td>
+</tr>
+{/foreach}
+</table>
+{if isset($vzorce)}
+	{include '../vzorce.latte'}
+{/if}

@@ -1,0 +1,33 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h2>{$company}</h2>
+<h3>{$subtitle}</h3>
+
+
+<div class="uform" style="position:relative; width:650px;padding-top:62px;">
+
+{if $item}
+	<p style="margin: 20px 0 50px 20px;">Opravdu chcete vypočítat novou sadu cen produktu?</p>
+	<ul id="navi">
+		<li style="position:relative; top:-32px;">
+			<a n:if="$user->isAllowed('Kurz','add')" n:href="Kurz:add">Nový kurz měny...</a>
+		</li>
+		<li style="position:relative; top:-32px;">
+			<a  n:if="$user->isAllowed('Produkt','addAmount')" n:href="addAmount, $item->id">Nové množství...</a>
+		</li>
+	</ul>
+	{control pricesUpdForm}
+	<p style="font-size:small;"/>
+		<i>Pro výpočet ceny v cizí měně je nutné zvolit měnu a kurz, popř. zadejte nový kurz a akci opakujte.</i><br />
+		<i>Rovněž je možné změnit kalkulační vzorec za jiný, než defaultní a vypočítat jinou cenovou variantu.</i><br />
+	</p>
+
+{else}
+	<p>Produkt nebyl nalezen.</p>
+{/if}
+
+</div>

@@ -1,0 +1,29 @@
+{extends '../Nakup/default.latte'}
+{block #drobecky3} » <a n:href="default">K2 Materiál</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title">{$titul}</h2>
+
+{* top paginator *}
+{control vp}
+
+<table class="grid" style="width: 850px;">
+<tr>
+	<th>ID</th>
+	<th>Zkratka</th>
+	<th>Název</th>
+</tr>
+
+{foreach $items as $it}
+<tr>
+	<td>{$it->id}</td>
+	<td>{$it->zkratka}</td>
+	<td>{$it->nazev}</td>
+
+</tr>
+{/foreach}
+</table>
+
+{* bottom paginator *}
+{control vp}

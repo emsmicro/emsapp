@@ -1,0 +1,167 @@
+{extends 'default.latte'}
+{block #drobecky4} » Kalkulace spotřeby času{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h2>Produkt: {$subtitul}</h2>
+<h2>Operace: {$subtitul2}</h2>
+
+
+<div class="manual">
+<span style="font-size:smaller;padding-left:25px;">Do sloupce "množství" zadejte pro každý časový atribut počet prvků/úkonů, které výrobní/přípravná operace obsahuje.</span>
+
+{control tcalcForm begin}
+{control tcalcForm errors}
+	{var $t = 0}
+	{var $tamin = ""}
+	{if $ta_min > 0}
+		{var $tamin = ", min. ".round($ta_min,2)." minut."}
+	{/if}
+	{var $tarez = ""}
+	{if $ta_rez > 0}
+		{var $tarez = ", čas bude navýšen o ".round($ta_rez,0)." %"}
+	{/if}
+	{foreach $items as $item}
+		{if $item->typ<>$t}
+			{if $t>0}
+				<tr>
+					{if $t == 1}
+						<td colspan="2" class="cislo" style="background:#C1DAFF;color:#000;">
+							Výsledný čas Ta [min]{$tarez}{$tamin}
+						</td>
+						<td colspan="2" style="background:#C1DAFF;color:#000;font-size:14px; font-weight:bold; text-align:right; padding-right:7px;" title="Výsledný čas">
+							<span id="c_time0">{$ta|number:2:',':' '}</span>
+						</td>
+					{/if}
+				</tr>
+				</table>
+				</div>
+				</div>
+			{/if}
+			<div class="detail">
+				<div class="dtitul">
+			{var $tt = "tab".$t}
+			<table id="{$tt}">
+				<tr>
+					{if $item->typ == 1}
+						<td colspan="2" style="background:#4FA3F7;color:#FFF;">
+							Parametry výpočtu spotřeby výrobního času (závislého na množství) 
+						</td>
+						<td colspan="2" style="background:#4FA3F7;color:#FFF;font-size:11px; text-align:right;" title="Aktuální čas">uloženo: Ta = <span id="t_ta">{$ta|number:2:',':' '}</span> min</td>
+					{/if}
+					{if $item->typ == 2}
+						<td colspan="2" style="background:#4FA3F7;color:#FFF;">
+							Parametry výpočtu spotřeby přípravného (dávkového) času
+						</td>
+						<td colspan="2" style="background:#4FA3F7;color:#FFF;font-size:11px; text-align:right;" title="Aktuální čas">uloženo: Tp = <span id="t_tp">{$tp|number:2:',':' '}</span> min</td>
+					{/if}
+				</tr>
+				<tr>
+					<th>Zkratka</th>
+					<th>Název atributu času</th>
+					<th>Čas s/ks</th>
+					<th>Množství</th>
+				</tr>
+				{var $t = $item->typ}
+		{/if}
+		<tr>
+			<td style="min-width:150px;" title="{$item->ida}">{$item->zkratka}</td>
+			<td class="ntext2">{$item->nazev}</td>
+			{var $tid = "tt_".$item->ida}
+			<td id="{$tid}" class="tcislo" style="min-width:60px;">{$item->cas_sec|number:2:',':' '}</td>
+			<td class="cislo input"> 
+				{$control['tcalcForm']['mpole']['ks_'.$item->ida]->control}
+			</td>
+		</tr>
+	{/foreach}
+		<tr>
+			{if $t == 1}
+				<td colspan="2" class="cislo" style="background:#C1DAFF;color:#000;">
+					Výsledný čas Ta [min]{$tarez}{$tamin}
+				</td>
+				<td colspan="2" style="background:#C1DAFF;color:#000;font-size:14px; font-weight:bold; text-align:right; padding-right:7px;" title="Výsledný čas">
+					<span id="c_time0">{$ta|number:2:',':' '}</span>
+				</td>
+			{elseif $t == 2}
+				<td colspan="2" class="cislo" style="background:#C1DAFF;color:#000;">
+					Výsledný čas Tp [min]
+				</td>
+				<td colspan="2" style="background:#C1DAFF;color:#000;font-size:14px; font-weight:bold; text-align:right; padding-right:7px;" title="Výsledný čas">
+					<span id="c_time1">{$tp|number:2:',':' '}</span>
+				</td>
+			{/if}
+		</tr>
+	</table>
+	</div>
+		<div style="width:150%;margin-left:10px;">
+			<span n:if="$unlocked">{$control['tcalcForm']['save']->control}</span>
+			<span>{$control['tcalcForm']['cancel']->control}</span>
+			<span style="margin-left:200px;"></span>
+			<span class="butt" onclick="RecalculateSums()">Přepočítat</span>
+		</div>
+	</div>
+			
+{control tcalcForm end}
+
+</div>
+
+{include '../../../Base/templates/js_number.latte', mDec => 3}
+
+<script type='text/javascript'>
+
+    $(document).ready(function(){
+        $(".text").each(function() {
+            $(this).keyup(function(){
+				SumInputs("tab0","c_time0");
+				SumInputs("tab1","c_time1");
+            });
+        });
+ 
+    });
+
+	function RecalculateSums()
+	{
+		SumInputs("tab0","c_time0");
+		SumInputs("tab1","c_time1");
+	}
+
+	function SumInputs(etab,cile)
+	{
+		var total = 0;
+		var coll = document.getElementById(etab).getElementsByTagName("input")
+		var cotd = document.getElementById(etab).getElementsByTagName("td")
+		var mnm="";
+		for ( var i = 0; i<coll.length; i++)
+		{
+			var ele = coll[i];
+			mnm = ele.getAttribute("name");
+			if(mnm.substring(0,9)=="mpole[ks_"){
+				var idd = parseInt(mnm.substring(9));
+				//ele.value = ele.value.replace(",",".");
+				var mno = parseFloat(ele.value);
+				if(isNaN(mno)){ mno=0; }
+				for ( var j = 0; j<cotd.length; j++)
+				{
+					var el2 = cotd[j];
+					var nm2 = el2.getAttribute("id");
+					if(nm2 == "tt_"+idd){
+						var eva = el2.innerHTML//.replace(",",".");
+						total += mno * parseFloat(eva);
+					}
+				}
+			}
+		}
+
+		var Display = document.getElementById(cile);
+		var tot = total/60;
+		tot = tot.toFixed(2);
+		if(!isNaN(tot) && tot.length!=0) {
+			Display.innerHTML = tot.toString().replace(".",",");
+		} else {
+			Display.innerHTML = "N/A";
+		}
+	}
+
+</script>
+

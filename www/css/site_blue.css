@@ -1,0 +1,212 @@
+html {
+      border-color: #1C4E80;
+}
+
+body {
+	color: #333;
+	background-color: #E6E6E6;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+
+}
+
+#logo {
+
+}
+
+#titul {
+	color: #CCC;
+}
+
+#titul a {
+	color: #EEE;
+}
+
+#slogan a {
+	color: #CCC;
+}
+
+#titul a:hover, #slogan a:hover {
+}
+
+
+#slogan {
+	color: #AAA;
+}
+
+#slogan:hover {
+}
+
+#logged-in {
+	color: #EEF4FB;
+}
+
+#logged-in a {
+	color: #F3E8DE;
+}
+
+#logged-in a:hover {
+	color: #FFF;
+	background-color: #225B95;
+}
+
+#style-sw {
+}
+
+#style-sw a {
+	color: #999;
+}
+
+#style-sw a:hover {
+	background-color: #225B95;
+}
+
+#style-sw li {
+}
+
+/* ------------------ MENU --------------------------- */
+
+#menu {
+	background: -webkit-linear-gradient(#22619F, #0E243A);
+	background: -moz-linear-gradient(#22619F, #0E243A);
+	background: -ms-linear-gradient(#22619F, #0E243A);
+	background: -o-linear-gradient(#22619F, #0E243A);
+	background: linear-gradient(#22619F, #0E243A);
+    left: 15px;
+}
+
+#menu ul {
+}
+
+#menu a {
+	color: #FFF;
+}
+
+#menu li {
+}
+
+#menu li span.main {
+	border-color: #1A4571;
+}
+
+#menu li span.nomain {
+	border-color: #555;
+	background: #FFF;
+}
+
+#menu li span.nomain:last-child {
+	border-color: #555;
+}
+
+#menu li span.nomain a {
+}
+
+#menu li:first-child {
+}
+
+#menu li a {
+	padding: 0;
+}
+
+#menu li span a:hover {
+   color: #163F67;
+}
+
+#menu li:hover, #menu li span:hover, #menu li span a:hover {
+   background: transparent;
+   text-shadow: 2px 2px 2px #999999;
+}
+
+#menu li span.nomain:hover {
+    height: 28px;
+    background: #EBECF1;
+}
+
+#menu li span.nomain a:hover {
+    color: #3484D2;
+}
+
+
+#menu li span.main:hover {
+    color: #1A4571;
+    background: #AFB5C9;
+}
+
+#menu li span.main.active {
+   	color: #1A4571;
+	border-left: solid 1px #1A4571;
+	border-right: solid 1px #1A4571;
+}
+
+#menu li span.nomain.active {
+	border-top: solid 1px #1A4571;
+	border-left: solid 1px #1A4571;
+	border-right: solid 1px #1A4571;
+	border-bottom: solid 1px #FFF;
+}
+
+#menu span.main.active a {
+  color: #1A4571;
+}
+
+/* ------------- MY SETTING -------------------*/
+#mysetting {
+	color:#143556;
+	background-color: #F7FAFD;
+    box-shadow: inset 0 0 5px #143556;
+    -webkit-box-shadow: inset 0 0 5px #143556;
+    -moz-box-shadow: inset 0 0 5px #143556;
+}
+
+#mysetting span {
+}
+
+#mysetting a {
+	color:#143556;
+}
+
+#mysetting:hover {
+}
+
+#mysetting a:hover {
+	background-color: #2D79C6;
+}
+
+
+
+#messages {
+  	background-color: #FFF;
+	border-color: #AAA;
+}
+
+#topcont {
+}
+
+#content {
+  	background-color: #FFF;
+	border-color: #AAA;
+}
+
+#footer {
+	color: #333;
+}
+
+#footer a {
+	color: #555;
+}
+
+#footer a:hover {
+	background-color: #2D79C6;
+}
+
+/*=========================== KONEC SCHEMATU============================================================*/
+

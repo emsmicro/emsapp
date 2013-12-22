@@ -1,0 +1,70 @@
+require {$params['libsDir']} . '/PdfResponse/PDFResponse.php';
+
+{extends '../@pdf.layout.latte'}
+
+{block #content}
+		<div class="address">
+			<table>
+				<tr><td><b>{$firma->nazev}</b></td></tr>
+				<tr><td>{$osoba}</td></tr>
+				<tr><td>{$firma->a_ulice} {$firma->a_cp}</td></tr>
+				<tr><td>{$firma->m_obec}</td></tr>
+				<tr><td>{$firma->m_psc}</td></tr>
+				{if $firma->m_zstat<>"CZ"}</td></tr>
+					<tr><td>{$firma->m_stat}</td></tr>
+				{/if}
+			</table>
+		</div>
+		<div style="height: 50mm;">
+		</div>
+		{var $it = $item}
+		<table>
+			<tr>
+				<td><h4 n:block="title">{$titul}</h4></td>
+				<td style="padding-left:10mm;"><i>{$company['city']}, {$today}</i></td>
+			</tr>
+		</table>
+		<hr>
+	
+		<br/>
+	
+		<table class="grid">
+		<tr>
+			<th>Klient</th><td colspan="3">{$it->firma}</td>
+		</tr>
+		<tr>
+			<th>Datum přijetí</th><td>{$it->prij_datum|date:'%d.%m.%Y'}</td>
+			{if $isvol}
+				<th>Předpokl. objem</th><td class="tcislo">{$vol[0]->objem|number:0:',':' '} Kč</td>
+			{/if}
+		</tr>
+		<tr>
+			<th>Požadované datum</th><td>{$it->pozad_datum|date:'%d.%m.%Y'}</td>
+			{if $isvol}
+				<th>Celkové množství</th><td class="tcislo">{$vol[0]->pocty|number:0:',':' '} ks</td>
+			{/if}
+		</tr>
+		<tr><th>Popis</th><td colspan="3">{$it->popis}</td></tr>
+		<tr><th>Poznámka</th><td colspan="3">{$it->poznamka}</td></tr>
+		</table>
+
+{if $iscen}
+
+	<div class="clear">
+		{include 'prices.latte'}
+	</div>
+
+{/if}
+	
+	<br/><br/>
+	<i>{$seler}</i>
+	<br/><br/>
+	<table>
+		<tr><td>{$company['name']}</td></tr>
+		<tr><td>{$company['street']}</td></tr>
+		<tr><td>{$company['city']}</td></tr>
+		<tr><td>{$company['zip']}</td></tr>
+	</table>
+
+		
+		

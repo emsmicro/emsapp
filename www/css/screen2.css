@@ -1,0 +1,717 @@
+
+#ajax-spinner {
+	margin: 15px 0 0 15px;
+	padding: 13px;
+	background: white url('../images/spinner.gif') no-repeat 50% 50%;
+	font-size: 0;
+	z-index: 123456;
+	display: none;
+}
+
+a[href^="error:"] {
+	background: #FF9393;
+	color: white;
+}
+
+ul.error {
+  color: #B70000;
+  text-shadow: 1px 1px 1px #AAAAAA;
+}
+
+#wrapper {
+   /*	max-width: 670px;
+	margin: -8.7em auto 0;*/
+}
+
+
+/* ------Ikony add, edit, delete, addGroup ------ */
+span.set {
+	float:left;
+	margin: 0 auto;
+	padding: 0;
+}
+
+span.set a {
+	display:block;
+	width: 24px;
+	height: 24px;
+}
+
+span.set.add a {
+	background: url('../images/add32b.png') center center no-repeat;
+}
+
+span.set.add a:hover {
+ 	background: url('../images/add32.png') center center no-repeat;
+}
+
+span.set.del a {
+	background: url('../images/erase32b.png') center center no-repeat;
+}
+
+span.set.del a:hover {
+ 	background: url('../images/erase32.png') center center no-repeat;
+}
+
+span.set.edit a {
+	background: url('../images/edit32b.png') center center no-repeat;
+}
+
+span.set.edit a:hover {
+ 	background: url('../images/edit32.png') center center no-repeat;
+}
+
+span.set.editgroup a {
+	background: url('../images/editg32b.png') center center no-repeat;
+}
+
+span.set.editgroup a:hover {
+ 	background: url('../images/editg32.png') center center no-repeat;
+}
+
+span.set.editgroup a {
+ 	background: url('../images/w8editgroup16b.png') center center no-repeat;
+}
+
+span.set.editgroup a:hover {
+ 	background: url('../images/w8editgroup18.png') center center no-repeat;
+}
+
+span.set.calc a {
+	background: url('../images/calc24b.png') center center no-repeat;
+}
+
+span.set.calc a:hover {
+ 	background: url('../images/calc32.png') center center no-repeat;
+}
+
+/****************************************/
+
+
+.setdel a {
+	padding: 4px;
+	margin: 0;
+	background: url('../images/erase32b.png') center center no-repeat;
+}
+
+.setdel a:hover {
+ 	background: url('../images/erase32.png') center center no-repeat;
+}
+
+.setedit a {
+	padding: 4px;
+	margin: 0;
+	background: url('../images/edit32b.png') center center no-repeat;
+}
+
+.setedit a:hover {
+ 	background: url('../images/edit32.png') center center no-repeat;
+}
+
+.seteditgroup a {
+	padding: 4px;
+	margin: 0;
+	background: url('../images/editg32b.png') center center no-repeat;
+}
+
+.seteditgroup a:hover {
+ 	background: url('../images/editg32.png') center center no-repeat;
+}
+
+.seteditgroup a {
+	padding: 4px;
+	margin: 0;
+ 	background: url('../images/w8editgroup16b.png') center center no-repeat;
+}
+
+.seteditgroup a:hover {
+ 	background: url('../images/w8editgroup18.png') center center no-repeat;
+}
+
+.setadd a {
+	padding: 4px;
+	margin: 0;
+	background: url('../images/add32b.png') center center no-repeat;
+}
+
+.setadd a:hover {
+ 	background: url('../images/add32.png') center center no-repeat;
+}
+
+.setcalc a {
+	padding: 4px;
+	margin: 0;
+	background: url('../images/calc24b.png') center center no-repeat;
+}
+
+.setcalc a:hover {
+ 	background: url('../images/calc32.png') center center no-repeat;
+}
+/* -------------- end --------------- */
+
+
+/* ------Ikony add, edit, delete, addGroup ------ */
+/*
+.setdel a {
+	padding: 0;
+	margin: 0;
+	width: 18px;
+	height: 18px;
+	background: url('../images/w8delete16b.png') center center no-repeat;
+}
+
+.setdel a:hover {
+ 	background: url('../images/w8delete18.png') center center no-repeat;
+}
+
+.setedit a {
+	padding: 0;
+	margin: 0;
+	width: 18px;
+	height: 18px;
+	background: url('../images/w8edit16b.png') center center no-repeat;
+}
+
+.setedit a:hover {
+ 	background: url('../images/w8edit18.png') center center no-repeat;
+}
+
+.seteditgroup a {
+	padding: 0;
+	margin: 0;
+	width: 18px;
+	height: 18px;
+	background: url('../images/w8editgroup16b.png') center center no-repeat;
+}
+
+.seteditgroup a:hover {
+ 	background: url('../images/w8editgroup18.png') center center no-repeat;
+}
+
+.setadd a {
+	padding: 0;
+	margin: 0;
+	width: 18px;
+	height: 18px;
+	background: url('../images/w8add16b.png') center center no-repeat;
+}
+
+.setadd a:hover {
+ 	background: url('../images/w8add18.png') center center no-repeat;
+}
+*/
+/* -------------- end --------------- */
+
+
+.setperm a {
+	background: url('../images/permissionb.png') center center no-repeat;
+}
+
+.setperm a:hover {
+ 	background: url('../images/permission.png') center center no-repeat;
+}
+
+.setactive a {
+	background: url('../images/d_bulb.png') center center no-repeat;
+}
+
+.setactive a:hover {
+ 	background: url('../images/s_bulb.png') center center no-repeat;
+}
+
+
+.scopy a {
+	position: relative;
+	left:-10px;
+	padding-left: 20px;
+	background: url('../images/copyb.png') left center no-repeat;
+}
+
+.scopy a:hover {
+ 	background: url('../images/copy.png') left center no-repeat;
+}
+
+/*
+#mysetting:hover {
+	color: #FFFFFF;
+}
+
+#mysetting a:hover {
+	color:#FFFFFF;
+	background-color: transparent;
+   //	text-decoration: none;
+}
+*/
+
+h1 {
+	font-size: 47px;
+	color: #3484D2;
+	margin: .4em 0 -.3em;
+}
+
+h2, h3 {
+	font-size: 18px;
+	color: #7A7772;
+	margin: .6em 0;
+}
+
+h3 {
+	font-size: 16px;
+	color: #3484D2;
+}
+
+ol {
+	margin: 0;
+	padding: 0;
+}
+
+ol li {
+	/*margin: 1em 0;  */
+}
+
+ol li p {
+	font-size: 90%;
+}
+
+code {
+	color: #666;
+}
+
+hr {
+	visibility: hidden;
+	height: 2em;
+}
+
+img {
+	border: none;
+}
+
+
+#environment {
+	font-size: 70%;
+	margin: 3em 0;
+	padding: 1em 0;
+	border-top: 1px solid #EEE;
+	list-style: none;
+	color: gray;
+}
+
+.todod {
+  color: #225B95;
+  font-weight: bold;
+  font-size: x-large;
+  text-shadow: 1px 1px 1px #AAAAAA;
+}
+
+.todob {
+  color: #C0D9F1;
+  font-weight: bold;
+  font-size: x-large;
+  text-shadow: 1px 1px 1px #AAAAAA;
+}
+
+#todoc li {
+  color: #D7D7D7;
+  font-weight: normal;
+  font-size: medium;
+  border-bottom: dotted 1px #D7D7D7;
+  margin-right: 60px;
+  margin-bottom: 5px;
+}
+
+#todo li {
+  color: #1A4571;
+  font-weight: normal;
+  font-size: medium;
+  border-bottom: dotted 1px #D7D7D7;
+  margin-right: 20px;
+  margin-bottom: 5px;
+}
+
+#todo span.ne {
+  float: right;
+  text-transform: uppercase;
+  margin-left: 10px;
+  color: #FF3333;
+}
+
+#todo span.ref {
+  float: right;
+  margin-left: 20px;
+  color: #339933;
+  font-weight: bold;
+  background: url('../images/rarrowb.png') left center no-repeat;
+}
+
+#todo span a:hover {
+  	background: transparent url('../images/rarrow.png') left center no-repeat;
+}
+
+#todoc span.ref {
+  float: right;
+  margin-left: 25px;
+  color: #339933;
+  font-weight: bold;
+  background: transparent url('../images/rarrowg1.png') left center no-repeat;
+}
+
+#todoc span a:hover {
+  	background: transparent url('../images/rarrowc.png') left center no-repeat;
+}
+
+span.disconn a {
+  background: url('../images/disconnectbwm.png') left center no-repeat;
+}
+
+span.disconn a:hover {
+  	background: url('../images/disconnectm.png') left center no-repeat;
+}
+
+span.change_status a {
+  background: url('../images/chstatusbw.png') right center no-repeat;
+}
+
+span.change_status a:hover {
+  	background: url('../images/chstatus.png') right center no-repeat;
+}
+
+span.status {
+  cursor: default;
+  padding-left: 35px;
+}
+
+span.status.s1 {
+  background: url('../images/stat1.png') left center no-repeat;
+}
+
+span.status.s2 {
+  background: url('../images/stat2.png') left center no-repeat;
+}
+
+span.status.s3 {
+  background: url('../images/stat3.png') left center no-repeat;
+}
+
+span.status.s4 {
+  background: url('../images/stat4.png') left center no-repeat;
+}
+
+span.status.s5 {
+  background: url('../images/stat5.png') left center no-repeat;
+}
+
+span.status.sx0 {
+  padding-left: 25px;
+  background: url('../images/stavx0.png') left center no-repeat;
+}
+
+span.status.sx1 {
+  padding-left: 25px;
+  background: url('../images/stavx1.png') left center no-repeat;
+}
+
+span.status.sx2 {
+  padding-left: 25px;
+  background: url('../images/stavx2.png') left center no-repeat;
+}
+
+
+span.status.sb0 {
+  background: url('../images/stav0.png') left center no-repeat;
+}
+span.status.sb1 {
+  background: url('../images/stav1.png') left center no-repeat;
+}
+span.status.sb2 {
+  background: url('../images/stav2.png') left center no-repeat;
+}
+span.status.sb3 {
+  background: url('../images/stav3.png') left center no-repeat;
+}
+span.status.sb4 {
+  width: 100px;
+  height: 100px;
+  background: url('../images/stav4.png') center no-repeat;
+}
+span.status.sb5 {
+  background: url('../images/stav5.png') left center no-repeat;
+}
+span.status.sbx0 {
+  cursor: default;
+  background: url('../images/stav_0.png') left center no-repeat;
+}
+span.status.sbx1 {
+  cursor: default;
+  background: url('../images/stav_1.png') left center no-repeat;
+}
+
+div.statusbig{
+  position: absolute;
+  margin: 0 auto;
+  float: right;
+  width: 150px;
+  height: 150px;
+  top: -20px;
+  right: 30px;
+  text-align: center;
+  color: #3484D2;
+  font-size: small;
+}
+
+div.statusbig span.titstat{
+	position: relative;
+	top: -25px;
+	text-align: center;
+}
+
+div.history {
+	clear: both;
+  	position: absolute;
+    width: 320px;
+  	margin: 0 auto;
+  	float: right;
+  	top: 150px;
+  	right: 30px;
+	font-size: medium;
+}
+div.history table {
+	font-size: x-small;
+	border: solid 2px #CCCCCC;
+}
+div.history table td {
+  	border: solid 1px #CCCCCC;
+	padding: 2px;
+}
+div.history table tr:first-child{
+	border:solid 2px #4FA3F7;
+	font-weight: bold;
+}
+div.history table tr:hover{
+   border-color: #FFCC66;
+}
+
+div.history table td span.seterase {
+	padding: 0;
+}
+
+div.history h3 {
+  color: #333333;
+  border: none;
+  font-size: medium;
+  padding: 0 0 0 20px;
+  margin: 0px 0 5px 0;
+  font-weight: normal;
+  border-bottom: dotted 1px #808080;
+}
+
+div.history h3 a {
+  color: #333333;
+  font-style: italic;
+}
+
+div.history h3.active {
+  color: #333333;
+  border-bottom: dotted 1px #FFF;
+}
+
+
+div.clear {
+	clear: both;
+}
+
+
+#breadcrumbs {
+	position: absolute;
+	top: 5px;
+	margin-left: 40px;
+	font-size: small;
+	color: #666;
+	z-index: 1;
+}
+
+#breadcrumbs a {
+	color: #666666;
+	padding: 3 6px 3 6px;
+}
+
+#breadcrumbs a:hover {
+	color: #FFFFFF;
+}
+
+.icon20 a {
+	width: 10px;
+	height: 10px;
+	background: url('../images/k23.png') left center no-repeat;
+    /*
+	color: #FF3333;*/
+	font-size: large;
+}
+
+.icon20 a:hover {
+ 	background: url('../images/k23h.png') left center no-repeat;
+	/*color: #FFFF66;  */
+}
+
+.iconsel a {
+	width: 20px;
+	background: url('../images/select0.png') left center no-repeat;
+}
+
+.iconsel a:hover {
+ 	background: url('../images/select1.png') left center no-repeat;
+}
+
+.iconpdf a {
+	width: 20px;
+	background: url('../images/pdfa.png') center center no-repeat;
+}
+
+.iconpdf a:hover {
+ 	background: url('../images/pdfh.png') center center no-repeat;
+}
+
+table.grid td.iconpdf {
+	padding: 0;
+}
+
+.iconfol a {
+	width: 20px;
+	background: url('../images/folderi.png') center center no-repeat;
+}
+
+.iconfol a:hover {
+ 	background: url('../images/foldera.png') center center no-repeat;
+}
+
+table.grid td.iconfol {
+	padding: 0 auto;
+}
+
+
+.flowchart {
+	display:none;
+	background:#F7F7F7;
+	border: solid 1px #AAAAAA;
+	border-radius: 20px;
+}
+
+.flowchart .newoffer{
+	position: absolute;
+	top: 455px;
+	left: 434px;
+	width: 130px;
+	height: 56px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.newoffer:hover {
+ 	background: url('../images/newoffer.png') center center no-repeat;
+}
+
+.flowchart .newproduct{
+	position: absolute;
+	top: 553px;
+   /*	border: solid 1px;  */
+	left: 435px;
+	width: 130px;
+	height: 56px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.newproduct:hover {
+ 	background: url('../images/newproduct.png') center center no-repeat;
+}
+
+.flowchart .bomimport{
+	position: absolute;
+	top: 725px;
+   /*	border: solid 1px;   */
+	left: 334px;
+	width: 150px;
+	height: 52px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.bomimport:hover {
+ 	background: url('../images/bomimport.png') center center no-repeat;
+}
+
+.flowchart .k2material{
+	position: absolute;
+	top: 810px;
+   /*	border: solid 1px;   */
+	left: 334px;
+	width: 150px;
+	height: 132px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.k2material:hover {
+ 	background: url('../images/k2material.png') center center no-repeat;
+}
+
+.flowchart .tpvoper{
+	position: absolute;
+	top: 725px;
+   /*	border: solid 1px;   */
+	left: 519px;
+	width: 126px;
+	height: 72px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.tpvoper:hover {
+ 	background: url('../images/tpvoper.png') center center no-repeat;
+}
+
+.flowchart .tpvgroup{
+	position: absolute;
+	top: 833px;
+   /*	border: solid 1px;   */
+	left: 500px;
+	width: 166px;
+	height: 142px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.tpvgroup:hover {
+ 	background: url('../images/tpvgroup.png') center center no-repeat;
+}
+
+.flowchart .detprod{
+	position: absolute;
+	top: 1206px;
+   /*	border: solid 1px;   */
+	left: 390px;
+	width: 224px;
+	height: 70px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.detprod:hover {
+ 	background: url('../images/detprod.png') center center no-repeat;
+}
+
+.flowchart .detoffer{
+	position: absolute;
+	top: 1438px;
+   /*	border: solid 1px;   */
+	left: 298px;
+	width: 126px;
+	height: 96px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.detoffer:hover {
+ 	background: url('../images/detoffer.png') center center no-repeat;
+}
+
+

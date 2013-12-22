@@ -1,0 +1,85 @@
+{extends '../Material/default.latte'}
+{block #drobecky4} » Hledání v K2{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title">
+		{$titul}
+</h2>
+
+
+{form findForm class => 'hledat'}
+
+<!-- Jednoduché vykreslení chyb -->
+<ul class="errors" n:if="$form->hasErrors()">
+    <li n:foreach="$form->errors as $error">{$error}</li>
+</ul>
+
+	<table>
+	<tr>
+		<td>{input nazev class => 'text', autofocus => TRUE}</td>
+		<td>{input find class => 'button default'}</td>
+		<td>{input cancel class => 'button'}</td>
+	</tr>
+	</table>
+{/form findForm}
+
+
+
+{if isset($items)}
+	<p></p>
+	{if count($items)>0}
+		<table class="grid" style="width:100%;">
+		<tr>
+			<th>ID</th>
+			<th>Zkratka</th>
+			<th>Název</th>
+			<th>Dod. cena</th>
+			<th>Dodavatel</th>
+			<td class="takce">Výběr</td>
+		</tr>
+
+		{foreach $items as $it}
+			<tr>
+				<td>{$it->idz}</td>
+				<td>{$it->zkratka}</td>
+				{if strrpos($it->nazev, "zrušen")>0}
+					<td class="tselred">{$it->nazev}</td>
+				{elseif  strrpos($it->nazev, "probl")>0}
+					<td style="background-color: #FFE9A6;">{$it->nazev}</td>
+				{else}
+					<td>{$it->nazev}</td>
+				{/if}
+				<td class="tcislo" title="{$it->datum|date:'%d.%m.%Y'}, {$it->mnoz|number:0:',':' '} ks">
+						{if $it->cena>0}
+							{$it->cena|number:4:',':' '}
+							&nbsp;{$it->mena}
+						{else}
+							<i>není</i>
+						{/if}
+				</td>
+				<td title="{$it->dodavatel}">{$it->ZFir}</td>
+				<td class="takce">
+					{if $actidp>0 && $it->cena>0}
+						<a n:href="select, $idm, $it->idz, $it->idc">&#x25C0 Zvolit&nbsp;</a>
+					{/if}
+					{if $it->cena>0}
+						<a n:if="$user->isAllowed('K2','prices')" n:href="prices, $idm, $it->idz">&nbsp;Ceny &#x25B6;</a>
+					{else}
+						<a n:if="$user->isAllowed('K2','prices')" n:href="prices, $idm, $it->idz">&nbsp;Posl. nákupy &#x25B6;</a>
+					{/if}
+				</td>
+			</tr>
+		{/foreach}
+		</table>
+		{* paginator *}
+		{control vp}
+		<p></p>
+	{/if}
+
+	{else}
+		<div n:if="$hledam<>''" class="flash exclamation">
+		"{$hledam}" NENALEZENO!
+		</div>
+{/if}
+

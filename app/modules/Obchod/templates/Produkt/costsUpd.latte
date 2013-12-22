@@ -1,0 +1,16 @@
+{extends 'default.latte'}
+{block #drobecky4} » {$titul}{block #drobecky5}{/block}{/block}
+
+{block #content}
+
+<h1 n:block="title">{$titul}</h1>
+<h2>{$company}</h2>
+<h3>{$subtitle}</h3>
+
+{if $item}
+	<p>Opravdu chcete aktualizovat náklady produktu?</p>
+	{control costsUpdForm}
+
+{else}
+	<p>Produkt nebyl nalezen.</p>
+{/if}

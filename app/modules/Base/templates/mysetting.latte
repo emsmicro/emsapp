@@ -1,0 +1,54 @@
+
+{block #mysetting}
+  {if !$islogin}
+	<div id="mysetting">
+	{if !$ishome || $ishome}
+		{if $ifirma==0}
+			<a n:href="setCompany"><span><i>(Zvolte aktuálního zákazníka ...)</i></span></a>
+		{else}
+			<a n:href="setCompany" title="Změnit"><i>Nastavení:</i></a>
+			<a n:href="Firma:detail, $ifirma"><span title="{$afirma} ({$ifirma})">{$afirma|truncate:25}</span></a> »
+			{if $iosoba>0}
+				<a n:href="Osoba:detail, $iosoba"><span title="{$aosoba} ({$iosoba})">{$aosoba|truncate:25}</span></a> »
+			{else}
+				<a n:href="Osoba:people, $ifirma"><span><i>(kontakt)</i></span></a> »
+			{/if}
+			{if $inabidka>0}
+				<a n:if="$user->isAllowed('Nabidka','default')" n:href="Nabidka:default" title="Seznam nebídek"><i>nabídka:</i></a>
+				<a n:href="Nabidka:detail, $inabidka"><span title="{$anabidka} ({$inabidka})">{$anabidka|truncate:40}</span></a> »
+				{if $iprodukt>0}
+					<a n:if="$user->isAllowed('Produkt','default')" n:href="Produkt:default" title="Seznam produktů"><i>produkt:</i></a>
+					<a n:href="Produkt:detail, $iprodukt"><span title="{$aprodukt} ({$iprodukt})">{$aprodukt|truncate:45}</span></a> »
+					<a n:href="Material:default"><span title="Materiálový kusovník{$titBOM}">BOM{$cntBOM}</span></a> »
+					<a n:href="Operace:default"><span title="Technologický postup{$titTPV}">TPV{$cntTPV}</span></a>
+				{else}
+					<a n:href="setProduct, $ifirma"><span><i>(produkt nevybrán)</i></span></a>
+				{/if}
+			{else}
+				<a n:href="setOffer, $ifirma"><span><i>(nabídka nevybrána)</i></span></a>
+			{/if}
+			<a n:href="Firma:eraseSet" title="Zrušit setting"><span class="seterase">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
+		{/if}
+	{else}
+		{if $ifirma>0}
+			<i>Nastavení:</i> <span title={$ifirma}>{$afirma}</span> »
+			{if $iosoba>0}
+				<span title={$iosoba}>{$aosoba}</span> »
+			{else}
+				<span><i>(kontakt nevybrán)</i></span> »
+			{/if}
+			{if $inabidka>0}
+				<i>nabídka: </i><span title="{$anabidka} ({$inabidka})">{$anabidka|truncate:50} » </span>
+				{if $iprodukt>0}
+					<i>produkt: </i><span title="{$aprodukt} ({$iprodukt})">{$aprodukt|truncate:50}</span>
+				{else}
+					<span><i>(produkt nevybrán)</i></span>
+				{/if}
+			{else}
+				<span><i>(nabídka nevybrána)</i></span>
+			{/if}
+		{/if}
+	{/if}
+	</div>
+  {/if}
+{/block}

@@ -1,0 +1,102 @@
+{extends 'default.latte'}
+{block #drobecky4} » Nastavení přístupových práv{block #drobecky5}{/block}{/block}
+
+{block #content}
+<div class="manual">
+<div class="detail">
+	
+<h1 n:block="title">{$titul} "{$subtitul}"</h1>
+<div style="font-size:medium; margin-bottom: 15px;">Zvolte ty funkce, na které má mít role "{$subtitul}" právo.</div>
+
+
+{control setRightsForm begin}
+{control setRightsForm errors}
+
+
+	{var $i = 0}
+	{var $modul = ""}
+	{var $prese = ""}
+	{var $d = 0}
+	{foreach $items as $item}
+		{var $i++}
+		{if $item->modul <> $modul}
+			{if !$iterator->first}
+					<tr class="noborder">
+						<td colspan="2"></td>
+						<td colspan="2" class="tdcenter">
+							<span>{$control['setRightsForm']['save']->control}</span>
+							<span>{$control['setRightsForm']['cancel']->control}</span>
+						</td>
+					</tr>
+				</table>
+				</div>
+				<br />
+			{/if}
+			{var $d++}
+			<div id="xdiv_{$d}">
+			<table>
+				<tr>
+					<td colspan="2" style="background:#C1DAFF;color:#555;font-size:large;padding-left:10px;" title="Role">
+						<span style="font-size:small;"><i>Role:</i></span>
+						<b>{$subtitul}</b>
+					</td>
+					<td colspan="2" style="background:#C1DAFF;color:#091726;font-size:large;padding-left:10px;">
+						<span style="font-size:small;"><i>Modul:</i></span>
+						<b>{$item->modul}</b>
+						<span style="font-size:small; float:right;padding-right:8px;">Vše: {$control['setRightsForm']['chckall']->control}</span>
+					</td>
+				</tr>
+				<tr>
+					<th style="background:#4FA3F7;color:#FFF;text-align:left;padding-left:10px;">Agenda</th>
+					<th style="background:#4FA3F7;color:#FFF;text-align:left;padding-left:10px;">Funkce</th>
+					<th style="background:#4FA3F7;color:#FFF;text-align:left;padding-left:10px;min-width:420px;">Popis</th>
+					<th style="background:#4FA3F7;color:#FFF;">Povolit&nbsp;&nbsp;</th>
+				</tr>
+			{var $modul = $item->modul}
+		{/if}
+        <tr>
+			{if $item->presenter<>$prese}
+				<td rowspan="{$item->cntp}" class="ntext" style="font-size:medium;vertical-align:text-top;">
+					<b>{$item->presenter}</b>
+				</td>
+				{var $prese = $item->presenter}
+			{/if}
+			<td class="ntext">{$item->funkce}<span class="mini">&nbsp;({$item->id})</span></td>
+			<td class="ntext" style="min-width:300px;">{$item->popis}</td>
+			<td style="text-align:right;">
+				<span title="Povolit - {$item->popis}">
+					{$control['setRightsForm']['mpole']['yes_'.$item->id]->control}
+				</span>
+				&nbsp;
+			</td>
+        </tr>
+	{/foreach}
+		<tr class="noborder">
+			<td colspan="2"></td>
+			<td colspan="2" class="tdcenter">
+				<span>{$control['setRightsForm']['save']->control}</span>
+				<span>{$control['setRightsForm']['cancel']->control}</span>
+			</td>
+		</tr>
+		</div>
+</table>
+			
+{control setRightsForm end}
+
+</div>
+</div>
+
+<script type='text/javascript'>
+
+	function CheckAll()
+	{
+		alert('Spusteno');
+		return true;
+//		var dd = $(this).parents("div:first");
+//		var bb = $(this).parents('div').eq(0)
+//		alert(bb.name);
+//		var i = $("#panel :input")
+//		$(dd).children("INPUT[type='checkbox']").attr('checked', $('#' + id).is(':checked'));
+	}
+
+</script>

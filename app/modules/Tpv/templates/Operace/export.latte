@@ -1,0 +1,5 @@
+{extends none}
+idp;ido;nazev;popis;ta_min;tp_min;naklad
+{foreach $items as $it}
+{$idp};{$it->id};{$it->nazev|iconv};{$it->popis|iconv};{$it->ta_cas|number:2:',':' '};{$it->tp_cas|number:2:',':' '};{$it->naklad|number:2:',':' '}
+{/foreach}

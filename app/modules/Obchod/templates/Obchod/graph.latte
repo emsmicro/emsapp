@@ -1,0 +1,129 @@
+<script type="text/javascript" src="{$basePath}/js/highcharts.js"></script>
+<script type="text/javascript" src="{$basePath}/js/themes/gray.js"></script>
+<script type="text/javascript">
+
+	{if $data_bar<>''}
+		var chart2;
+			$(document).ready(function() {
+				chart2 = new Highcharts.Chart({
+					chart: {
+						renderTo: 'container',
+						defaultSeriesType: 'bar',
+						backgroundColor: 'transparent',
+					},
+					title: {
+						text: 'Stav nabídek',
+						style: {
+							color: '#FFF'
+						},
+					},
+                    credits: {
+                          enabled: false
+                    },
+					xAxis: {
+						labels: {
+							style: {
+								color: '#C48400'
+							},
+						},
+						categories: {!$catg_bar}
+					},
+					yAxis: {
+						min: 0,
+						labels: {
+							style: {
+								color: '#C48400'
+							},
+						},
+						title: {
+							text: 'Počet nabídek',
+							style: {
+								color: '#FFF'
+							},
+						}
+					},
+					legend: {
+						backgroundColor: 'transparent',
+						style: {
+							color: '#FFF'
+						},
+						reversed: true
+					},
+					tooltip: {
+						formatter: function() {
+							return ''+
+								 this.point.name +': '+ this.y +'';
+						}
+					},
+					plotOptions: {
+						series: {
+							stacking: 'normal',
+							colorByPoint: true
+						}
+					},
+				     series: [{ 
+						name: 'Počet',
+						data: {!$data_bar} 
+					}]
+				});
+			});			
+			
+		{/if}
+			
+		{if $data<>""}
+
+			var chart;
+			$(document).ready(function() {
+				chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'container2',
+						backgroundColor: 'transparent',
+						plotBorderWidth: null,
+						plotShadow: false
+					},
+					title: {
+						text: 'Skladba ceny: <b>{!$nproduct}</b>',
+						style: {
+							color: '#FFF'
+						},
+					},
+                    credits: {
+                          enabled: false
+                    },
+					tooltip: {
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ Math.round(this.percentage*10)/10 +' %';
+						}
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							size: 190,
+							dataLabels: {
+								enabled: true,
+								color: '#FFF',
+								connectorWidth: 0,
+								connectorColor: '#FFF',
+								distance: 5,
+								formatter: function() {
+									return this.point.name +': '+ Math.round(this.percentage*10)/10 +' %';
+								},
+								style: {
+									padding: 3,
+									fontSize: '10px'
+								},
+							}
+						}
+					},
+				    series: [{
+						type: 'pie',
+						name: 'ceny',
+						data: {!$data}
+					}]
+				});
+			});
+			
+		{/if}
+	
+</script>

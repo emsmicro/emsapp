@@ -1,0 +1,6 @@
+/temp/
+/DB_data/
+/app/config/config.local.neon
+/app/config/config.neon
+/log/
+/app/config/config.local1.neon

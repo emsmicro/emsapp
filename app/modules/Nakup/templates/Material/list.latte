@@ -1,0 +1,157 @@
+{extends '../Nakup/default.latte'}
+{block #drobecky3} » <a n:href="default">Materiál</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+<h2 n:block="title">{$titul}</h2>
+
+<div id="setstat">
+	{var $title3=""}
+	{var $title6=""}
+	{var $activ3=""}
+	{var $activ6=""}
+	<span class="mini">Stav produktu:</span>
+		<span class="mini">
+		{foreach $stavy3 as $st3}
+			{$st3->zkratka}, 
+			{$st3->datzmeny|date:'%d.%m.%Y %H:%I:%S'}, 
+			{$st3->username}.
+			{var $activ3="active"}
+			{var $title3=$st3->zkratka, $st3->datzmeny|date:'%d.%m.%Y %H:%I:%S', $st3->username.}
+		{/foreach}
+		</span>
+		<span class="mini">
+		{foreach $stavy6 as $st6}
+			{$st6->zkratka}, 
+			{$st6->datzmeny|date:'%d.%m.%Y %H:%I:%S'}, 
+			{$st6->username}.
+			{var $activ6="active"}
+			{var $title6=$st6->zkratka, $st6->datzmeny|date:'%d.%m.%Y %H:%I:%S', $st6->username.}
+		{/foreach}
+		</span>
+	{if $title3==""}
+		{var $title3="Nastavit status: Čekání na ocenění."}
+	{/if}
+	{if $title6==""}
+		{var $title6="Nastavit status: Materiál oceněn."}
+	{/if}
+	<ul n:if="$user->isAllowed('Material','changeStatus')" id="navstat">
+		<li class="{$activ3}"><a n:href="changeStatus, $idp, 3" title="{$title3}">Čekám na ceny</a>
+		</li>
+		<li class="{$activ6}"><a n:href="changeStatus, $idp, 6" title="{$title6}">Oceněno</a>
+		</li>
+	</ul>
+</div>
+
+<ul id="navi">
+	{if $is_rows}
+		{if $co==1}
+			<li n:if="$user->isAllowed('Material','list')" class="active">
+				<a n:href="list,1">Neoceněné položky</a>
+			</li>
+		{else}
+			<li n:if="$user->isAllowed('Material','list')">
+				<a n:href="list,1">Neoceněné položky</a>
+			</li>
+		{/if}
+		{if $co==2}
+			<li n:if="$user->isAllowed('Material','list')" class="active">
+				<a n:href="list,2">Oceněné položky</a>
+			</li>
+		{else}
+			<li n:if="$user->isAllowed('Material','list')">
+				<a n:href="list,2">Oceněné položky</a>
+			</li>
+		{/if}
+	{/if}
+	<li n:if="$user->isAllowed('Material','default')">	<a n:href="default">Všechno</a></li>
+	<li n:if="$user->isAllowed('Import','default')">	<a n:href="Import:default">Import BOM z CSV</a></li>
+	<li n:if="$user->isAllowed('Kurz','default')">		<a n:href="Kurz:default">Kurzy</a></li>
+</ul>
+
+
+{if $is_rows}
+
+	{* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
+	{var $cond = $user->isAllowed('Material','add') || $user->isAllowed('Material','edit') || $user->isAllowed('Material','delete')}
+
+	<table class="grid" style="width:100%;">
+	<tr>
+		<th>Zkratka</th>
+		<th>Název</th>
+		<th>K2 číslo</th>
+		<th>Cena v Kč</th>
+		<th>Počet</th>
+		<td n:if="$cond" class="takce"><a n:if="$user->isAllowed('Material','add')" n:href="add">Přidat záznam</a></td>
+	</tr>
+
+	{foreach $items as $it}
+	<tr>
+		{if $it->id_k2}
+			<td title="Detail: {$it->id}">
+				{if $user->isAllowed('Material','detail')}
+					<a n:href="detail, $it->id">{$it->zkratka}</a>
+				{else}
+					{$it->zkratka}
+				{/if}
+			</td>
+		{else}
+			<td  title="Detail: {$it->id}" class="redlight">
+				{if $user->isAllowed('Material','detail')}
+					<a n:href="detail, $it->id">{$it->zkratka}</a>
+				{else}
+					{$it->zkratka}
+				{/if}
+			</td>
+		{/if}
+		<td>
+			{$it->nazev}
+			{if $user->isAllowed('K2','find')}
+				&nbsp;<a n:href="K2:find, $it->id" title="Najít v K2">&#x25B7;</a>&nbsp;
+			{/if}
+		</td>
+		{if $it->id_k2}
+			<td class="tcislo">
+				{if $user->isAllowed('K2','find')}
+					<a n:href="K2:find, $it->id, $it->id_k2,'N'" title="Info z K2">{$it->id_k2}</a>
+				{else}
+					{$it->id_k2}
+				{/if}
+			</td>
+		{else}
+			<td style="text-align:center; padding:0; margin:0;">
+				<span n:if="$user->isAllowed('K2','find')" class="icon20">
+					<a n:href="K2:find, $it->id" title="Najít v K2">&nbsp&nbsp;</a>
+				</span>
+			</td>
+		{/if}
+		{if $it->cena_kc <> $it->cena_cm}
+			<td class="tcislo"><span n:if="$it->cena_kc>0" class="look" 
+					title="{$it->cena_cm|number:6:',':' '} {$it->mena}">
+				{$it->cena_kc|number:4:',':' '}</span>
+			</td>
+		{else}
+			<td class="tcislo">
+				<span n:if="$it->cena_kc>0" title="{$it->cena_cm|number:6:',':' '}">
+					{$it->cena_kc|number:4:',':' '}
+				</span>
+			</td>
+		{/if}
+		<td class="tcislo">
+			{$it->mnozstvi|number:0:',':' '}
+		</td>
+		<td n:if="$cond" class="takce">
+			<a n:if="$user->isAllowed('Material','edit')" n:href="edit, $it->id">Změnit</a>
+			<a n:if="$user->isAllowed('Material','delete')" n:href="delete, $it->id">Odstranit</a>
+		</td>
+	</tr>
+	{/foreach}
+	
+	</table>
+	
+	{* paginator *}
+	{control vp}
+	<div>
+		<span class="mini"><i>(Podtržené ceny mají cenu v cizí měně, která se zobrazí po najetí kurzorem myši nad cenu v Kč.)</i></span>
+	</div>
+{/if}
