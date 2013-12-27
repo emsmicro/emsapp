@@ -1332,6 +1332,7 @@ background-color: #FFFFFF;
 	position: relative;
 	float: left;
 	padding: 0;
+	z-index: 1;
 }
 #navi UL
 {

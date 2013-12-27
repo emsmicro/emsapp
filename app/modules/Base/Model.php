@@ -6,7 +6,8 @@
 
 use Nette\DI\Container;
 
-class Model extends DibiRow
+class Model extends DibiRow 
+
 {
 	/** @var Dibi\Connection */
 	public $CONN;		// connection object
@@ -21,12 +22,15 @@ class Model extends DibiRow
 		$this->CONN = dibi::getConnection();
 	}
 
-
-	public function createAuthenticatorService()
+	/**
+	 * Create authenticator - list of users
+	 * @return \Authenticator
+	 */
+	public function createAuthenticator()
 	{
-		$autent = new Authenticator($this->CONN->dataSource('SELECT u.*, r.nazev [nrole] FROM users u LEFT JOIN role r ON u.role=r.id'));
-		return $autent;
-
+		return new Authenticator($this->CONN->dataSource(
+				"SELECT u.*, r.nazev [nrole] FROM users u LEFT JOIN role r ON u.role=r.id"
+				));
 	}
 
 	/**
@@ -38,11 +42,24 @@ class Model extends DibiRow
 		return new DibiDataSource($name, $connection);
 	}
 
+	/**
+	 * UPDATE table obecný číselník
+	 * @param type $table
+	 * @param type $id
+	 * @param type $data
+	 * @return type
+	 */
 	public function updateCis($table, $id, $data = array())
 	{
 		return $this->CONN->update($table, $data)->where('id=%i', $id)->execute();
 	}
 
+	/**
+	 * INSERT into table obecný číselník
+	 * @param type $table
+	 * @param type $data
+	 * @return type
+	 */
 	public function insertCis($table, $data = array())
 	{
 		return $this->CONN->insert($table, $data)->execute(dibi::IDENTIFIER);

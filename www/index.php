@@ -11,14 +11,15 @@ define('WWW_DIR', dirname(__FILE__));
 define('APP_DIR', WWW_DIR . '/../app');
 
 // absolute filesystem path to the libraries
-//define('LIBS_DIR', WWW_DIR . '/../../lib');
+define('LIBS_DIR', WWW_DIR . '/../../lib');
+define('UPL_DIR', WWW_DIR . '/../uploads');
 
 // absolute filesystem path to the application, libs, log, upload dir
-//$params['appDir'] = realpath(__DIR__ . '/../app');
-//$params['libsDir'] = realpath(__DIR__ . '/../../lib');
-//$params['logDir'] = realpath(__DIR__ . '/../log');
-//$params['uplDir'] = realpath(__DIR__ . '/uploads');
-//$params['tempDir'] = realpath(__DIR__ . '/../temp');
+//$parameters['appDir'] = realpath(__DIR__ . '/../app');
+$parameters['libsDir'] = realpath(__DIR__ . '/../../lib');
+//$parameters['logDir'] = realpath(__DIR__ . '/../log');
+$parameters['uplDir'] = realpath(__DIR__ . '/uploads');
+//$parameters['tempDir'] = realpath(__DIR__ . '/../temp');
 
 // Let bootstrap create Dependency Injection container.
 // load bootstrap file

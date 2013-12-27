@@ -41,11 +41,13 @@ abstract class SecuredPresenter extends BasePresenter
 	{
 
         if (!$this->user->isLoggedIn()) {
-            if ($this->user->getLogoutReason() === Nette\Http\User::INACTIVITY) {
+            if ($this->user->getLogoutReason() === Nette\Http\UserStorage::INACTIVITY) {
 				$this->flashMessage('Uplynula doba neaktivity! Systém vás z bezpečnostných důvodů odhlásil.', 'warning');
-            }
+            } else {
+				$this->flashMessage('Je třeba se do systému přihlásit.', 'exclamation');
+			}
 
-            $backlink = $this->getApplication()->storeRequest();
+            $backlink = $this->getPresenter()->storeRequest();
             $this->redirect('Sign:in', array('backlink' => $backlink));
 			return false;
 

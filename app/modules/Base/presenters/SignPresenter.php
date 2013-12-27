@@ -40,9 +40,8 @@ class SignPresenter extends BasePresenter
 		try {
 			$values = $form->values;
 			$this->user->login($values->username, $values->password);
-			$this->application->restoreRequest($this->backlink);
-
-			$this->getPresenter()->getApplication()->restoreRequest($this->getPresenter()->backlink);
+			$this->getPresenter()->restoreRequest($this->backlink);
+			$this->getPresenter()->restoreRequest($this->getPresenter()->backlink);
 			$module = $this->user->getRoles();
 			$bmodule = $module[0];
 			if(in_array($bmodule, array('guest','Admin'))){

@@ -7,7 +7,7 @@ require __DIR__ . '/../../lib/autoload.php';
 $configurator = new Nette\Config\Configurator;
 
 // Enable Nette Debugger for error visualisation & logging
-$configurator->setDebugMode(TRUE);
+//$configurator->setDebugMode(TRUE);
 $configurator->enableDebugger(__DIR__ . '/../log');
 
 // Specify folder for cache
@@ -27,9 +27,13 @@ $container = $configurator->createContainer();
 //dd($container,'Nette Kontejner');
 
 // create DB connection
-dibi::connect($container->params['database']);
+dibi::connect($container->parameters['database']);
 
-//dibi::getProfiler()->setFile($params['logDir'] .'\log.sql');
+//dibi::getProfiler()->setFile($parameters['logDir'] .'\log.sql');
+
+//DateInput register
+Vodacek\Forms\Controls\DateInput::register();
+
 
 return $container;
 

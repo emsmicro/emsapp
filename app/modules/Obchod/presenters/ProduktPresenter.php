@@ -150,12 +150,12 @@ class ProduktPresenter extends ObchodPresenter
 	 */
 	 function actionToPdf($id = 0) {
 
-        $template = $this->createTemplate()->setFile($this->context->params['appDir'] . "/modules/Obchod/templates/Produkt/toPdf.latte");
+        $template = $this->createTemplate()->setFile($this->context->parameters['appDir'] . "/modules/Obchod/templates/Produkt/toPdf.latte");
 
 		$instance = new Produkt;
 		$item = $instance->find($id)->fetch();
 
-		$template->dirm = $this->context->params['appDir'] ."/../../lib";
+		$template->dirm = $this->context->parameters['appDir'] ."/../../lib";
 		$template->company = $this->company['name'];
 		$template->item = $item;
 	   	$template->titul = $item->nazev;
@@ -701,7 +701,7 @@ class ProduktPresenter extends ObchodPresenter
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
-		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
+		$form->onSuccess[] = array($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
 		return $form;

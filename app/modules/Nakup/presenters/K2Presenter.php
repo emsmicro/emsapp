@@ -19,7 +19,7 @@ class K2Presenter extends NakupPresenter
 	public function startup()
 	{
 		parent::startup();
-		$k2param = $this->getContext()->params['k2'];
+		$k2param = $this->getContext()->parameters['k2'];
 		$instance = new K2($k2param);
 		$this->k2param = $k2param;
 		$items = $instance->show();

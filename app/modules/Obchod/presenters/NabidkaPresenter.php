@@ -196,7 +196,7 @@ class NabidkaPresenter extends ObchodPresenter
 		}
 		$template->firma = $afirma;
 		$template->today = date('d.m.Y');
-        $pdf = new PDFResponse($template);
+        $pdf = new PdfResponse\PdfResponse($template);
         // Název dokumentu
         $pdf->documentTitle = "Nabídka: $template->titul";
         // Dokument vytvořil:

@@ -170,7 +170,7 @@ class ImportPresenter extends MaterialPresenter
 				 }
                  if ($file->isOK())
                  {
-                        $file->move($this->context->params['uplDir'] . '/' . $file->name);
+                        $file->move($this->context->parameters['uplDir'] . '/' . $file->name);
 						$this->redirect('check',$file->name);
                  }
                  else

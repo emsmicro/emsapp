@@ -34,19 +34,19 @@ abstract class BasePresenter extends Presenter
 		$this->context = $context;
 
 		$is_todo = false;
-		if(isset($context->params['myvar']['todos'])){
-			$tdpar = $context->params['myvar']['todos'];
+		if(isset($context->parameters['myvar']['todos'])){
+			$tdpar = $context->parameters['myvar']['todos'];
 			$is_todo = true;
 			$this->is_todo = $is_todo;
 		}
-		if(isset($context->params['company'])){
-			$this->company = $context->params['company'];
+		if(isset($context->parameters['company'])){
+			$this->company = $context->parameters['company'];
 		}
-		if(isset($context->params['mypar'])){
-			$this->mypar = $context->params['mypar'];
+		if(isset($context->parameters['mypar'])){
+			$this->mypar = $context->parameters['mypar'];
 		}		
-		if(isset($context->params['stroje'])){
-			$this->stroje = $context->params['stroje'];
+		if(isset($context->parameters['stroje'])){
+			$this->stroje = $context->parameters['stroje'];
 		}		
 		$session = $context->session;
 		if(!$session->isStarted()){$session->start();}
