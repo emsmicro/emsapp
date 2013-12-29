@@ -947,6 +947,13 @@ class Kalkul extends Model
 				$aval[$ic]['avalbest']	= false;
 				$aval[$ic]['id_cena']	= $ic;
 				$aval[$ic]['c_poradi']	= $i;
+				if($aval[$ic]['trzba']>1000000){
+					$aval[$ic]['factor'] = 6;
+				} elseif ($aval[$ic]['trzba']>10000){
+					$aval[$ic]['factor'] = 3;
+				} else {
+					$aval[$ic]['factor'] = 0;
+				}
 				$aval[$ic]['datagraf']	=  "[['Materiál',".round($matnproc,2)."],['Výr. služby',".round($sluzproc,2)."],['Spr. režie',".round($sprvproc,2)."],['Zisk',".round($ziskproc,2)."]]";
 
 				$Nmater = round($aval[$ic]['maternak'],2);
@@ -1116,6 +1123,13 @@ class Kalkul extends Model
 			$aval[$ic]['avalbest']	= false;
 			$aval[$ic]['id_cena']	= $ic;
 			$aval[$ic]['c_poradi']	= $i;
+			if($aval[$ic]['trzba']>1000000){
+				$aval[$ic]['factor'] = 6;
+			} elseif ($aval[$ic]['trzba']>10000){
+				$aval[$ic]['factor'] = 3;
+			} else {
+				$aval[$ic]['factor'] = 0;
+			}
 			$aval[$ic]['datagraf']	=  "[['Material',".round($matnproc,2)."],['Výr. služby',".round($sluzproc,2)."],['Spr. režie',".round($sprvproc,2)."],['Zisk',".round($ziskproc,2)."]]";
 
 			$Nmater = round($aval[$ic]['maternak'],2);
@@ -1227,6 +1241,15 @@ class Kalkul extends Model
 		$data['zisk_svr'] = $data['kalkzisk'] + $data['spravrez'] + $data['vyreznak'];
 		$data['mater_zr'] = $data['trzbamat'];
 		$data['zasobrez'] = $data['trzbamat']-$data['maternak'];
+
+		if($data['trzba']>1000000){
+			$data['factor'] = 6;
+		} elseif ($data['trzba']>10000){
+			$data['factor'] = 3;
+		} else {
+			$data['factor'] = 0;
+		}
+		
 		
 		$Nmater = round($data['maternak'],2);
 		$Nstroj = round($data['strojnak'],2);

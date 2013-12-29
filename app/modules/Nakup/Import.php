@@ -267,13 +267,13 @@ class Import extends Material
 	
 	public function goImport($csv, $pairs, $id_product, $isskip1){
 		$data = $this->arrayOfCsv($csv, 0, $isskip1);
-//		dd($data);
-//		dd($pairs);
+//		dd($data, 'DATA');
+//		dd($pairs, 'PARY');
 //		var_dump($data);
 //		exit;
 		// transakční zpracování
 		$this->CONN->begin();
-		
+		$meny = $this->getMeny();
 		try {		
 			
 			$this->deleteVazby($id_product);
@@ -296,6 +296,9 @@ class Import extends Material
 						} elseif($dbfield=='zkratka') {
 	//						$matdata[$dbfield] = '[' . $id_product . '] ' . $dbvalue;
 							$matdata[$dbfield] = $dbvalue;
+						} elseif($dbfield=='mena') {
+							$matdata['id_meny'] = $this->getIdCurrencyByName($dbvalue, $meny);			//defaultní měna je Kč
+							//$matdata[$dbfield] = $dbvalue;
 						} else {
 							$matdata[$dbfield] = $dbvalue;
 						}
@@ -303,11 +306,12 @@ class Import extends Material
 						$kusdata[$dbfield] = $dbvalue;
 					}
 				}
+				
 				$matdata['zkratka'] = substr($matdata['zkratka'],0,60);   //zkrácení zkratky na 60 znaků
-				$matdata['id_meny'] = 1;			//měna je Kč
 				$matdata['id_merne_jednotky'] = 1;	//MJ je ks
 				$kusdata['id_vyssi'] = $id_product;
 				if($matdata){
+//					dd($matdata,'MATDATA');
 					$id_material = $this->insertMaterial($matdata);
 					if($kusdata && $id_material){
 						$kusdata['id_material'] = $id_material;
@@ -318,6 +322,7 @@ class Import extends Material
 				unset($matdata);
 				unset($kusdata);
 			}
+//			exit();
 			$this->CONN->commit();
 			return $cnt;
 	
@@ -329,6 +334,19 @@ class Import extends Material
 		
 	}
 	
+	private function getIdCurrencyByName($curr, $meny = array()){
+		if($curr<>''){
+			$curr = strtoupper($curr);
+			foreach($meny as $mena){
+				$pos1 = strpos($mena->mena, $curr);
+				$pos2 = strpos($curr, $mena->mena);
+				if($pos1 !== FALSE or $pos2 !== FALSE){
+					return $mena->id;
+				}
+			}
+		}
+		return 1;	// default = 1 = CZK
+	}
 	/**
 	 * Insert data into table material
 	 * @param type $data

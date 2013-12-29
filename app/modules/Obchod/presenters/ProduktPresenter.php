@@ -138,8 +138,10 @@ class ProduktPresenter extends ObchodPresenter
 		$data_bar = $instance->getProdPrice4BarGraph($id);
 		if($ida>0){
 			$this->template->data_bar = $aval[$ida]['databar'];
+			$this->template->factor = $aval[$ida]['factor'];
 		} else {
 			$this->template->data_bar = $data_bar;
+			$this->template->factor = 0;
 		}
 
 	}

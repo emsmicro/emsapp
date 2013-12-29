@@ -38,7 +38,7 @@ class Material extends Model
 					$cond = "v.id_vyssi=$idp";
 					break;
 				}
-				case 9:  //all
+				case abs($what)>7:  //all
 				{
 					$sql_cmd = "SELECT m.*, v.*, me.zkratka [mena] FROM material m 
 												LEFT JOIN vazby v ON m.id=v.id_material 
@@ -96,7 +96,7 @@ class Material extends Model
 			}
 		}
 		$ordsql = '';
-		$ordfil = 'cena_kc DESC';
+		$ordfil = $what == -9 ? 'cena_kc DESC' : 'cena_kc ASC';
 		$ordovr = 'm.id';
 		if($what < 0){
 			$ordsql = ' ORDER BY '.$ordfil;
@@ -113,9 +113,6 @@ class Material extends Model
 		} else {
 			//implementace stránkování
 			$sql_pgs = $this->pagedSql($sql_cmd.$cond, '', $ordovr);
-			//dd($ordovr,'SQL ord over');
-			//var_dump($sql_pgs);
-			//exit;
 			$rslt = $this->CONN->query($sql_pgs);
 		}
 		return $rslt->fetchAll();

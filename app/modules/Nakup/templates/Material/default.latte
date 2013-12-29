@@ -155,9 +155,19 @@
 		<th>Název</th>
 		<th style="text-align:center;">K2 číslo</th>
 		<th style="text-align:center;">Počet</th>
-		<th style="text-align:right;"><u><a n:href="default, $idp, -9" title="Setřídit sestupně">Nákup [Kč]</a></u></th>
+		<th style="text-align:right; position:relative; padding-right: 15px;">
+			Nákup [Kč] &nbsp;
+			<span class="cmdord">
+			<ul>
+			<li><a n:href="default, $idp, -8" title="Setřídit vzestupně">&#x25B2;</a></li>
+			<li><a n:href="default, $idp, -9" title="Setřídit sestupně">&#x25BC;</a></li>
+			</ul>
+			</span>
+			<span><a style="margin:0; padding: 0; position: relative; left:12px;" n:href="default, $idp" title="Setřídit dle ID">&#x25B6;</a></span>
+		</th>
+		<th style="text-align:right;">Nákup [měna]</th>
 		<th style="text-align:right;">Prodej [Kč]</th>
-		<th n:if="!$noAltProdej" style="text-align:right;">Prodej alt.</th>
+		<th n:if="!$noAltProdej" style="text-align:right;" title="Prodejní cena dle odstupňované marže.">Prodej alt.</th>
 		<th n:if="!$noAltProdej" style="text-align:right;" title="Diference alternativní ceny k prodejní.">Diference</th>
 		<td n:if="$cond and $unlocked" class="takce">
 			<span class="setadd" title="Přidat novou položku"><a n:if="$user->isAllowed('Material','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
@@ -216,9 +226,10 @@
 		<td class="tcislo">
 			{$it->mnozstvi|number:0:',':' '}
 		</td>
-		{if $it->cena_kc <> $it->cena_cm}
+		{if $it->cena_kc <> $it->cena_cm AND $it->cena_kc > 0 AND $it->cena_cm > 0}
+			{var $kurz = $it->cena_kc / $it->cena_cm}
 			<td class="tcislo"><span n:if="$it->cena_kc>0" class="look" 
-					title="{$it->cena_cm|number:6:',':' '} {$it->mena}">
+					title="{$kurz|number:4:',':' '} Kč/{$it->mena}">
 				{$it->cena_kc|number:4:',':' '}</span>
 			</td>
 			{var $cm++}
@@ -229,6 +240,9 @@
 				</span>
 			</td>
 		{/if}
+			<td class="tcislo">
+				{$it->cena_cm|number:5:',':' '} {$it->mena}
+			</td>
 		{if $it->cena_kc2 <= 0}
 			<td class="tcislo tselorange" title="Tato cena není uložena v databázi.">
 				<span>
@@ -302,7 +316,7 @@
 	{control vp}
 	<div>
 		{if $cm>0}
-			<span class="mini"><i>(Podtržené ceny mají cenu v cizí měně, která se zobrazí po najetí kurzorem myši nad cenu v Kč.)</i></span>
+			<span class="mini"><i>(Podtržené ceny mají cenu v cizí měně, kurz této měny se zobrazí po najetí kursorem myši nad cenu v Kč.)</i></span>
 		{/if}
 	</div>
 {/if}

@@ -9,7 +9,18 @@
 	Vstupní soubor pro import materiálové rozpisky (BOM) musí být ve formátu CSV. Jednotlivá pole musí být oddělena středníkem a textová pole nesmí být v uvozovkách či apostrofech.<br />
 	Pokud používáte MS Excel pro uložení dat do CSV, vyberte oblast dat (bez prázdných řádků a sloupců) a zvolte uložit jako "CSV (oddělený středníkem)".
 </div>	
-
+<div class="flash information">
+	Je vhodné, když vstupní CSV soubor bude mít sloupce popsány následovně:<br />
+	<ul>
+	<li><b>zkratka*</b> (Zkratka)</li>
+	<li><b>nazev*</b> (Název)</li>
+	<li><b>id_k2</b> (Číslo K2)</li>
+	<li><b>mena</b> (Měna - název)</li>
+	<li><b>cena</b> (Cena [mena/ks])</li>
+	<li><b>mnozstvi*</b> (Množství)</li>
+	</ul>
+	<p class="midi"><i>* údaje jsou povinné</i></p>
+</div>
 <p></p>
 
 {control uploadForm}

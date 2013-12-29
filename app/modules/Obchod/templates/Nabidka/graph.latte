@@ -1,18 +1,26 @@
 <script type="text/javascript">
 		
-$(function () {
-//		Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
-//		    return {
-//		        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
-//		        stops: [
-//		            [0, color],
-//		            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')] // darken
-//		        ],
-//		    };
-//		});
-		
-		var colors = Highcharts.getOptions().colors;
-		
+$(function () {		
+		var colors = Highcharts.getOptions().colors,
+			factor = {$sval['factor']}, 
+			fact_name = '',
+			fact_zkr = '';
+			
+		switch (factor)
+		{
+		case 3: 
+			fact_name = ' tis.';
+			fact_zkr = ' K';
+			break
+		case 6: 
+			fact_name = ' mil.';
+			fact_zkr = ' M';
+			break
+		default: 
+			fact_name = '';
+			fact_zkr = '';
+		}				
+					
 		Highcharts.setOptions({
 			lang: {
 				decimalPoint: ',',
@@ -22,7 +30,7 @@ $(function () {
 
 		<!-- Bar Graph # 1 -->
 			
-		$('#container_graph').highcharts({
+		$('#container_graph1').highcharts({
 				chart: {
 						type: 'bar',
 						borderColor: 'none',
@@ -58,7 +66,7 @@ $(function () {
 					tooltip: {
 						formatter: function() {
 							return ''+
-								 this.series.name +': '+ Highcharts.numberFormat(this.y/1000,0) +' tis. Kč ('+ Math.round(this.percentage*10)/10 +'%)';
+								 this.series.name +': '+ Highcharts.numberFormat(this.y/Math.pow(10,factor),2) + fact_name +' Kč ('+ Math.round(this.percentage*10)/10 +'%)';
 						}
 					},
 					plotOptions: {
@@ -73,7 +81,7 @@ $(function () {
 								rotation: 270,
 								formatter: function() {
 									return ''+
-										Highcharts.numberFormat(this.y/1000000,2) +' M';
+										Highcharts.numberFormat(this.y/Math.pow(10,factor),2) + fact_zkr ;
 								}
 							},
 						},
@@ -119,7 +127,7 @@ $(function () {
 					tooltip: {
 						formatter: function() {
 							return ''+
-								 this.series.name +': '+ Highcharts.numberFormat(this.y/1000,0) +' tis. Kč ('+ Math.round(this.percentage*10)/10 +'%)';
+								 this.series.name +': '+ Highcharts.numberFormat(this.y/Math.pow(10,factor),2) + fact_name +' Kč ('+ Math.round(this.percentage*10)/10 +'%)';
 						}
 					},
 					plotOptions: {
@@ -134,7 +142,7 @@ $(function () {
 								rotation: 270,
 								formatter: function() {
 									return ''+
-										Highcharts.numberFormat(this.y/1000000,2) +' M';
+										Highcharts.numberFormat(this.y/Math.pow(10,factor),2) + fact_zkr;
 								}
 							},
 						},

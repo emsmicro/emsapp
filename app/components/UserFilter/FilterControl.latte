@@ -1,13 +1,47 @@
 {*control filterForm*}
 
 {* Manuální vykreslení formuláře, ekvivalent $control->getComponent('filterForm')->render() *}
+<style>
+	.findbox {
+		position:absolute;
+		z-index:2;
+		float:right;
+		top:10px;
+		right:35px;
+		padding:0;
+		margin:0;
+	}
+	.findbutt {
+		position:absolute;
+		float:right;
+		min-width:30px;
+		max-width:30px;
+		right:-6px;
+		top:0px;
+		font-weight:normal; 
+		background: #cbe3ba;
+		background-image: url({$basePath}/images/search.png); /* fallback */
+		background-image: url({$basePath}/images/search.png), -webkit-gradient(linear, left top, left bottom, from(#cbe3ba), to(#a6cc8b)); /* Saf4+, Chrome */
+		background-image: url({$basePath}/images/search.png), -webkit-linear-gradient(top, #cbe3ba, #a6cc8b); /* Chrome 10+, Saf5.1+ */
+		background-image: url({$basePath}/images/search.png),    -moz-linear-gradient(top, #cbe3ba, #a6cc8b); /* FF3.6+ */
+		background-image: url({$basePath}/images/search.png),     -ms-linear-gradient(top, #cbe3ba, #a6cc8b); /* IE10 */
+		background-image: url({$basePath}/images/search.png),      -o-linear-gradient(top, #cbe3ba, #a6cc8b); /* Opera 11.10+ */
+		background-image: url({$basePath}/images/search.png),         linear-gradient(top, #cbe3ba, #a6cc8b); /* W3C */		
+		height: 30px;
+	}
+	.findtext {
+		background:#FFF;
+		padding-left:5px;
+		padding-right:33px;
+		height: 30px;
+	}
+</style>
 
-
-<div style="position:absolute;z-index:2;float:right;top:10px;right:40px;padding:0;margin:0;">
+<div class="findbox">
 	
 	{form filterForm class => 'hledat', autocomplete => "off", style => 'width:245px;'}
-		{input filter class => 'text', autofocus => TRUE, onClick => 'this.select();', style => 'background:#FFF;padding-left:5px;padding-right:33px;'}
-		{input setfilter class => 'button', style => 'position:absolute;float:right;min-width:30px;max-width:30px;right:-36px;top:0px;font-weight:normal; background-image: url(../images/search.png), -webkit-gradient(linear, left top, left bottom, from(#cbe3ba), to(#a6cc8b));'}
+		{input filter class => 'text', autofocus => TRUE, onClick => 'this.select();', class => 'findtext'}
+		{input setfilter class => 'button', class => 'findbutt'}
 	{/form}
 	
 </div>

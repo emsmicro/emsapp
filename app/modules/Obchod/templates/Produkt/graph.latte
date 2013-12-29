@@ -2,8 +2,21 @@
 			
 $(function () {
 				
-		var colors = Highcharts.getOptions().colors;
-				
+		var colors = Highcharts.getOptions().colors,
+			factor = {$factor}, fact_name = '';
+			
+		switch (factor)
+		{
+		case 3: 
+			fact_name = ' tis.';
+			break
+		case 6: 
+			fact_name = ' mil.';
+			break
+		default: 
+			fact_name = '';
+		}
+
 		$('#container_graph').highcharts({
 				chart: {
 						type: 'bar',
@@ -39,7 +52,7 @@ $(function () {
 					tooltip: {
 						formatter: function() {
 							return ''+
-								 this.series.name +': '+ Highcharts.numberFormat(this.y/1000000,2) +' mil. Kč ('+ Highcharts.numberFormat(this.percentage,2) +'%)';
+								 this.series.name +': '+ Highcharts.numberFormat(this.y/Math.pow(10,factor),2) + fact_name +' Kč ('+ Highcharts.numberFormat(this.percentage,2) +'%)';
 						}
 					},
 					plotOptions: {
@@ -53,7 +66,7 @@ $(function () {
 								color: 'white',
 								//rotation: 270,
 								formatter: function() {
-									return (this.y>0 ? this.series.name.substring(0,1) + ' = '+Highcharts.numberFormat(this.y/1000000,2) +' mil. Kč' : '');
+									return (this.y>0 ? this.series.name.substring(0,1) + ' = '+Highcharts.numberFormat(this.y/Math.pow(10,factor),2) + fact_name +' Kč' : '');
 								}
 							},
 						},						

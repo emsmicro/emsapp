@@ -20,7 +20,8 @@ class ImportPresenter extends MaterialPresenter
 	private $npole = array( 'zkratka'       => 'Zkratka',
 							'nazev'         => 'Název',
 							'id_k2'         => 'Číslo K2',
-							'cena_cm'       => 'Cena [Kč/ks]',
+							'mena'			=> 'Měna (název)',
+							'cena_cm'       => 'Cena [mena/ks]',
 							'mnozstvi'      => 'Množství [ks]');
 	
 	public function startup()
@@ -62,6 +63,7 @@ class ImportPresenter extends MaterialPresenter
 		$data		= $import->dataOfCsv($csv, $cnt);
 		$radku		= $import->rowsOfCsv($csv);
 		$sloupcu	= $import->colsOfCsv($csv);
+		$meny		= $import->getMenyAsList();
 		$form = $this['checkForm'];
 		if (!$form->isSubmitted()) {
 			if ($head){
@@ -79,7 +81,8 @@ class ImportPresenter extends MaterialPresenter
 		$this->template->head	= $head;
 		$this->template->form	= $form;
 		$this->template->soubor = $file;
-		$this->template->pocet	= $cnt;
+		$this->template->meny	= $meny;
+		$this->template->pocet	= $radku<$cnt ? $radku : $cnt;
 		$this->template->titul	= "Načtený soubor: [" . $file . "]";
 
 	}
@@ -92,13 +95,14 @@ class ImportPresenter extends MaterialPresenter
 	{
 		//Confirm import CSV file
 		$import = new Import;
-		$poles = $import->fromCacheSome('prirazeni');
-		$head = (array) $import->fromCacheHead();
-		$i = 0;
-		$info = array();
-		$pair = array();
-		$inaz = 0;
-		$izkr = 0;
+		$meny	= $import->getMenyAsList();
+		$poles	= $import->fromCacheSome('prirazeni');
+		$head	= (array) $import->fromCacheHead();
+		$i		= 0;
+		$info	= array();
+		$pair	= array();
+		$inaz	= 0;
+		$izkr	= 0;
 		foreach($poles as $p){
 			$i++;
 			if($p){
@@ -124,6 +128,7 @@ class ImportPresenter extends MaterialPresenter
 		$import->toCacheSome('pairs', $pair);
 		$this->template->aprodukt = $this->getNameFromMySet(4);
 		$this->template->info = $info;
+		$this->template->meny = $meny;
 		$this->template->file = $import->fromCacheFile();
 		$this->template->isok = true;
         $this->template->titul = self::TITUL_CONFIRM;
@@ -142,7 +147,7 @@ class ImportPresenter extends MaterialPresenter
 		$form = new Form;
 		$form->addUpload('file', 'CSV soubor s rozpiskou:')
 				//->addRule(Form::MIME_TYPE, 'Zvolený soubor musí být ve formátu CSV.',array('text/csv','text/plain'))
-				->addRule(Form::MAX_FILE_SIZE, 'Maximální velikost souboru je 200 kB.', 200 * 1024 /* v bytech */);
+				->addRule(Form::MAX_FILE_SIZE, 'Maximální velikost souboru je 2 MB.', 2 * 1024 * 1024 /* v bytech */);
 		$form->addSubmit('save', 'Načíst')->setAttribute('class', 'default');
 		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
 		$form->onSuccess[] = callback($this, 'uploadFormSubmitted');
@@ -170,7 +175,7 @@ class ImportPresenter extends MaterialPresenter
 				 }
                  if ($file->isOK())
                  {
-                        $file->move($this->context->parameters['uplDir'] . '/' . $file->name);
+                        $file->move(UPL_DIR. '/' . $file->name);
 						$this->redirect('check',$file->name);
                  }
                  else
@@ -195,10 +200,10 @@ class ImportPresenter extends MaterialPresenter
 		$head = $imp->fromCacheHead();
 		// pomoc z fóra Container
         $mpole = $form->addContainer('mpole');
-        foreach(array_values($head) as $i => $v){
-                $mpole->addSelect($i, $v . ' »» ', $this->npole)
-						->setDefaultValue(0)
-                        ->setPrompt('[zvolte pole]');
+        foreach(array_values($head) as $k => $v){
+                $mpole->addSelect($k, $v . ' »» ', $this->npole)
+                        ->setPrompt('[zvolte pole]')
+						->setDefaultValue($this->defValSloupce($v));
         }		
 		$form->addCheckbox('skipfirst','Vynechat 1. řádek názvů');
 		$form->addSubmit('save', 'Importovat')->setAttribute('class', 'default');
@@ -209,6 +214,15 @@ class ImportPresenter extends MaterialPresenter
 		return $form;
 	}
 
+	private function defValSloupce($h) {
+		foreach($this->npole as $key => $val) {
+			$pos = strpos($key, $h);
+			if($pos !== FALSE){
+				return $key;
+			}
+		}
+		return NULL;
+	}
 	/**
 	 * after submitted CheckForm, filled empty columns when exists
 	 * @param Form $form
@@ -249,7 +263,8 @@ class ImportPresenter extends MaterialPresenter
 					//název nebo zkratka bude nahrazen polem zkratka resp. název
 				} else {
 					$chybi = substr($chybi, 0, strlen($chybi)-2);
-			        $form['save']->addError('Nejsou přiřazena všechna povinná pole: '.$chybi.'.');
+					$hlas = "Nejsou přiřazena všechna povinná pole: $chybi.";
+			        $form['save']->addError($hlas);
 				    return ;
 				}
 			}
@@ -258,7 +273,7 @@ class ImportPresenter extends MaterialPresenter
 			$this->redirect('confirm',$skip1);
 		} else {
 			$this->flashMessage('Import byl stornován.','exclamation');
-			$this->redirect('Nakup:default');
+			$this->redirect('Material:default');
 		}
 	}
 

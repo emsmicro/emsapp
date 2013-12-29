@@ -175,48 +175,52 @@ class Model extends DibiRow
 	}
 
 	public function getCompany() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev from firmy ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev FROM firmy ORDER BY id");
 		return $units;
 	}
 
 	public function getOsloveni() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev from osloveni ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev FROM osloveni ORDER BY id");
 		return $units;
 	}
 	public function getSetR() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev from set_sazeb ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev FROM set_sazeb ORDER BY id");
 		return $units;
 	}
 	public function getSetO() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev from set_sazeb_o ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev FROM set_sazeb_o ORDER BY id");
 		return $units;
 	}
 	public function getCurrency() {
-		$units = $this->CONN->fetchPairs("SELECT id, zkratka from meny ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, zkratka FROM meny ORDER BY id");
 		return $units;
 	}
+	public function getMeny() {
+		$units = $this->CONN->query("SELECT id, zkratka [mena] FROM meny ORDER BY id")->fetchAssoc('mena');
+		return $units;
+	}	
 	public function getCompanyKind() {
-		$units = $this->CONN->fetchPairs("SELECT id, zkratka from druhy_firem ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, zkratka FROM druhy_firem ORDER BY id");
 		return $units;
 	}
 	public function getCity() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev+' ('+psc+')' [obec] from obce ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev+' ('+psc+')' [obec] FROM obce ORDER BY id");
 		return $units;
 	}
 	public function getProvince() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev+' ('+zkratka+')' [kraj] from kraje ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev+' ('+zkratka+')' [kraj] FROM kraje ORDER BY id");
 		return $units;
 	}
 	public function getCountry() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev+' ('+zkratka+')' [stat] from staty ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev+' ('+zkratka+')' [stat] FROM staty ORDER BY id");
 		return $units;
 	}
 	public function getRole() {
-		$units = $this->CONN->fetchPairs("SELECT id, popis from role ORDER BY id");
+		$units = $this->CONN->fetchPairs("SELECT id, popis FROM role ORDER BY id");
 		return $units;
 	}
 	public function getOperationKind() {
-		$units = $this->CONN->fetchPairs("SELECT id, nazev from druhy_operaci ORDER BY poradi");
+		$units = $this->CONN->fetchPairs("SELECT id, nazev FROM druhy_operaci ORDER BY poradi");
 		return $units;
 	}
 	public function getOperationType($idd = 0) {
@@ -255,6 +259,15 @@ class Model extends DibiRow
 	public function getTariffType() {
 		$items = $this->CONN->fetchPairs("SELECT id, zkratka + ': ' + nazev [nazev] FROM typy_tarifu");
 		return $items;
+	}
+	
+	public function getMenyAsList() {
+		return $this->CONN->query("
+				DECLARE @CurrList nvarchar(max);
+				SET @CurrList = N'';
+				SELECT @CurrList+=zkratka+N', ' FROM meny;
+				SELECT LEFT(@CurrList,LEN(@CurrList)-1) [meny];
+				")->fetchSingle();
 	}
 	
 	/**

@@ -252,7 +252,7 @@
 			
 			{include 'graph.latte', cena_bar => $cena_bar, nakl_bar => $nakl_bar}
 
-			<div id="container_graph" style="margin: 0 auto; width: 95%; height: 200px; background: transparent;">
+			<div id="container_graph1" style="margin: 0 auto; width: 95%; height: 200px; background: transparent;">
 				<p style="color:darkred; font-size: large;text-align:center;">
 					<b>VYSKYTLA SE CHYBA - graf 1 nelze vykreslit</b>
 				</p>
@@ -275,6 +275,10 @@
 				<p style="color:darkred; font-size: large;text-align:center;">
 					<b>VYSKYTLA SE CHYBA - graf 3 nelze vykreslit</b>
 				</p>
+				<div style="display:block;width:100%;text-align:left;"> 
+					<b>kategorie =</b> {$catg_bar}<br />
+					<b>data =</b> {$data_bar}
+				</div>
 			</div>
 					
 		</div>

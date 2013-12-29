@@ -16,9 +16,9 @@ define('UPL_DIR', WWW_DIR . '/../uploads');
 
 // absolute filesystem path to the application, libs, log, upload dir
 //$parameters['appDir'] = realpath(__DIR__ . '/../app');
-$parameters['libsDir'] = realpath(__DIR__ . '/../../lib');
+//$parameters['libsDir'] = realpath(__DIR__ . '/../../lib');
 //$parameters['logDir'] = realpath(__DIR__ . '/../log');
-$parameters['uplDir'] = realpath(__DIR__ . '/uploads');
+//$parameters['uplDir'] = realpath(__DIR__ . '/uploads');
 //$parameters['tempDir'] = realpath(__DIR__ . '/../temp');
 
 // Let bootstrap create Dependency Injection container.
