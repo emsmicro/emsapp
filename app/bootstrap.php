@@ -34,6 +34,10 @@ dibi::connect($container->parameters['database']);
 //DateInput register
 Vodacek\Forms\Controls\DateInput::register();
 
+//Extras\Debug\ComponentTreePanel::register();
+
+Kdyby\Extension\Diagnostics\HtmlValidator\DI\ValidatorExtension::register($configurator);
+
 
 return $container;
 

@@ -86,7 +86,7 @@ class Stroj extends Model // DibiRow obstará korektní načtení dat
 			$data['kapacita']		= $param['stroj_kapcita_sm'] * $data['smennost'] * $data['vytizeni'];
 			
 			$investice = $data['poriz_cena'] * (1 + $data['sazba_instalace']);
-			$cenapenez = $investice * $param['urokova_mira']/100;
+			$cenapenez = ($investice * $param['urokova_mira']/100)/2;
 			$naklploch = $data['plocha'] * $param['naklady_plochy'];
 					
 			$data['odpisy_hod']		= $investice / $data['doba_odpisu'] / $data['kapacita'];
@@ -98,7 +98,7 @@ class Stroj extends Model // DibiRow obstará korektní načtení dat
 		
 			$data['naklady_variabilni'] = $elektrina + $dusik + $varnakost;
 			
-			$data['hodinova_cena'] = $data['naklady_fixni'] + $data['naklady_variabilni'];
+			$data['hodinova_cena'] = ceil($data['naklady_fixni'] + $data['naklady_variabilni']);
 			
 			return $data;
 	}

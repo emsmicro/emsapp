@@ -53,7 +53,7 @@ class Operace extends Model // DibiRow obstará korektní načtení dat
 	 */
 	public function showNaklady($id_produktu, $id_nabidky) {
 		return $this->CONN->query("SELECT o.*, COALESCE(o.poradi, tp.poradi) [oporadi], COALESCE(o.id_tpostup, 0) [id_tpostup],
-								tp.nazev, tp.poradi [tporadi], a.pocet, dr.zkratka [druh],
+								tp.nazev, COALESCE(tp.poradi, o.poradi) [tporadi], a.pocet, dr.zkratka [druh],
 								o.ta_cas*sz.hodnota/60 [ta_naklad], o.tp_cas*sz.hodnota/60 [tp_naklad]
 							FROM operace o 
 							LEFT JOIN typy_operaci tp ON o.id_typy_operaci=tp.id
@@ -67,7 +67,7 @@ class Operace extends Model // DibiRow obstará korektní načtení dat
 								) a
 									 ON a.id_typy_operaci = tp.id
 							WHERE v.id_vyssi = $id_produktu 
-							ORDER BY oporadi");		
+							ORDER BY tporadi");		
 	}
 	
 	/**
@@ -225,9 +225,11 @@ class Operace extends Model // DibiRow obstará korektní načtení dat
 									, tp.zkratka [ztyp]
 									, tp.nazev [typ]
 									, tp.poradi [poradi]
+									, op.poradi [oporadi]
 									, do.zkratka [zkratka]
 									, COALESCE(op.id, 0) [ido]
 									, COALESCE(op.popis, tp.nazev) [popis]
+									, tp.nazev [tnazev]
 									, COALESCE(ROUND(op.ta_cas,$desmist), 0) [ta_cas]
 									, COALESCE(ROUND(op.tp_cas,$desmist), 0) [tp_cas]
 									, COALESCE(ROUND(op.naklad,$desmist), 0) [naklad]
@@ -382,6 +384,99 @@ class Operace extends Model // DibiRow obstará korektní načtení dat
 		
 	}
 	
+	/**
+	 * Prepare data from group form into array for insert/update
+	 * @param type $formdata
+	 * @param type $id_postup
+	 * @param type $id_sablony
+	 * @return int
+	 */
+	public function prepGroupOperData($formdata = array(), $id_postup = 0, $id_sablony = 0)
+	{
+		if($id_postup>0 and $id_sablony>0){
+			$maxj = 11;
+		} else {
+			$maxj = 10;
+		}
+			$rows  = (array) $formdata;
+			$gdata = array();
+			$idata = array();
+			$i = 0;
+			$p = 0;
+			$r = 0;
+			$j = 0;
+			$popis = '';
+			$ta = 0;
+			$tp = 0;
+			$na = 0;
+			$pop = '';
+			$tac = 0;
+			$tpc = 0;
+			$nak = 0;
+			$idto = 0;
+			$ido = 0;
+			$poradi = '';
+			foreach($rows as $k => $v ){
+				$j++;
+				switch($j){
+					case 1:
+						$popis = $v;
+					case 2:
+						$ta = floatval($v);
+					case 3:
+						$tp = floatval($v);
+					case 4:
+						$na = floatval($v);
+					case 5:
+						$pop = $v;
+					case 6:
+						$tac = floatval($v);
+					case 7:
+						$tpc = floatval($v);
+					case 8:
+						$nak = floatval($v);
+					case 9:
+						$idto = intval($v);
+					case 10:
+						$ido = intval($v);
+					case 11:
+						$poradi = $v;						
+				}
+				if($j == $maxj) {
+					if( $popis <> $pop or $ta<>$tac or $tp<>$tpc or $na<>$nak ){
+						$p++;
+						$idata[$p]['ido'] = $ido;
+						$gdata[$p]['popis'] = $popis;
+						$gdata[$p]['ta_cas'] = $ta;
+						$gdata[$p]['tp_cas'] = $tp;
+						$gdata[$p]['naklad'] = $na;
+						$gdata[$p]['id_typy_operaci'] = $idto;
+						if($maxj==11){
+							$gdata[$p]['id_tpostup'] = $id_postup;
+							$gdata[$p]['id_sablony'] = $id_sablony;
+						}
+						$r++;
+					}
+					$j = 0;
+					$popis = '';
+					$ta = 0;
+					$tp = 0;
+					$na = 0;
+					$pop = '';
+					$tac = 0;
+					$tpc = 0;
+					$nak = 0;
+					$idto = 0;
+					$ido = 0;
+					$poradi = '';
+				}
+			}
+		$ret = array();
+		$ret['gdata'] = $gdata;
+		$ret['idata'] = $idata;
+		$ret['r'] = $r;
+		return $ret;
+	}
 		
 	/**
 	 * Inserts data to the table

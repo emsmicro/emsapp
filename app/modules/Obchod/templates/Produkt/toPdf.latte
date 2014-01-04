@@ -1,14 +1,12 @@
-{*require {$dirm} . '/PdfResponse/PDFResponse.php';*}
-
 {extends '../@pdf.layout.latte'}
 
 {block #content}
 
 	
+			<p>{$company}</p>
+			<h2>Kalkulace nabídkové ceny produktu</h2>
 			<h1 n:block="title">{$titul}</h1>
-			<h2>{$company}
-				Nabídka: {$item->nabidka}
-			</h2>
+			
 
 			<table class="grid">
 			<tr>
@@ -25,7 +23,7 @@
 			<p></p>
 
 			<span>
-				<h3>Plánovaná množství</h3>
+				<h3>Předpokládaná množství</h3>
 			</span>
 
 			<table class="grid">

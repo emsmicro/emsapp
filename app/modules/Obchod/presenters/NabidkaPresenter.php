@@ -87,7 +87,7 @@ class NabidkaPresenter extends ObchodPresenter
 		$item = $nabidka->find($id)->fetch();
 		$hist = $nabidka->getOfferHistory($id);
 		$volume = $nabidka->sumVolume($id)->fetch();
-		$isvol = count($volume)>0;
+		$isvol = $volume !== FALSE;
 
 		$this->setIntoMySet(3, $id, 1);
 		
@@ -220,9 +220,15 @@ class NabidkaPresenter extends ObchodPresenter
 	
 
 	
-	 function actionToPdf($id = 0) {
-
-        $template = $this->createTemplate()->setFile(APP_DIR."/modules/Obchod/templates/Nabidka/toPdf.latte");
+	 function actionToPdf($id = 0, $lang = 'en') {
+		if($lang=='en'){
+			$templ = "toPdf";
+			setlocale(LC_ALL, "en_US.UTF-8");
+		} else {
+			$templ = "doPdf";
+			setlocale(LC_ALL, "czech");
+		}
+        $template = $this->createTemplate()->setFile(APP_DIR."/modules/Obchod/templates/Nabidka/$templ.latte");
         $nabidka = new Nabidka;
 		$item = $nabidka->find($id)->fetch();
 		$volume = $nabidka->sumVolume($id)->fetchAll();

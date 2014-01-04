@@ -1190,6 +1190,7 @@ class Kalkul extends Model
 	}
 	
 	public function sumAddValActiveNab($addv) {
+		if(!$addv){return FALSE;}
 		$data = array();
 		$data['maternak'] = 0;
 		$data['rucninak'] = 0;

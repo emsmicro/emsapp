@@ -40,7 +40,7 @@
 		var kapacita = p_kstr * smenno * vytize;
 
 		var investice = porcen * (1 + sainst);
-		var cenapenez = investice * p_urok/100;
+		var cenapenez = investice/2 * p_urok/100;
 		var naklploch = plocha * p_nplo;
 
 		var odpisy_hod	= investice / dodpis / kapacita;
@@ -51,12 +51,14 @@
 		var varnakost	= (nakudr + nakost) * investice / kapacita;
 		var naklady_variabilni = elektrina + dusik + varnakost;
 		var hodinova_cena = naklady_fixni + naklady_variabilni;
+		var final_cena = Math.ceil(hodinova_cena);
 		
 		writeInner('hkapac', kapacita);
 		writeInner('hodpis', odpisy_hod);
 		writeInner('hfixni', naklady_fixni);
 		writeInner('hvaria', naklady_variabilni);
 		writeInner('hsazba', hodinova_cena);	
+		writeInner('csazba', final_cena);
 		
 	}
 	

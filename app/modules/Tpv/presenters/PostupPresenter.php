@@ -467,6 +467,7 @@ class PostupPresenter extends TpvPresenter
 						->autocomplete('off')
 				->addCondition($form::FILLED)
 						->addRule($form::FLOAT, 'Hodnota musí být celé nebo reálné číslo.');
+			$container->addHidden('pop'.$i)->setValue($v['popis']);
 			$container->addHidden('tac'.$i)->setValue($ta);
 			$container->addHidden('tpc'.$i)->setValue($tp);
 			$container->addHidden('nak'.$i)->setValue($na);
@@ -487,74 +488,15 @@ class PostupPresenter extends TpvPresenter
 	public function groupoFormSubmitted(Form $form)
 	{
 		if ($form['save']->isSubmittedBy()) {
-			$rows  = (array) $form['mpole']->values;
-			$gdata = array();
-			$idata = array();
-			$i = 0;
-			$p = 0;
-			$r = 0;
-			$j = 0;
-			$popis = '';
-			$ta = 0;
-			$tp = 0;
-			$na = 0;
-			$tac = 0;
-			$tpc = 0;
-			$nak = 0;
-			$idto = 0;
-			$ido = 0;
-			$poradi = '';
-			foreach($rows as $k => $v ){
-				$j++;
-				switch($j){
-					case 1:
-						$popis = $v;
-					case 2:
-						$ta = floatval($v);
-					case 3:
-						$tp = floatval($v);
-					case 4:
-						$na = floatval($v);
-					case 5:
-						$tac = floatval($v);
-					case 6:
-						$tpc = floatval($v);
-					case 7:
-						$nak = floatval($v);
-					case 8:
-						$idto = intval($v);
-					case 9:
-						$ido = intval($v);
-					case 10:
-						$poradi = $v;
-				}
-				if($j == 10) {
-					if( $ta<>$tac || $tp<>$tpc || $na<>$nak ){
-						$p++;
-						$idata[$p]['ido'] = $ido;
-						$gdata[$p]['poradi'] = $poradi;
-						$gdata[$p]['popis'] = $popis;
-						$gdata[$p]['ta_cas'] = $ta;
-						$gdata[$p]['tp_cas'] = $tp;
-						$gdata[$p]['naklad'] = $na;
-						$gdata[$p]['id_typy_operaci'] = $idto;
-						$gdata[$p]['id_tpostup'] = (int) $form['id_tpostup']->value;
-						$gdata[$p]['id_sablony'] = (int) $form['id_sablony']->value;
-						$r++;
-					}
-					$j = 0;
-					$popis = '';
-					$ta = 0;
-					$tp = 0;
-					$na = 0;
-					$tac = 0;
-					$tpc = 0;
-					$nak = 0;
-					$idto = 0;
-					$ido = 0;
-					$poradi = '';
-				}
-			}
+			$oper = new Operace;
+			$ret = $oper->prepGroupOperData($form['mpole']->values, 
+											(int) $form['id_tpostup']->value, 
+											(int) $form['id_sablony']->value);
+						
+			$gdata = $ret['gdata'];
+			$idata = $ret['idata'];
+			$r = $ret['r'];
+			
 			if( $r > 0 ){
 				$id_produkt = $this->getIdFromMySet(4);
 				$oper = new Operace;
@@ -570,7 +512,7 @@ class PostupPresenter extends TpvPresenter
 					$this->flashMessage("Bylo aktualizováno ".$pocet['u'].$instext." záznamů výrobních operací.");
 				}
 			} else {
-					$this->flashMessage('Hromadné uložení operací nebylo provedeno, neboť nebyly provedeny žádné změny.');
+				$this->flashMessage('Hromadné uložení operací nebylo provedeno, neboť nebyly provedeny žádné změny.');
 			}
 		}
 		if($this->getParam('src')==1){

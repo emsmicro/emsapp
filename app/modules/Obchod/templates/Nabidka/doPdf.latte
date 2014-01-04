@@ -21,7 +21,7 @@
 		<table>
 			<tr>
 				<td><h4 n:block="title">{$titul}</h4></td>
-				<td style="padding-left:10mm;"><i>{$company['city']}, {$today|date:'%b %d, %Y'}</i></td>
+				<td style="padding-left:10mm;"><i>{$company['city']}, {$today}</i></td>
 			</tr>
 		</table>
 		<hr>
@@ -30,28 +30,28 @@
 	
 		<table class="grid">
 		<tr>
-			<th>Customer</th><td colspan="3">{$it->firma}</td>
+			<th>Klient</th><td colspan="3">{$it->firma}</td>
 		</tr>
 		<tr>
-			<th>Adopted</th><td>{$it->prij_datum|date:'%m/%d %Y'}</td>
+			<th>Datum přijetí</th><td>{$it->prij_datum|date:'%d.%m.%Y'}</td>
 			{if $isvol}
-				<th>Anticipated volume</th><td class="tcislo">{$vol[0]->objem|number:0:',':' '} Kč</td>
+				<th>Předpokl. objem</th><td class="tcislo">{$vol[0]->objem|number:0:',':' '} Kč</td>
 			{/if}
 		</tr>
 		<tr>
-			<th>Reaquired</th><td>{$it->pozad_datum|date:'%m/%d %Y'}</td>
+			<th>Požadované datum</th><td>{$it->pozad_datum|date:'%d.%m.%Y'}</td>
 			{if $isvol}
-				<th>Total quantity</th><td class="tcislo">{$vol[0]->pocty|number:0:',':' '} ks</td>
+				<th>Celkové množství</th><td class="tcislo">{$vol[0]->pocty|number:0:',':' '} ks</td>
 			{/if}
 		</tr>
-		<tr><th>Description</th><td colspan="3">{$it->popis}</td></tr>
-		<tr><th>Note</th><td colspan="3">{$it->poznamka}</td></tr>
+		<tr><th>Popis</th><td colspan="3">{$it->popis}</td></tr>
+		<tr><th>Poznámka</th><td colspan="3">{$it->poznamka}</td></tr>
 		</table>
 
 {if $iscen}
 
 	<div class="clear">
-		{include 'prices_en.latte'}
+		{include 'prices.latte'}
 	</div>
 
 {/if}

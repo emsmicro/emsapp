@@ -252,9 +252,12 @@ class OperacePresenter extends TpvPresenter
 		header("Content-Disposition: attachment;filename=tpv_$id.csv");
 		header("Cache-Control: max-age=0");
 		
-		
-        $mat = new Operace;
-		$rows = $mat->show($id);
+		//$this->template->setFile(__DIR__ . '/../templates/Operace/default.latte');
+        $instance = new Operace;
+
+		$idn = $this->getIdFromMySet(3);
+		$rows = $instance->showNaklady($id,$idn)->fetchAll();
+		dd($rows);
 		$this->template->items = $rows;
 		$this->template->idp=$id;
        // napojím data
@@ -462,7 +465,7 @@ class OperacePresenter extends TpvPresenter
 			if ($na==0){$na = '';}
 
 			$container->addText('popis'.$i,  'Popis:',300)->setValue($v['popis']);
-			$container->addText('druh'.$i,  'Druh:',30)->setValue($v['zkratka']);
+			//$container->addText('druh'.$i,  'Druh:',30)->setValue($v['zkratka']);
 			$container->addText('ta_cas'.$i, 'Ta [min]:')->setValue($ta)
 				->setAttribute('class', 'cislo')
 				->addFilter(array('Nette\Forms\Controls\TextBase', 'filterFloat'))
@@ -484,6 +487,7 @@ class OperacePresenter extends TpvPresenter
 						->autocomplete('off')
 				->addCondition($form::FILLED)
 						->addRule($form::FLOAT, 'Hodnota musí být celé nebo reálné číslo.');
+			$container->addHidden('pop'.$i)->setValue($v['popis']);
 			$container->addHidden('tac'.$i)->setValue($ta);
 			$container->addHidden('tpc'.$i)->setValue($tp);
 			$container->addHidden('nak'.$i)->setValue($na);
@@ -502,67 +506,12 @@ class OperacePresenter extends TpvPresenter
 	{
 		if ($form['save']->isSubmittedBy()) {
 			$oper  = new Operace;
-			$rows  = (array) $form['mpole']->values;
-			$gdata = array();
-			$idata = array();
-			$i = 0;
-			$p = 0;
-			$r = 0;
-			$j = 0;
-			$popis = '';
-			$ta = 0;
-			$tp = 0;
-			$na = 0;
-			$tac = 0;
-			$tpc = 0;
-			$nak = 0;
-			$idto = 0;
-			$ido = 0;
-			foreach($rows as $k => $v ){
-				$j++;
-				switch($j){
-					case 1:
-						$popis = $v;
-					case 2:
-						$ta = floatval($v);
-					case 3:
-						$tp = floatval($v);
-					case 4:
-						$na = floatval($v);
-					case 5:
-						$tac = floatval($v);
-					case 6:
-						$tpc = floatval($v);
-					case 7:
-						$nak = floatval($v);
-					case 8:
-						$idto = intval($v);
-					case 9:
-						$ido = intval($v);
-				}
-				if($j == 9) {
-					if( $ta<>$tac || $tp<>$tpc || $na<>$nak ){
-						$p++;
-						$idata[$p]['ido'] = $ido;
-						$gdata[$p]['popis'] = $popis;
-						$gdata[$p]['ta_cas'] = $ta;
-						$gdata[$p]['tp_cas'] = $tp;
-						$gdata[$p]['naklad'] = $na;
-						$gdata[$p]['id_typy_operaci'] = $idto;
-						$r++;
-					}
-					$j = 0;
-					$popis = '';
-					$ta = 0;
-					$tp = 0;
-					$na = 0;
-					$tac = 0;
-					$tpc = 0;
-					$nak = 0;
-					$idto = 0;
-					$ido = 0;
-				}
-			}
+			$ret = $oper->prepGroupOperData($form['mpole']->values);
+			
+			$gdata = $ret['gdata'];
+			$idata = $ret['idata'];
+			$r = $ret['r'];
+			
 			if( $r > 0 ){
 				$id_produkt = $this->getIdFromMySet(4);
 				if ($id_produkt  == 0){

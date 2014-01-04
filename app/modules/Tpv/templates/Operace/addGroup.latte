@@ -16,7 +16,7 @@
 
 <table>
 	<tr class="noborder" style="border-bottom:solid 1px #4FA3F7;">
-		<td colspan="3"></td>
+		<td colspan="4"></td>
 		<td colspan="3" class="tdcenter">
 			<span>{$control['addGroupForm']['save']->control}</span>
 			<span>{$control['addGroupForm']['cancel']->control}</span>
@@ -24,7 +24,8 @@
 	</tr>
 	<tr style="text-align:left;">
 		<th>Druh</th>
-		<th style="text-align:center;">#</th>
+		<th style="text-align:center;" title="Pořadí dle typové operace">#t</th>
+		<th style="text-align:center;" title="Uložené pořadí operace">#o</th>
 		<th>Popis</th>
 		<th title="Výrobní čas">Ta [min]</th>
 		<th title="Přípravný/dávkový čas">Tp [min]</th>
@@ -36,7 +37,8 @@
         <tr>
 			<td class="ntext" title="{$item->ido}">{$item->zkratka}<span class="mini"> ({$item->idto})</span></td>
 			<td class="rpopis"><b>{$item->poradi}</b></td>
-			<td class="popis input">{$control['addGroupForm']['mpole']['popis'.$i]->control}</td>
+			<td class="rpopis" style="background: #FFEFDF;">{$item->oporadi}</td>
+			<td class="popis input" title="{$item->tnazev}">{$control['addGroupForm']['mpole']['popis'.$i]->control}</td>
 			{if $item->zkratka == 'Strojní' || $item->zkratka == 'Ruční' || $item->zkratka == 'Montáž'}
 				<td class="cislo input">{$control['addGroupForm']['mpole']['ta_cas'.$i]->control}</td>
 				<td class="cislo input">{$control['addGroupForm']['mpole']['tp_cas'.$i]->control}</td>
@@ -53,7 +55,7 @@
         </tr>
 	{/foreach}
 	<tr class="noborder">
-		<td colspan="3"></td>
+		<td colspan="4"></td>
 		<td colspan="3" class="tdcenter">
 			<span>{$control['addGroupForm']['save']->control}</span>
 			<span>{$control['addGroupForm']['cancel']->control}</span>

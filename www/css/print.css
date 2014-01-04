@@ -13,10 +13,16 @@ body {
 
 h1 {
 	font-size: 1.9em;
-	color: #1C4E80;
+	color: #222222;
 	padding-bottom: 10px;
+      font-weight: normal;
 }
 
+h2 {
+      font-weight: normal;
+      font-style: italic;
+      border-bottom: solid 1px #666666;  
+}
 
 #titul {
 	position: absolute;
@@ -42,7 +48,7 @@ img {
 
 
 .todod {
-  color: #091726;
+  color: #222222;
   font-weight: bold;
   font-size: x-large;
 }
@@ -59,40 +65,34 @@ img {
   float: right;
   text-transform: uppercase;
   margin-left: 10px;
-  color: #FF3333;
+  color: #CC0000;
 }
 
 #todo span.ano {
   float: right;
   text-transform: capitalize;
   margin-left: 20px;
-  color: #339933;
+  color: #006633;
   font-weight: bold;
 }
 
 
 h3 {
-  background-color: #F8F8F8;
-  border: solid 1px #AAAAAA;
-  border-bottom: solid 1px #FFFFFF;
+  background-color: #FFFFFF;
+  border-bottom: dotted 1px #333333;
   margin-top: 15px;
-  padding: 0 15px 0 15px;
-  border-top-left-radius: 10px;
-  -webkit-border-top-left-radius: 10px;
-  -moz-border-radius-topleft: 10px;
-  border-top-right-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topright: 10px;
-
+  padding: 0 15px 0 0;
+  font-weight: normal;
+  font-style: italic;
 }
 
 
 div#odstavec {
 	color: black;
-    text-align: justify;
+      text-align: justify;
 	padding: 1em;
 	margin: 1em 0em;
-    font-size: 80%;
+      font-size: 80%;
 }
 
 
@@ -113,8 +113,8 @@ div#centered {
     margin-left: auto;  */
     margin-right: 15mm;
     border: 1px dotted #999999;
-	border-radius: 10px;
-	padding: 10px;
+    border-radius: 10px;
+    padding: 10px;
     background-color: #F4F4F4;
 }
 
@@ -138,25 +138,25 @@ table th {
 
 table.grid {
 	margin-top: 15px;
-    font-size: small;
-	border: 1px solid #ADD4FB;
+      font-size: small;
+	border: 1px solid #666666;
 }
 
 table.grid td {
     max-width: 250px;
 	background-color: #FFFFFF;
-	border: 1px solid #ADD4FB;
+	border: 1px solid #777777;
 	padding: 6px 6px 6px 6px;
 }
 
 
 table.grid th {
-	color: #3484D2;
-	background: #EFF5FC;
+	color: #222222;
+	background: #EEEEEE;
 	text-align: left;
 	font-weight: normal;
 	font-size: 90%;
-	border: 1px solid #ADD4FB;
+	border: 1px solid #666666;
 	padding: 3px 6px 3px 6px;
 }
 
@@ -166,26 +166,21 @@ table.grid .alt td {
 }
 
 
-table.grid tr:hover {
-	border-right: solid 2px #FFCC66;
-	border-left: solid 2px #FFCC66;
-}
-
 table.grid td.alt {
-	background: #EEEEEE;
-    padding-top: 3px;
-    padding-bottom: 3px;
+      background: #EEEEEE;
+      padding-top: 3px;
+      padding-bottom: 3px;
 }
 
 /*------------------------------------------------------------------*/
 table.detail {
 	margin-top: 15px;
-    font-size: small;
-   	border: 1px solid #ADD4FB;
+      font-size: small;
+   	border: 1px solid #666666;
 }
 
 table.detail td {
-    max-width: 250px;
+      max-width: 250px;
 	background-color: #FFFFFF;
   /*	border: 1px solid #ADD4FB;   */
 	padding: 6px 6px 6px 15px;
@@ -193,12 +188,12 @@ table.detail td {
 
 
 table.detail th {
-	color: #3484D2;
-	background: #EFF5FC;
+	color: #222222;
+	background: #EEEEEE;
 	text-align: left;
 	font-weight: normal;
 	font-size: 90%;
-	border: 1px solid #ADD4FB;
+	border: 1px solid #666666;
 	padding: 3px 6px 3px 6px;
 }
 

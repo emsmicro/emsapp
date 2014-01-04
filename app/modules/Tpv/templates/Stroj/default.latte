@@ -32,7 +32,7 @@
 <tr>
 	<td>{$it->id}</td>
 	<td style="font-size: medium;" title="{$it->zkratka}"><b>{$it->zkratka|truncate:25}</b></td>
-	<td title="{$it->nazev}"><a n:href="detail, $it->id">{$it->nazev|truncate:42}</a></td>
+	<td title="{$it->nazev}"><a n:href="detail, $it->id">{$it->nazev|truncate:40}</a></td>
 	<td class="cislo">{$it->poriz_cena|number:2:',':' '}</td>
 	<td >{$it->rok_porizeni}</td>
 	<td class="cislo">{$it->smennost|number:1:',':' '}</td>

@@ -42,16 +42,16 @@
 </tr>
 {foreach $typo as $typ}
 <tr>
-	<td>{$typ->poradi}</td>
+	<td title="{$typ->id}">{$typ->poradi}</td>
 	<td>{$typ->dnazev}</td>
 	<td>{$typ->tzkratka}</td>
 	<td>{$typ->nazev}</td>
 	<td class="takce">
 		<span class="setedit" title="Změnit">
-			<a n:if="$user->isAllowed('Sablona','editTypo')" n:href="editTypo, $ids, $typ->idto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			<a n:if="$user->isAllowed('Sablona','editTypo')" n:href="editTypo, $typ->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 		</span>
 		<span class="setdel" title="Odstranit">
-			<a n:if="$user->isAllowed('Sablona','deleteTypo')" n:href="deleteTypo, $ids, $typ->idto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			<a n:if="$user->isAllowed('Sablona','deleteTypo')" n:href="deleteTypo, $typ->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 		</span>
 	</td>
 </tr>

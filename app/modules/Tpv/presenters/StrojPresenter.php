@@ -42,7 +42,7 @@ class StrojPresenter extends TpvPresenter
 	{
 
         $instance = new Stroj;
-		$this->template->items = $instance->show();
+		$this->template->items = $instance->show()->orderBy('zkratka');
         $this->template->titul = self::TITUL_DEFAULT;
 
 	}
@@ -59,6 +59,8 @@ class StrojPresenter extends TpvPresenter
 
 		$this->template->item = $item;
 	   	$this->template->titul = $item->zkratka;
+		$this->template->params = $this->mpars;
+		dd($this->mpars);
 	}
 
 	/********************* views add & edit *********************/
@@ -270,10 +272,10 @@ class StrojPresenter extends TpvPresenter
 	        $instance = new Stroj;
 			$data = $form->values;
 			if ($id > 0) {
-				$instance->update($id, $data, $this->stroje);
+				$instance->update($id, $data, $this->mpars);
 				$this->flashMessage('Položka byla změněna.');
 			} else {
-				$instance->insert($data, $this->stroje);
+				$instance->insert($data, $this->mpars);
 				$this->flashMessage('Položka byla přidána.');
 			}
 		}

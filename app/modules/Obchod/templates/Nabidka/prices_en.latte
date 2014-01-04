@@ -1,0 +1,143 @@
+{if $isPDF}
+	<table class="detail" style="width:98%;">
+{else}
+	<table id="tab" class="grid" style="width:98%;">
+{/if}
+	<tr class="tsepbot">
+		<th>Name of product</th>
+		<th>Batch [pcs]</th>
+		<th>≈ pcs/year</th>
+		<th>Price/pc</th>
+		<th>Off costs</th>
+		{if !$isPDF}
+			<th title="Status">Status</th>
+			<th class="tsepright" style="text-align:center;">
+				<span class="refresh" style="padding:0;">
+					<a n:if="$user->isAllowed('Nabidka','refreshOfferPrices') && $unlocked" n:href="refreshOfferPrices, $item->id">
+						&nbsp;&nbsp;&nbsp;
+					</a>
+				</span>
+			</th>
+			<th>Volume [CZK]</th>
+			<th>Mat. C [CZK]</th>
+			<th>Prod. C [CZK]</th>
+			<th>AddVntto [CZK]</th>
+			<th>AddVbtto [CZK]</th>
+		{/if}
+	</tr>
+	{var $naz = "xxx"}
+	{var $mena = $prices[0]->mena}
+	{var $obj = 0}
+	{var $sumobj = 0}
+	{var $sumCM = 0}	{*objem v cizí měně*}
+	{var $sumVN = 0}
+	{var $sumPHH = 0}
+	{var $sumPHR = 0}
+	{var $sumMAT = 0}
+	{var $stylN = ""}
+	{var $VN = 0}
+	{var $i = 0}
+	{foreach $prices as $cena}
+		{if $cena->aktivni == 1}
+			{var $stylN = ''}
+		{else}
+			{var $stylN = 'color: darkgray;'}
+		{/if}		
+		{if $cena->idtc == 10}
+			{var $obj = $cena->objem}
+			{var $i++}
+			<tr id="row_{$i}">
+				<td style='{!$stylN}'>
+					{if $cena->nazev <> $naz}
+						{if !$isPDF}
+							<a n:if="$user->isAllowed('Produkt','detail')" n:href="Produkt:detail, $cena->id_produkty" title="{$cena->id_produkty}">{$cena->nazev}</a>
+						{else}
+							{$cena->nazev}
+						{/if}
+						{var $naz = $cena->nazev}
+					{/if}
+				</td>
+				<td class="tcislo" style="{!$stylN}">{$cena->vyrobni_davka|number:0:',':' '}</td>
+				<td class="tcislo" style="{!$stylN}">{$cena->mnozstvi|number:0:',':' '}</td>
+				<td class="tcislo" style="{!$stylN}" title="{$cena->hodnota|number:2:',':' '} Kč">{$cena->hodnota_cm|number:3:',':' '} {$cena->mena}</td>
+				{if $cena->mena == $mena}
+					{var $sumCM += $cena->hodnota_cm * $cena->mnozstvi}
+				{else}
+					{var $mena = ""}
+				{/if}
+		{else}
+			{if $cena->idtc == 8}
+				{var $obj += $cena->objem}
+				{if $cena->aktivni == 1}
+					{var $MAT = $aval[$cena->id_produkty][$cena->id]['maternak']}
+					{var $VN = $aval[$cena->id_produkty][$cena->id]['vyrobnak']}
+					{var $PHR = $obj - $VN}
+					{var $PHH = $obj - $VN + $aval[$cena->id_produkty][$cena->id]['vyreznak']}
+				{else}
+					{var $MAT = 0}
+					{var $VN = 0}
+					{var $PHH = 0}
+					{var $PHR = 0}
+				{/if}
+				{var $sumobj += $obj}
+				{var $sumMAT += $MAT}
+				{var $sumVN  += $VN}
+				{var $sumPHH += $PHH}
+				{var $sumPHR += $PHR}
+				<td class="tcislo" style="{!$stylN}" title="{$cena->hodnota|number:2:',':' '} Kč">{$cena->hodnota_cm|number:2:',':' '} {$cena->mena}</td>
+				{if !$isPDF}
+					{if $cena->aktivni == 1}
+						<td title="Aktivní cena ({$cena->id})">A
+					{else}
+						<td title="Neaktivní cena ({$cena->id})">N
+					{/if}
+					<td class="tsepright" style="text-align:center;">
+						<span class="refresh" title="Přepočítat cenu ({$cena->id})" style="padding:0;">
+							<a n:if="$user->isAllowed('Produkt','priceRefresh') && $unlocked" n:href="Produkt:priceRefresh, $cena->id, 'N'">
+							&nbsp;&nbsp;&nbsp;
+							</a>
+						</span>					
+					</td>
+					<td class="tcislo" style="{!$stylN}">{$obj|number:0:',':' '}</td>
+					<td class="tcislo" style="{!$stylN}">{$MAT|number:0:',':' '}</td>
+					<td class="tcislo" style="{!$stylN}">{$VN|number:0:',':' '}</td>
+					<td class="tcislo" style="{!$stylN}">{$PHH|number:0:',':' '}</td>
+					<td class="tcislo" style="{!$stylN}">{$PHR|number:0:',':' '}</td>
+				{/if}
+				{if $cena->mena == $mena}
+					{var $sumCM += $cena->hodnota_cm}
+				{else}
+					{var $mena = ""}
+				{/if}
+			{/if}
+			</tr>
+		{/if}
+	{/foreach}
+	{if !$isPDF}
+		<tr class="tseptop">
+			<th colspan="3"><b>CELKEM očekávaný objem tržeb</b></th>
+			<th colspan="2" style="text-align:right;"><b n:if="$mena<>''">{$sumCM|number:2:',':' '} {$mena}</b></th>
+			<th colspan="2" class="tsepright" style="text-align:center;">CZK</th>
+			<th style="text-align: right;"><b>{$sumobj|number:0:',':' '}</b></th>
+			<th style="text-align: right;"><b>{$sumMAT|number:0:',':' '}</b></th>
+			<th style="text-align: right;"><b>{$sumVN|number:0:',':' '}</b></th>
+			<th style="text-align: right;"><b>{$sumPHH|number:0:',':' '}</b></th>
+			<th style="text-align: right;"><b>{$sumPHR|number:0:',':' '}</b></th>
+		</tr>
+		<tr>
+			<th colspan="5">Podíl na očekávaném objemu tržeb</th>
+			<th colspan="2" class="tsepright" style="text-align:center;">[ % ]</th>
+			<th style="text-align:center;">-</th>
+			{var $pMAT = $sumMAT/$sumobj*100}
+			{var $pVN = $sumVN/$sumobj*100}
+			{var $pPHH = $sumPHH/$sumobj*100}
+			{var $pPHR = $sumPHR/$sumobj*100}
+			<th style="text-align: right;">{$pMAT|number:2:',':' ' } %</th>
+			<th style="text-align: right;">{$pVN|number:2:',':' ' } %</th>
+			<th style="text-align: right;">{$pPHH|number:2:',':' '} %</th>
+			<th style="text-align: right;">{$pPHR|number:2:',':' '} %</th>
+		</tr>
+	{/if}
+	</table>
+
+	{include '../../../Base/templates/js_copy.latte', sourceID => "tab"}

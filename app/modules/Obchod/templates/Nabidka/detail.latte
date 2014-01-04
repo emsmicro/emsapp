@@ -16,12 +16,21 @@
 <ul id="navi">
 	<li n:if="$user->isAllowed('Nabidka','add')" title="Nová nabídka"><a n:href="add">Nová...</a></li>
 	<li n:if="$user->isAllowed('Nabidka','edit') && $unlocked" title="Změnit nabídku"><a n:href="edit, $it->id">Změnit</a></li>
-	<li n:if="$user->isAllowed('Nabidka','toPdf')" title="Výstup do PDF"><a n:href="toPdf, $it->id">► do PDF</a></li>
 	{*<li n:if="$user->isAllowed('Nabidka','toMail')" title="Odeslat jako PDF přílohu mailu"><a n:href="toMail, $it->id">PDF mailem</a></li>*}
 	<li n:if="$user->isAllowed('Produkt','product') && $unlocked" title="Vybrat produkt"><a n:href="Produkt:product, $it->id">&#10040 produkt</a></li>
 	<li n:if="$user->isAllowed('Produkt','add') && $unlocked" title="Nový produkt"><a n:href="Produkt:add, $it->id_firmy, $it->id">&#10010 produkt</a></li>
 	<li n:if="$user->isAllowed('Nabidka','changeStatus') && $unlocked" title="Změnit stav nabídky"><a n:href="changeStatus, $it->id">Stav</a></li>
 	<li n:if="$user->isAllowed('Nabidka','copyNabidka')" title="Zkopírovat nabídku"><a n:href="copyNabidka, $it->id">Kopie</a></li>
+	<li n:if="$user->isAllowed('Nabidka','toPdf')" title="Print into PDF">
+		<a n:href="toPdf, $it->id" style="background: url('{$basePath}/images/engl_f.png') no-repeat left center; padding-left: 30px; text-align: right;">
+			PDF
+		</a>
+	</li>
+	<li n:if="$user->isAllowed('Nabidka','toPdf')" title="Výstup do PDF">
+		<a n:href="toPdf, $it->id, 'cz'" style="background: url('{$basePath}/images/czech_f.png') no-repeat left center; padding-left: 30px; text-align: right;">
+			PDF
+		</a>
+	</li>
 </ul>
 
 
@@ -52,19 +61,16 @@
 	<th>Set sazeb operací</th>
 	<td><a n:if="$user->isAllowed('SetSazebO','detail')" n:href="SetSazebO:detail, $it->oid">{$it->seto}</a></td>
 </tr>
-<tr>
-	{if $isvol}
-		<th>Předpokl. objem</th><td class="tcislo">{$vol->objem|number:0:',':' '} Kč</td>
-	{/if}
+<tr n:if="$isvol">
+	<th>Předpokl. objem</th><td class="tcislo">{$vol->objem|number:0:',':' '} Kč</td>
 </tr>
-<tr>
-	{if $isvol}
+<tr n:if="$isvol">
 		<th>Celkové množství</th><td class="tcislo">{$vol->pocty|number:0:',':' '} ks</td>
-	{/if}
 </tr>
 </table>
-	
-{include 'piechart.latte', pdata => $nakl_pie}
+{if $isvol}	
+	{include 'piechart.latte', pdata => $nakl_pie}
+{/if}
 
 <div class="kolaps">
 
@@ -237,53 +243,76 @@
 
 {if !$isPDF} 
 	
-{if $iscap}
-	<div class="clear">
+
+	<div n:if="$iscap" class="clear">
 		{include 'capacity.latte'}
 	</div>
-{/if}
 
 
-{* graf *}
-{if isset($cena_bar) and isset($nakl_bar)}
-	<div class="kol-g">
-		<h3>Grafy skladby tržby, nákladů a přidané hodnoty</h3>
-		<div>
-			
-			{include 'graph.latte', cena_bar => $cena_bar, nakl_bar => $nakl_bar}
 
-			<div id="container_graph1" style="margin: 0 auto; width: 95%; height: 200px; background: transparent;">
-				<p style="color:darkred; font-size: large;text-align:center;">
-					<b>VYSKYTLA SE CHYBA - graf 1 nelze vykreslit</b>
-				</p>
-				<div style="display:block;width:100%;text-align:left;"> 
-					data = {$cena_bar}
+	{* graf *}
+	{if isset($cena_bar) and isset($nakl_bar)}
+		<style>
+			.cont_graph {
+				margin: 0 auto 20px auto; 
+				width: 95%; 
+				max-width: 1150px;
+				height: 200px; 
+				background: transparent;
+			}
+			.higher {
+				height: 400px;
+			}
+			.msg_graph {
+				color:darkred; 
+				font-size: large;
+				text-align:center;
+			}
+			.dta_graph {
+				display:block;
+				width:100%;
+				text-align:left;
+			}
+		</style>
+
+		<div class="kol-g">
+			<h3>Grafy skladby tržby, nákladů a přidané hodnoty</h3>
+			<div>
+
+				{include 'graph.latte', cena_bar => $cena_bar, nakl_bar => $nakl_bar}
+
+				<div id="container_graph1" class="cont_graph">
+					<p class="msg_graph">
+						<b>VYSKYTLA SE CHYBA - graf 1 nelze vykreslit</b>
+					</p>
+					<div class="dta_graph"> 
+						data = {$cena_bar}
+					</div>
 				</div>
-			</div>
-			<div id="container_graph2" style="margin: 20px auto; width: 95%; height: 200px; background: transparent;">
-				<p style="color:darkred; font-size: large;text-align:center;">
-					<b>VYSKYTLA SE CHYBA - graf 2 nelze vykreslit</b>
-				</p>
-				<div style="display:block;width:100%;text-align:left;"> 
-					data = {$nakl_bar}
+				<div id="container_graph2" class="cont_graph">
+					<p class="msg_graph">
+						<b>VYSKYTLA SE CHYBA - graf 2 nelze vykreslit</b>
+					</p>
+					<div class="dta_graph"> 
+						data = {$nakl_bar}
+					</div>
 				</div>
-			</div>
-			
-			{include 'testgr.latte', data_bar => $data_bar, catg_bar => $catg_bar}
-			
-			<div id="container_graph3" style="margin: 20px auto; width: 95%; height: 400px; background: transparent;">
-				<p style="color:darkred; font-size: large;text-align:center;">
-					<b>VYSKYTLA SE CHYBA - graf 3 nelze vykreslit</b>
-				</p>
-				<div style="display:block;width:100%;text-align:left;"> 
-					<b>kategorie =</b> {$catg_bar}<br />
-					<b>data =</b> {$data_bar}
+
+				{include 'testgr.latte', data_bar => $data_bar, catg_bar => $catg_bar}
+
+				<div id="container_graph3" class="cont_graph higher">
+					<p class="msg_graph">
+						<b>VYSKYTLA SE CHYBA - graf 3 nelze vykreslit</b>
+					</p>
+					<div class="dta_graph"> 
+						<b>kategorie =</b> {$catg_bar}<br />
+						<b>data =</b> {$data_bar}
+					</div>
 				</div>
+
 			</div>
-					
 		</div>
-	</div>
-{/if}
+	{/if}
 
 {/if}
 

@@ -33,39 +33,85 @@ class QueryPresenter extends SpravaPresenter
 
 	public function renderDefault($dot = '', $idc=0)
 	{
-
-
+		$q = new Query;
 		$form = $this['qForm'];
+		$jo = FALSE;
 		if (!$form->isSubmitted()) {
-			$form['dotaz']->value = $dot;
+			if($idc == 9) {
+				$r1 = $q->go("SELECT TOP 1 * FROM $dot");
+				if($r1){
+					$h1 = $q->getHeads($r1);
+					$h = '';
+					foreach($h1 as $hh){
+						if($hh<>'id'){
+							$h .= $hh . ", ";
+						}
+					}
+					$h = substr($h, 0, strlen($h)-2);
+					$t = "uprav seznam polí a spusť dotaz znovu";
+					$jo = TRUE;
+				} else {
+					$h = '...';
+					$t = 'doplň seznam polí místo teček';
+				}
+				$table = $dot;
+				$dot = 
+"
+-- $t
+-- SELECT * FROM $table ORDER BY $h;
+WITH numbered
+AS ( SELECT *, ROW_NUMBER() OVER ( PARTITION BY $h ORDER BY $h ) AS row_no FROM $table )
+
+-- POZOR!!! Aplikací následujícího příkazu přijdete o data!!!
+-- D E L E T E FROM numbered WHERE row_no > 1;
+
+SELECT * FROM numbered WHERE row_no > 1;
+";
+				$form['dotaz']->value = $dot;
+				if(!$jo){$dot = '';}
+			} else {
+				$form['dotaz']->value = $dot;
+			}
 		} else {
 			$dot = $form['dotaz']->value;
 		}
-		$q = new Query;
-		$rows = $q->go($dot);
-		$this->template->sql = $dot;
-		if($rows){
-			$cnt = $q->countRows($rows);
-			if ($cnt<1) {
-				$this->flashMessage('Zadaný dotaz "'.$dot.'" nevrátil žádná data.','exclamation');
-			} else {
-				$head = $q->getHeads($rows);
-				$data = $q->getData($rows);
-				$this->template->head = $head;
-				$this->template->data = $data;
-				$this->template->idc = $idc;
-				if($idc>0){
-					$this->template->csql = "SELECT * FROM ";
+		
+		$this->template->sql = $dot;		
+		
+		$ssql = $dot;
+		if($ssql<>'' and
+				(strpos(strtoupper($ssql),'UPDATE')>0 
+				or strpos(strtoupper($ssql),'INSERT')>0
+				or strpos(strtoupper($ssql),'DELETE')>0) ){
+			$this->flashMessage('Zadaný dotaz obsahuje UPDATE/INSERT/DELETE, což jsou nepřípustné SQL příkazy.','warning');
+		
+		} else {
+		
+			$rows = $q->go($dot);
+			
+			if($rows){
+				$cnt = $q->countRows($rows);
+				if ($cnt<1) {
+					$this->flashMessage('Zadaný dotaz "'.$dot.'" nevrátil žádná data.','exclamation');
 				} else {
-					$this->template->csql = '';
+					$head = $q->getHeads($rows);
+					$data = $q->getData($rows);
+					$this->template->head = $head;
+					$this->template->data = $data;
+					$this->template->idc = $idc;
+					if($idc>0 and $idc<9){
+						$this->template->csql = "SELECT * FROM ";
+					} else {
+						$this->template->csql = '';
+					}
+				}
+			} else {
+				if ($form->isSubmitted()){
+					$this->flashMessage('Dotaz nevrátil žádná data.','exclamation');
 				}
 			}
-		} else {
-			if ($form->isSubmitted()){
-				$this->flashMessage('Dotaz nevrátil žádná data.','exclamation');
-			}
-		}
 
+		}
 		$this->template->titul = self::TITUL_DEFAULT;
 
 	}
@@ -86,7 +132,8 @@ class QueryPresenter extends SpravaPresenter
 	{
 		$form = new Form;
 
-        $form->addTextArea('dotaz', '', 100, 10)
+        $form->addTextArea('dotaz', '', 100, 13)
+			->setAttribute('spellcheck','false')
             ->addRule(Form::MAX_LENGTH, 'Dotaz je příliš dlouhý.', 15000);
 			
 		$form->addSubmit('gou', 'Spustit SQL')->setAttribute('class', 'default');

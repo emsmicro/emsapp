@@ -13,7 +13,7 @@
     <li n:foreach="$form->errors as $error">{$error}</li>
 </ul>
 
-	<div style="position:relative; width:880px;">
+	<div style="position:relative; width:1180px;">
 		<span style="position:absolute;float:left; left:250px; width:500px; top:-40px;">
 			{input gou class => 'button default'}
 			<span style="margin-left: 150px;">
@@ -32,7 +32,7 @@
 	
 {if isset($head)}
 	<p></p>
-	<table class="grid" style="width:100%;">
+	<table class="grid">
 		<thead
 		<tr>
 			{foreach $head as $item}
@@ -75,6 +75,9 @@
 						<td>
 							{if $ii == $idc}
 								<a n:href="default, $csql . $item" title="Data tabulky">{$item}</a>
+								<span class="spright mini">
+									<a n:href="default, $item, 9" title="Test na duplicitu">Test duplicity</a>
+								</span>
 							{else}
 								{$item}
 							{/if}
@@ -86,9 +89,15 @@
 	{/block}
 
 	</table>
-
+{else}
+	<div n:if="$sql<>''" class="flash">Výsledkem dotazu nejsou žádná data.</div>
 	
 {/if}
 
 </div>
 <p></p>
+<style>
+	.spright {
+		float:right;
+	}
+</style>

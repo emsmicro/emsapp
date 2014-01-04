@@ -32,7 +32,7 @@
 	<tr><th>Podíl ostatních nákladů</th><td class="cislo">{$naklady_ostatni|number:2:',':' '}</td><td>% z PC</td></tr>
 	<tr class="tseptop"><th>Roční kapacita</th><td class="cislo">{$item->kapacita|number:2:',':' '}</td><td>hod/rok</td></tr>
 	<tr><th>Fixní náklady</th><td class="cislo">{$item->naklady_fixni|number:2:',':' '}</td><td>Kč/hod</td></tr>
-	<tr><th style="text-align: right;"> - z toho odpisy</th><td class="cislo">{$item->odpisy_hod|number:2:',':' '}</td><td>Kč/hod</td></tr>
+	<tr><th style="text-align: right;"> - z toho odpisy</th><td class="cislo"><b>{$item->odpisy_hod|number:2:',':' '}</b></td><td>Kč/hod</td></tr>
 	<tr><th>Variabilní náklady</th><td class="cislo">{$item->naklady_variabilni|number:2:',':' '}</td><td>Kč/hod</td></tr>
 	<tr class="tseptop" style="font-size: medium;">
 		<th><b>Hodinová sazba</b></th><td class="cislo"><b>{$item->hodinova_cena|number:2:',':' '}</b></td><td>Kč/hod</td>
@@ -40,3 +40,4 @@
 	
 </table>
 
+{include 'params.latte'}

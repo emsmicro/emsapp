@@ -1,7 +1,8 @@
 <?php
 
 use Nette\Application\UI\Form,
-	Nette\Application as NA;
+	Nette\Application as NA,
+	PdfResponse\PdfResponse as PdfR;
 
 
 class ProduktPresenter extends ObchodPresenter
@@ -157,7 +158,6 @@ class ProduktPresenter extends ObchodPresenter
 		$instance = new Produkt;
 		$item = $instance->find($id)->fetch();
 
-		$template->dirm = $this->context->parameters['appDir'] ."/../../lib";
 		$template->company = $this->company['name'];
 		$template->item = $item;
 	   	$template->titul = $item->nazev;
@@ -172,13 +172,13 @@ class ProduktPresenter extends ObchodPresenter
         $pocet = $poc->show($id);
         $template->pocet = $pocet;
 
-        $pdf = new PdfResponse\PdfResponse($template);
+        $pdf = new PdfR($template);
 
 		
         // Všechny tyto konfigurace jsou nepovinné:
 
 //        // Orientace stránky
-//        $pdf->pageOrientaion = PDFResponse::ORIENTATION_LANDSCAPE;
+//        $pdf->pageOrientaion = PdfR::ORIENTATION_LANDSCAPE;
 //        // Formát stránky
 //        $pdf->pageFormat = "A0";
 //        // Okraje stránky
@@ -207,11 +207,6 @@ class ProduktPresenter extends ObchodPresenter
 		//\Nette\Http::getHttpResponse()->setHeader('Content-Disposition', 'inline');
 
         // Zde končí nepovinná konfigurace
-
-		
-//		$document = new Wkhtmltopdf\Document($this->context->parameters['tempDir']);
-//		$document->addHtml($template);
-//		$this->sendResponse($document);		
 		
         // Ukončíme presenter -> předáme řízení PDFresponse
         $this->sendResponse($pdf);

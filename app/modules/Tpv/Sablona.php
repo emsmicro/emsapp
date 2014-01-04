@@ -47,9 +47,9 @@ class Sablona extends Model
 	}
 
 	
-	public function findSablTyp($id, $idt)
+	public function findSablTyp($id)
 	{
-		return $this->CONN->select('*')->from('tp_sablony_typy')->where("id_tp_sablony=$id AND id_typy_operaci=$idt");
+		return $this->CONN->select('*')->from('tp_sablony_typy')->where("id=$id");
 	}
 	
 	
@@ -90,7 +90,7 @@ class Sablona extends Model
 	 */
 	public function showSablTypOper($id)
 	{
-		return $this->CONN->query("SELECT st.id_tp_sablony [idts], st.id_typy_operaci [idto], st.nazev, 
+		return $this->CONN->query("SELECT st.id [id], st.id_tp_sablony [idts], st.id_typy_operaci [idto], st.nazev, 
 								tt.zkratka [tzkratka], tt.nazev [tnazev],
 								dd.zkratka [dzkratka], dd.nazev [dnazev],
 								ts.zkratka [szkratka], ts.nazev [snazev],
@@ -104,9 +104,9 @@ class Sablona extends Model
 	}
 
 
-	public function updateTypo($id, $idt, $data = array())
+	public function updateTypo($id, $data = array())
 	{
-		return $this->CONN->update('tp_sablony_typy', $data)->where("id_tp_sablony=$id AND id_typy_operaci=$idt")->execute();
+		return $this->CONN->update('tp_sablony_typy', $data)->where("id=$id")->execute();
 	}
 	
 	public function insertTypo($data = array())
@@ -114,9 +114,9 @@ class Sablona extends Model
 		return $this->CONN->insert('tp_sablony_typy', $data)->execute();
 	}
 	
-	public function deleteTypo($id, $idt)
+	public function deleteTypo($id)
 	{
-		return $this->CONN->delete('tp_sablony_typy')->where("id_tp_sablony=$id AND id_typy_operaci=$idt")->execute();
+		return $this->CONN->delete('tp_sablony_typy')->where("id=$id")->execute();
 	}
 	
 }

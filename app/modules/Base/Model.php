@@ -568,4 +568,27 @@ class Model extends DibiRow
 		return $sstr;
 	}
 	
+	/**
+	 * Testuje duplicitu v tabulce dle seznamu klíčů
+	 * @param type $table .. testovaná tabulka
+	 * @param type $orders .. seznam polí
+	 * @return boolean or object
+	 */
+	public function testDuplicity($table, $orders) {
+		if($table=='' or $orders==''){return FALSE;}
+		return $this->CONN->query(
+				"SELECT *
+					FROM $table
+						ORDER BY $orders;
+
+				WITH numbered
+				AS ( SELECT   *
+                      , ROW_NUMBER() OVER ( PARTITION BY $orders ORDER BY $orders ) AS row_no
+				FROM $table )
+				SELECT  *
+				FROM    numbered
+				WHERE   nr > 1;"
+				)->fetchAll();
+	}
+	
 }

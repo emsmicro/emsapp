@@ -133,13 +133,13 @@ class SablonaPresenter extends TpvPresenter
 
 	/**
 	 * Add typ_operace into sablona
-	 * @param type $id = id_sablony
+	 * @param type $ids = id_sablony
 	 * @param type $idd = id_druhy_operaci
 	 */
-	public function renderAddTypo($id, $idd = 0)
+	public function renderAddTypo($ids, $idd = 0)
 	{
 			$item = new Sablona;
-			$sabl = $item->find($id)->fetch();
+			$sabl = $item->find($ids)->fetch();
 			$por = (int) $sabl->mporadi/10;
 			$sporadi = (string) ($por*10 + 10);
 			$poradi = str_pad($sporadi, 3, "0", STR_PAD_LEFT);
@@ -162,15 +162,14 @@ class SablonaPresenter extends TpvPresenter
 
 	/**
 	 * 
-	 * @param type $id = id_sablony
-	 * @param type $idt = id_typy_operaci
+	 * @param type $id = id_tp_sablony_typy
 	 * @throws NA\BadRequestException
 	 */
-	public function renderEditTypo($id, $idt)
+	public function renderEditTypo($id)
 	{
 		$item = new Sablona;
-		$sabl = $item->findSablTyp($id, $idt)->fetch();
-		$this['typoForm']['id_typy_operaci']->value = $idt;
+		$sabl = $item->findSablTyp($id)->fetch();
+		//$this['typoForm']['id_typy_operaci']->value = $sabl->id_typy_operaci;
 		$form = $this['typoForm'];
 		if (!$form->isSubmitted()) {
 			if (!$sabl) {
@@ -207,10 +206,10 @@ class SablonaPresenter extends TpvPresenter
 	 * @throws BadRequestException
 	 * @return void
 	 */
-	public function renderDeleteTypo($id, $idt)
+	public function renderDeleteTypo($id)
 	{
 		$sabl = new Sablona;
-		$this->template->sabl = $sabl->find($id)->fetch();
+		$this->template->sabl = $sabl->findSablTyp($id)->fetch();
 		if (!$this->template->sabl) {
 			throw new Nette\Application\BadRequestException('Záznam nenalezen!');
 		}
@@ -315,6 +314,8 @@ class SablonaPresenter extends TpvPresenter
 
 		$form->addTextArea('nazev', 'Název:', 60, 4)
 				->setRequired('Uveďte název.');
+		
+		$form->addHidden('id_tp_sablony');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
@@ -328,23 +329,22 @@ class SablonaPresenter extends TpvPresenter
 
 	public function typoFormSubmitted(Form $form)
 	{
+		$data = (array) $form->values;
+		$this->ids = $data['id_tp_sablony'] > 0 ? $data['id_tp_sablony'] : $this->getParam('ids');
+		
 		if ($form['save']->isSubmittedBy()) {
 			$id = (int) $this->getParam('id');
-			$idt = (int) $this->getParam('idt');
 			$rate = new Sablona;
-			$data = (array) $form->values;
-			$data['id_typy_operaci'] = (int) $data['id_typy_operaci'];
-			if ($id > 0 && $idt > 0) {
-				$rate->updateTypo($id, $idt, $data);
+			if ($id > 0 ) {
+				$rate->updateTypo($id, $data);
 				$this->flashMessage('Položka byla změněna.');
 			} else {
-				$data['id_tp_sablony'] = $id;
+				$data['id_tp_sablony'] = $this->getParam('ids');
 				$rate->insertTypo($data);
 				$this->flashMessage('Položka byla přidána.');
 			}
 		}
-
-		$this->redirect('detail',$this->getParam('id'));
+		$this->redirect('detail',$this->ids);
 
 	}
 
@@ -370,7 +370,7 @@ class SablonaPresenter extends TpvPresenter
 	{
 		if ($form['delete']->isSubmittedBy()) {
 			$item = new Sablona;
-			$item->deleteTypo($this->getParam('sid'), $this->getParam('sidt'));
+			$item->deleteTypo($this->getParam('id'));
 			$this->flashMessage('Smazáno.');
 		}
 
