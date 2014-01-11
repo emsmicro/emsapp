@@ -4,6 +4,9 @@
 {block #content}
 
 <h1 n:block="title">{$titul}</h1>
+{if $idp>0}
+	<h2>Produkt: {$namep}</h2>
+{/if}
 
 {* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
 {var $cond = $user->isAllowed('Postup','add') || $user->isAllowed('Postup','edit') || $user->isAllowed('Postup','delete')}
@@ -14,6 +17,9 @@
 	<th>K2</th>
 	<th>Zkratka</th>
 	<th>Název</th>
+	{if $idp==0}
+		<th>Produkt</th>
+	{/if}
 	<td n:if="$cond" class="takce">
 		<span class="setadd" title="Přidat záznam">
 			<a n:if="$user->isAllowed('Postup','add')" n:href="add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -27,6 +33,9 @@
 	<td class="cislo">{$it->id_k2}</td>
 	<td><a n:href="detail, $it->id">{$it->zkratka}</a></td>
 	<td>{$it->nazev}</td>
+	{if $idp==0}
+		<td><a n:href="Produkt:detail, $idp">{$it->pzkratka}</a></td>
+	{/if}
 	<td n:if="$cond" class="takce">
 		<span class="setedit" title="Změnit">
 			<a n:if="$user->isAllowed('Postup','edit')" n:href="edit, $it->id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>

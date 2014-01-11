@@ -33,7 +33,9 @@ class Firma extends Model
 					LEFT JOIN staty s 		ON a.id_staty=s.id
 				";
 		if($this->filter<>''){
-			$sql_cmd = $sql_cmd . "	WHERE f.zkratka + f.nazev + a.ulice + o.nazev + s.zkratka + s.nazev LIKE '%$this->filter%'";
+			//$sql_cmd = $sql_cmd . "	WHERE f.zkratka + f.nazev + a.ulice + o.nazev + s.zkratka + s.nazev LIKE '%$this->filter%'";
+			$uf = new FilterModel;
+			$sql_cmd = $this->full_detail_query . "	WHERE " . $uf->setCondFilter("f.zkratka + f.nazev + a.ulice + o.nazev + s.zkratka + s.nazev", $this->filter);
 		}
 		return $this->CONN->dataSource($sql_cmd);
 	}

@@ -44,7 +44,7 @@ class StrojPresenter extends TpvPresenter
         $instance = new Stroj;
 		$this->template->items = $instance->show()->orderBy('zkratka');
         $this->template->titul = self::TITUL_DEFAULT;
-
+		$this->template->params = $this->mpars;
 	}
 /********************* view detail *********************/
 	/**
@@ -60,7 +60,6 @@ class StrojPresenter extends TpvPresenter
 		$this->template->item = $item;
 	   	$this->template->titul = $item->zkratka;
 		$this->template->params = $this->mpars;
-		dd($this->mpars);
 	}
 
 	/********************* views add & edit *********************/
@@ -102,7 +101,14 @@ class StrojPresenter extends TpvPresenter
 
 	}
 
+	public function actionRecalAll()
+	{
+		$inst = new Stroj;
+		$inst->recalculateAll();
+		$this->flashMessage('Sazby strojů byly zaktualizovány.');
+		$this->redirect('default');
 
+	}
 
 	/********************* view delete *********************/
 	/**

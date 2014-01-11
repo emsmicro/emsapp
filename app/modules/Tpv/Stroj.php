@@ -46,6 +46,7 @@ class Stroj extends Model // DibiRow obstará korektní načtení dat
 	public function update($id, $data = array(), $param = array())
 	{
 		$data = $this->calculate($data, $param);
+		dd($data,'UPDdata - Stroj ID = ' . $id);
 		return $this->CONN->update($this->table, $data)->where('id=%i', $id)->execute();
 	}
 	
@@ -68,6 +69,33 @@ class Stroj extends Model // DibiRow obstará korektní načtení dat
 	public function delete($id)
 	{
 		return $this->CONN->delete($this->table)->where('id=%i', $id)->execute();
+	}
+	
+	public function recalculateAll()
+	{
+		$this->CONN->begin();
+		try {
+			// nacteme stroje
+			$stroje = $this->show();
+			// načteme aktuální parametry z tarifů
+			$sparam = $this->getActualTarifParam();
+			// update jednotlivých strojů
+			foreach ($stroje as $stroj) {
+				$data = $this->dataExcept($stroj, 'id');
+				$data['sazba_instalace']	= $data['sazba_instalace']*100;
+				$data['vytizeni']			= $data['vytizeni']*100;
+				$data['vyuziti_prikonu']	= $data['vyuziti_prikonu']*100;
+				$data['naklady_udrzba']		= $data['naklady_udrzba']*100;
+				$data['naklady_ostatni']	= $data['naklady_ostatni']*100;
+				$this->update($stroj->id, $data, $sparam);
+			}
+			$this->CONN->commit();
+		} catch (DibiException $e) {
+			$this->CONN->rollback();
+			throw new Nette\Application\BadRequestException("Aktualizace sazeb strojů se nezdařila (Rollback transaction.)");
+			return FALSE;
+		}
+		return TRUE;
 	}
 
 	/**

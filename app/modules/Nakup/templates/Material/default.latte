@@ -131,7 +131,7 @@
 	{else}
 		<li n:if="$user->isAllowed('Material','add') and $unlocked" title="Přidat nový materiál"><a n:href="add">Přidat materiál</a></li>
 	{/if}
-	{if $co==0}
+	{if $co<=0}
 		<li n:if="$user->isAllowed('Import','default') and $unlocked"><a n:href="Import:default">Import BOM z CSV</a></li>
 		<li n:if="$user->isAllowed('Kurz','default')"><a n:href="Kurz:default">Kurzy</a></li>
 		{if $is_rows}
@@ -241,7 +241,7 @@
 			</td>
 		{/if}
 			<td class="tcislo">
-				{$it->cena_cm|number:5:',':' '} {$it->mena}
+				{$it->cena_cm|number:4:',':' '} {$it->mena}
 			</td>
 		{if $it->cena_kc2 <= 0}
 			<td class="tcislo tselorange" title="Tato cena není uložena v databázi.">
@@ -289,7 +289,7 @@
 					</span>
 				</td>
 			{/if}
-			{if $it->cena_kc3>0}
+			{if $it->cena_kc2>0}
 				{var $dif = ($it->cena_kc3 - $it->cena_kc2)/($it->cena_kc2)*100}
 			{else}
 				{var $dif = 0}

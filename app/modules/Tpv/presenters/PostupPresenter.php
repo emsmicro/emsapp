@@ -32,8 +32,6 @@ class PostupPresenter extends TpvPresenter
 	public function startup()
 	{
 		parent::startup();
-//		$item = new Postup;
-//		$this->items = $item->show();
 
 	}
 
@@ -50,7 +48,9 @@ class PostupPresenter extends TpvPresenter
 		$id_produkty = $this->getIdFromMySet(4);
 		$items = $item->show($id_produkty)->fetchAll();
 		$this->template->items = $items;
-		if (count($items)>0 && $id_produkty > 0){
+		$this->template->idp = $id_produkty;
+		$this->template->namep = $this->getNameFromMySet(4);
+		if (count($items)==1 and $id_produkty > 0){
 			$id = $items[0]['id'];
 			$this->redirect('detail', $id);
 		}
@@ -90,9 +90,9 @@ class PostupPresenter extends TpvPresenter
 	/********************* views add & edit *********************/
 
 	/**
+	 * Add TP
 	 * @return void
 	 */
-
 	public function renderAdd()
 	{
 		$this->idproduct = $this->getIdFromMySet(4);
@@ -100,14 +100,23 @@ class PostupPresenter extends TpvPresenter
 			$this->flashMessage('S modulem POSTUPY nelze pracovat. Nebyl aktivován žádný produkt v rámci nabídky.','exclamation');
 			$this->redirect('default');
 		}
-		$this['itemForm']['id_produkty']->value = $this->idproduct;
-		$this['itemForm']['save']->caption = 'Přidat';
+		$form = $this['itemForm'];
+		if (!$form->isSubmitted()) {
+			$prod = new Produkt;
+			$defa = $prod->find($this->idproduct)->fetch();
+			$form['id_produkty']->value = $defa->id;
+			$form['zkratka']->value = $defa->zkratka . " :TP";
+			$form['nazev']->value = $defa->nazev . " (TP)";
+			$form['id_k2']->value = $defa->id_k2;
+			$form['save']->caption = 'Přidat';
+		}
         $this->template->titul = self::TITUL_ADD;
 		$this->template->is_addon = TRUE;
 
 	}
 
 	/**
+	 * Edit TP
 	 * @param int
 	 * @return void
 	 * @throws BadRequestException
@@ -131,7 +140,7 @@ class PostupPresenter extends TpvPresenter
 
 
 	/**
-	 * Delete item from Sablony
+	 * Delete item from tpostup
 	 * @param type $id
 	 * @throws Nette\Application\BadRequestException
 	 */
@@ -266,7 +275,8 @@ class PostupPresenter extends TpvPresenter
 	protected function createComponentItemForm()
 	{
 		$form = new Form;
- 
+		$id = (int) $this->getParam('id');
+		
 		$form->addText('zkratka', 'Zkratka:', 50)
 				->setRequired('Uveďte zkratku.' );
 		
@@ -281,6 +291,19 @@ class PostupPresenter extends TpvPresenter
 			->addCondition($form::FILLED)
 					->addRule($form::INTEGER, 'Hodnota musí být celé číslo.');
 		
+		if($id==0){
+			$post = new Postup;
+			$sabl = $post->getSablony();
+			$form->addSelect('a_id_sablony', 'Šablona:', $sabl)
+						->setPrompt('.. Zvolte šablonu operací ..');
+
+			$form->addText('a_poradi', 'Pořadí:',3)
+					->setAttribute('class', 'cislo')
+					->setOption('description', '(pořadí skupiny operací v TP)')
+					->addFilter(array('Nette\Forms\Controls\TextBase', 'filterFloat'))
+						->controlPrototype
+							->autocomplete('off');
+		}
 		$form->addHidden('id_produkty');
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
@@ -295,14 +318,19 @@ class PostupPresenter extends TpvPresenter
 	public function itemFormSubmitted(Form $form)
 	{
 		if ($form['save']->isSubmittedBy()) {
-			$id = (int) $this->getParam('id');
 			$item = new Postup;
+			$id = (int) $this->getParam('id');
+			$data = $item->getPrefixedFormFields($form->values);
 			if ($id > 0) {
-				$item->update($id, $form->values);
+				$item->update($id, $data);
 				$this->flashMessage('Postup byl změněn.');
-
 			} else {
-				$item->insert($form->values);
+				$sabl = $item->getPrefixedFormFields($form->values,'a_');				
+				$id = $item->insert($data);
+				if($sabl['id_sablony']>0){
+					$sabl['id_tpostup'] = $id;
+					$item->insertSabl($sabl);
+				}
 				$this->flashMessage('Postup byl založen.');
 			}
 		}

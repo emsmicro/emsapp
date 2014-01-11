@@ -104,9 +104,17 @@ class Material extends Model
 		}
 		if ($cond<>''){
 			$cond = ' WHERE '.$cond;
-			if ($this->filter<>''){$cond .= " AND m.zkratka+m.nazev LIKE '%$this->filter%'";}
+			if ($this->filter<>''){
+				//$cond .= " AND m.zkratka+m.nazev LIKE '%$this->filter%'";
+				$uf = new FilterModel;
+				$cond .= " AND " . $uf->setCondFilter("m.zkratka+m.nazev", $this->filter);
+			}
 		} else {
-			if ($this->filter<>''){$cond = " WHERE m.zkratka+m.nazev LIKE '%$this->filter%'";}
+			if ($this->filter<>''){
+				//$cond = " WHERE m.zkratka+m.nazev LIKE '%$this->filter%'";
+				$uf = new FilterModel;
+				$cond .= " WHERE " . $uf->setCondFilter("m.zkratka+m.nazev", $this->filter);
+			}
 		}
 		if($this->limit==0 && $this->offset==0){
 			$rslt = $this->CONN->query("$sql_cmd $cond $ordsql");

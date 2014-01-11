@@ -81,7 +81,7 @@
 									</a>
 								</span>
 							</th>
-							{if $cen->id_vzorec == $item->vzorec}
+							{if $cen->id_vzorec == $item->vzorec or $cen->set_sazeb == "defaultní" or $cen->idss == $item->idss}
 								{if $cen->aktivni == 1}
 									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span></th>
 								{else}

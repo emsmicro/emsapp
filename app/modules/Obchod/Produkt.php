@@ -71,8 +71,9 @@ class Produkt extends Model
 	public function show()
 	{
 		if($this->filter<>''){
-			$sql_cmd = $this->full_detail_query . "	WHERE Convert(varchar, COALESCE(n.popis,'Přiřadit k nabídce'))+p.zkratka+p.nazev+f.nazev LIKE '%$this->filter%'";
-			
+			//$sql_cmd = $this->full_detail_query . "	WHERE Convert(varchar, COALESCE(n.popis,'Přiřadit k nabídce'))+p.zkratka+p.nazev+f.nazev LIKE '%$this->filter%'";
+			$uf = new FilterModel;
+			$sql_cmd = $this->full_detail_query . "	WHERE " . $uf->setCondFilter("Convert(varchar, COALESCE(n.popis,'Přiřadit k nabídce'))+p.zkratka+p.nazev+f.nazev", $this->filter);
 		} else {
 			$sql_cmd = $this->full_detail_query;
 		}
@@ -568,6 +569,16 @@ class Produkt extends Model
 	 */
 	public function countProdVazby($id) {
 		return $this->CONN->query("SELECT count(id_material) [bom], count(id_operace) [tpv] FROM vazby WHERE id_vyssi=$id")->fetch();
+	}
+	
+	/** 
+	 * If product is assigned to offer
+	 * @param type $id
+	 * @return type boolean
+	 */
+	public function isAssigned($id) {
+		$cnt = $this->CONN->query("select COUNT(*) from ceny WHERE id_produkty = $id")->fetchSingle();
+		return $cnt>0;
 	}
 }
 

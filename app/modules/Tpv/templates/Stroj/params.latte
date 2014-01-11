@@ -1,13 +1,37 @@
-<h2>Další parametry</h2>
-<table class="grid" style='width: 50%; border: 3px solid #ADD4FB;'>
-	<tr>
-		<th>Cena elektřiny</th>	<td class="tcislo">{$params['cena_elekriny']|number:3:',':' '} Kč/kWh</td>
-		<th>Cena dusíku</th>	<td class="tcislo">{$params['cena_dusiku']|number:3:',':' '} Kč/m3</td>
-	</tr>
-	<tr>
-		<th>Náklady ploch</th>	<td class="tcislo">{$params['naklady_plochy']|number:0:',':' '} Kč/m2</td>
-		<th>Úrokova sazba</th>	<td class="tcislo">{$params['urokova_mira']|number:2:',':' '} %</td>
-	</tr>
-</table>
+<div class="kolaps">
+ <div class="kol-ps">
+  <h3>Parametry pro ocenění</h3>
+  <div>
+	<table class="grid" style='width: 50%; border: 3px solid #ADD4FB;'>
+		<tr>
+			<th>Cena elektřiny</th>	<td class="tcislo">{$params['cena_elekriny']|number:3:',':' '} Kč/kWh</td>
+			<th>Cena dusíku</th>	<td class="tcislo">{$params['cena_dusiku']|number:3:',':' '} Kč/m3</td>
+		</tr>
+		<tr>
+			<th>Náklady ploch</th>	<td class="tcislo">{$params['naklady_plochy']|number:0:',':' '} Kč/m2</td>
+			<th>Úrokova sazba</th>	<td class="tcislo">{$params['urokova_mira']|number:2:',':' '} %</td>
+		</tr>
+	</table>
 
-<p class="midi" n:if="$user->isAllowed('SetTarifu','detail')" title="Aktuální tarifní sazby"><a n:href="SetTarifu:detail, $params['id']">{$params['nazev']} ...</a></p>
+	<p class="midi" n:if="$user->isAllowed('SetTarifu','detail')" title="Aktuální tarifní sazby"><a n:href="SetTarifu:detail, $params['id']">{$params['nazev']} ...</a></p>
+  </div>
+ </div>
+</div>
+	
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $(".kol-ps").collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+                 },
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+</script>
+	

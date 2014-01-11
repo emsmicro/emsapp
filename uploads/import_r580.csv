@@ -1,0 +1,122 @@
+id_k2;nazev;zkratka;mena;cena;mnozstvi
+41939;KRYT 4022 197 52092                                               ;KRYT 4022 197 52092                                               ;CZK;1160,93;1
+42296;SROUB M3X6 ISO 14583-A4 (BN 20038)                                ;SROUB M3X6 ISO 14583-A4 (BN 20038)                                ;CZK;0,77;2
+41992;PODLOZKA 3,2 DIN 125-A4 (BN 671), ISO 7089                        ;PODLOZKA 3,2 DIN 125-A4 (BN 671), ISO 7089                        ;CZK;0,0915;2
+41955;O-KROUZEK 2.62x67.95 VITON, FEI                                   ;O-KROUZEK 2.62x67.95 VITON, FEI                                   ;CZK;24,2;1
+43528;SROUB M3X20 DIN 916-A4 (BN 4721) stavìcí                          ;SROUB M3X20 DIN 916-A4 (BN 4721) stavìcí                          ;CZK;4,23;4
+41940;DISTANCNI SLOUPEK M4x8 MM 5.14.083 (poniklovaný)                  ;DISTANCNI SLOUPEK M4x8 MM 5.14.083 (poniklovaný)                  ;CZK;2,75;4
+14527;GUMOVA PRUCHODKA 3,5X1                                            ;GUMOVA PRUCHODKA 3,5X1                                            ;CZK;3,0528;1
+42004;  DPS FEI 4022 192 83621 (PANEL 1x2 ks) RoHS HAL                 ;  DPS FEI 4022 192 83621 (PANEL 1x2 ks) RoHS HAL                 ;CZK;402,51;1
+40306;  CS 10M/16V 20% (SMD 4 x 5,3mm) +105°C RoHS                     ;  CS 10M/16V 20% (SMD 4 x 5,3mm) +105°C RoHS                     ;EUR;0,107;6
+24886;  TK SMD 0805 220P/50V 5% C0G/NPO (V PASU) RoHS                  ;  TK SMD 0805 220P/50V 5% C0G/NPO (V PASU) RoHS                  ;EUR;0,002;1
+15213;  TK SMD 0805 100N/50V 10% X7R (V PASU) RoHS                     ;  TK SMD 0805 100N/50V 10% X7R (V PASU) RoHS                     ;EUR;0,0018;3
+19173;  TK SMD 0805 12P/50V 5% C0G/NPO (V PASU)                        ;  TK SMD 0805 12P/50V 5% C0G/NPO (V PASU)                        ;CZK;0,1233;1
+23109;  TK SMD 0805 4P7/50V ±0.25pF C0G/NPO (V PASU) RoHS              ;  TK SMD 0805 4P7/50V ±0.25pF C0G/NPO (V PASU) RoHS              ;EUR;0,0026;2
+15213;  TK SMD 0805 100N/50V 10% X7R (V PASU) RoHS                     ;  TK SMD 0805 100N/50V 10% X7R (V PASU) RoHS                     ;EUR;0,0018;21
+19170;  TK SMD 0805 2P2/50V ±0.25pF C0G/NPO (V PASU)                   ;  TK SMD 0805 2P2/50V ±0.25pF C0G/NPO (V PASU)                   ;CZK;0,1233;1
+24734;  TK SMD 0805 10P/50V 5% NPO (V PASU) RoHS                       ;  TK SMD 0805 10P/50V 5% NPO (V PASU) RoHS                       ;EUR;0,0026;1
+20070;  TK SMD 0805 47N/50V X7R 10% (V PASU) RoHS                      ;  TK SMD 0805 47N/50V X7R 10% (V PASU) RoHS                      ;EUR;0,0023;1
+19516;  TK SMD 1206 1M/16V 10% X7R (V PASU) RoHS                       ;  TK SMD 1206 1M/16V 10% X7R (V PASU) RoHS                       ;EUR;0,0085;5
+20070;  TK SMD 0805 47N/50V X7R 10% (V PASU) RoHS                      ;  TK SMD 0805 47N/50V X7R 10% (V PASU) RoHS                      ;EUR;0,0023;2
+26778;  ODPOR SMD 0603 10K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 10K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;5
+26410;  ODPOR SMD 0603 150R/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 150R/F 0,1W (V PASU) RoHS                       ;USD;0,0006;1
+19990;  ODPOR SMD 0603 47R/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 47R/F 0,1W (V PASU) RoHS                        ;USD;0,0006;3
+26519;  ODPOR SMD 0603 2K7/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 2K7/F 0,1W (V PASU) RoHS                        ;EUR;0,0006;2
+29263;  ODPOR SMD 0603 180R/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 180R/F 0,1W (V PASU) RoHS                       ;USD;0,0006;3
+31118;  ODPOR SMD 0603 220R/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 220R/F 0,1W (V PASU) RoHS                       ;USD;0,0006;1
+19994;  ODPOR SMD 0603 1K8/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 1K8/F 0,1W (V PASU) RoHS                        ;EUR;0,0006;1
+21517;  ODPOR SMD 0603 33R/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 33R/F 0,1W (V PASU) RoHS                        ;USD;0,0006;1
+27071;  ODPOR SMD 0603 39R/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 39R/F 0,1W (V PASU) RoHS                        ;USD;0,0006;1
+28254;  ODPOR SMD 0603 390R/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 390R/F 0,1W (V PASU) RoHS                       ;CZK;0,02;1
+19993;  ODPOR SMD 0603 100K/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 100K/F 0,1W (V PASU) RoHS                       ;USD;0,0006;2
+19990;  ODPOR SMD 0603 47R/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 47R/F 0,1W (V PASU) RoHS                        ;USD;0,0006;1
+35513;  ODPOR SMD 0603 100R/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 100R/F 0,1W (V PASU) RoHS                       ;USD;0,0006;1
+19991;  ODPOR SMD 0603 15K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 15K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;1
+26778;  ODPOR SMD 0603 10K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 10K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;5
+28253;  ODPOR SMD 0603 68K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 68K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;2
+35516;  ODPOR SMD 0603 10R/F 0,1W (V PASU)  RoHS                       ;  ODPOR SMD 0603 10R/F 0,1W (V PASU)  RoHS                       ;USD;0,0006;6
+20000;  ODPOR SMD 0603 27K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 27K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;2
+38037;  ODPOR SMD 0603 10M/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 10M/F 0,1W (V PASU) RoHS                        ;USD;0,0007;2
+26409;  ODPOR SMD 0603 1K/F 0,1W (V PASU) RoHS                         ;  ODPOR SMD 0603 1K/F 0,1W (V PASU) RoHS                         ;USD;0,0006;2
+18031;  ODPOR SMD 0603 1M/F 0,1W (V PASU) RoHS                         ;  ODPOR SMD 0603 1M/F 0,1W (V PASU) RoHS                         ;USD;0,0006;3
+26411;  ODPOR SMD 0603 47K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 47K/F 0,1W (V PASU) RoHS                        ;EUR;0,0004;4
+28573;  ODPOR SMD 0603 33K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 33K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;1
+26988;  ODPOR SMD 0603 56K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 56K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;2
+20077;  ODPOR SMD 0603 12K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 12K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;2
+35951;  ODPOR SMD 0603 18K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 18K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;1
+26778;  ODPOR SMD 0603 10K/F 0,1W (V PASU) RoHS                        ;  ODPOR SMD 0603 10K/F 0,1W (V PASU) RoHS                        ;USD;0,0006;3
+35514;  ODPOR SMD 0603 470R/F 0,1W (V PASU) RoHS                       ;  ODPOR SMD 0603 470R/F 0,1W (V PASU) RoHS                       ;USD;0,0006;2
+35575;  FERIT MURATA BLM18AG102SN1D (SMD 0603, 1Kohm/400mA) RoHS       ;  FERIT MURATA BLM18AG102SN1D (SMD 0603, 1Kohm/400mA) RoHS       ;EUR;0,007;6
+39130;  AD8131ARZ (SMD SO-8) RoHS                                      ;  AD8131ARZ (SMD SO-8) RoHS                                      ;USD;1,82;1
+41906;  OPA656U (SMD SO-8) RoHS                                        ;  OPA656U (SMD SO-8) RoHS                                        ;EUR;5,12;1
+41904;  AD8036ARZ (SMD SO-8) RoHS                                      ;  AD8036ARZ (SMD SO-8) RoHS                                      ;USD;5,1;1
+40325;  LM393M (SMD SOIC8) RoHS                                        ;  LM393M (SMD SOIC8) RoHS                                        ;EUR;0,2083;1
+41903;  LMC6482IM (SMD SO-8) RoHS                                      ;  LMC6482IM (SMD SO-8) RoHS                                      ;EUR;0,6929;2
+40984;  LQ SMD LGA67K-H2K1-24-Z (PLCC-2, zelená) RoHS                  ;  LQ SMD LGA67K-H2K1-24-Z (PLCC-2, zelená) RoHS                  ;EUR;0,035;1
+41909;  BSS83  (SMD SOT-143) 10V/50mA  RoHS                            ;  BSS83  (SMD SOT-143) 10V/50mA  RoHS                            ;EUR;0,192;5
+41905;  FDV302P (SMD SOT23) RoHS                                       ;  FDV302P (SMD SOT23) RoHS                                       ;CZK;0,9254;1
+29877;  PMBF170 (SMD SOT23) RoHS                                       ;  PMBF170 (SMD SOT23) RoHS                                       ;EUR;0,0243;1
+29812;  BAS16 (SMD SOT23) 75V/200mA RoHS                               ;  BAS16 (SMD SOT23) 75V/200mA RoHS                               ;EUR;0,012;2
+42558;  SSTPAD5 (SMD SOT-23) RoHS,                                     ;  SSTPAD5 (SMD SOT-23) RoHS,                                     ;EUR;1,89;2
+41908;  ZD 0,25W 6,2V BZX84C6V2 (SMD SOT23) RoHS                       ;  ZD 0,25W 6,2V BZX84C6V2 (SMD SOT23) RoHS                       ;CZK;0,4964;1
+27078;  BAV199 (SMD SOT-23) 85V/0,5A RoHS                              ;  BAV199 (SMD SOT-23) 85V/0,5A RoHS                              ;EUR;0,014;4
+41884;  ZASUVKA SMB R114665000  (do DPS, 90°)                          ;  ZASUVKA SMB R114665000  (do DPS, 90°)                          ;EUR;2,79;1
+42482;  CANON 15 VIDLICE DO DPS 90° (FCI D15P13A6GL00LF) RoHS,nedostupn;  CANON 15 VIDLICE DO DPS 90° (FCI D15P13A6GL00LF) RoHS,nedostupn;EUR;1,34;1
+41287;  ZAPADKA POSUVNÁ 164890-1 160X10169X                            ;  ZAPADKA POSUVNÁ 164890-1 160X10169X                            ;CZK;32,04;1
+41901;  AMP ZASUVKA FIREWIRE 5787956-1 (do DPS, 90°) RoHS              ;  AMP ZASUVKA FIREWIRE 5787956-1 (do DPS, 90°) RoHS              ;EUR;1;1
+41885;  AMP ZASUVKA BNC 5226990-1 (do DPS, 90°) RoHS                   ;  AMP ZASUVKA BNC 5226990-1 (do DPS, 90°) RoHS                   ;CZK;44,15;1
+27130; AMP SROUB BNC 221108-2; AMP SROUB BNC 221108-2;CZK;0,22;2
+41946;  PAJECI KOLIK 4022 007 45740                                    ;  PAJECI KOLIK 4022 007 45740                                    ;CZK;1,82;2
+7508;  VODIC CVB 0,12 BILY                                            ;  VODIC CVB 0,12 BILY                                            ;CZK;0,04;1
+41894;  LM340T-5.0 (TO220-3) RoHS                                      ;  LM340T-5.0 (TO220-3) RoHS                                      ;EUR;0,58;1
+29460;  PODLOZKA SILIKONOVA pro TO220                                  ;  PODLOZKA SILIKONOVA pro TO220                                  ;CZK;0,7;2
+9196;  7905 (TO-220)                                                  ;  7905 (TO-220)                                                  ;EUR;0,736;1
+41994;  MATICE M3 DIN 934-A4  (BN 629)                                 ;  MATICE M3 DIN 934-A4  (BN 629)                                 ;CZK;0,17;2
+41917;  PODLOZKA 3 DIN 128A-A4 (BN 8856)                               ;  PODLOZKA 3 DIN 128A-A4 (BN 8856)                               ;CZK;0,623;2
+1141;  PRUCHODKA IB2 (pro TO220)                                      ;  PRUCHODKA IB2 (pro TO220)                                      ;CZK;0,4946;1
+41989;  SROUB M3X8 ISO 14583-A4 (BN 20038)                             ;  SROUB M3X8 ISO 14583-A4 (BN 20038)                             ;CZK;0,66;2
+41941;DISTANCNI SLOUPEK M4x20 MM 5.04.203 (poniklovaný)                 ;DISTANCNI SLOUPEK M4x20 MM 5.04.203 (poniklovaný)                 ;CZK;3,8931;4
+41993;PODLOZKA 4,3 DIN 125-A4 (BN 671)                                  ;PODLOZKA 4,3 DIN 125-A4 (BN 671)                                  ;CZK;0,19;8
+41938;VIKO 4022 197 52082                                               ;VIKO 4022 197 52082                                               ;CZK;369,11;1
+41902;ZASUVKA COAX. 22 H4-50-0-1 / 133 NE (50R, na panel)               ;ZASUVKA COAX. 22 H4-50-0-1 / 133 NE (50R, na panel)               ;CZK;244;1
+42302;PODLOZKA 9,6   72Z-0-0-1/---5H  (pro BNC, s pájecím oèkem)      ;PODLOZKA 9,6   72Z-0-0-1/---5H  (pro BNC, s pájecím oèkem)      ;CZK;10;1
+14213;DISTANCNI SLOUPEK M3x10 MM 5.13.109 NEREZ                         ;DISTANCNI SLOUPEK M3x10 MM 5.13.109 NEREZ                         ;CZK;5,5023;2
+41954;O-KROUZEK 1,78 x 69,57 VITON, FEI                                 ;O-KROUZEK 1,78 x 69,57 VITON, FEI                                 ;CZK;21,2;1
+43481;O-KROUZEK 37,3x4,5 NBR80;O-KROUZEK 37,3x4,5 NBR80;CZK;3,84;1
+42429;PODLOZKA IZOL. 4,5  D00791 (vlákno)                               ;PODLOZKA IZOL. 4,5  D00791 (vlákno)                               ;CZK;0,542;2
+41993;PODLOZKA 4,3 DIN 125-A4 (BN 671)                                  ;PODLOZKA 4,3 DIN 125-A4 (BN 671)                                  ;CZK;0,19;2
+41936;PRUZINA 4022 187 87121                                            ;PRUZINA 4022 187 87121                                            ;CZK;3,38;2
+41990;SROUB M4X6 ISO 14583-A4 (BN 20038)                                ;SROUB M4X6 ISO 14583-A4 (BN 20038)                                ;CZK;0,625;4
+42377;  DPS FEI 1011213 (GOLD) Isola IS400                             ;  DPS FEI 1011213 (GOLD) Isola IS400                             ;CZK;65,68;1
+42339;  TK SMD 1206 1N/500V 5% C0G/NPO (V PASU) RoHS                   ;  TK SMD 1206 1N/500V 5% C0G/NPO (V PASU) RoHS                   ;EUR;0,0216;2
+22223;  TK SMD 1210 1M/100V 10% X7R (V PASU) RoHS                      ;  TK SMD 1210 1M/100V 10% X7R (V PASU) RoHS                      ;EUR;0,0304;2
+42341;  LT1389BCS8-5 (SMD SOIC-8) RoHS                                 ;  LT1389BCS8-5 (SMD SOIC-8) RoHS                                 ;USD;4,167;1
+30594;  ODPOR SMD 1206 200K/F (V PASU)  RoHS                           ;  ODPOR SMD 1206 200K/F (V PASU)  RoHS                           ;USD;0,0016;9
+42344;  ODPOR SMD 1206 130K/F (V PASU) RoHS                            ;  ODPOR SMD 1206 130K/F (V PASU) RoHS                            ;USD;0,0016;1
+42342;  ODPOR SMD 1206 10M/F (V PASU) RoHS                             ;  ODPOR SMD 1206 10M/F (V PASU) RoHS                             ;USD;0,0016;3
+23666;  ODPOR SMD 1206 100K/F (V PASU) 0,25W RoHS                      ;  ODPOR SMD 1206 100K/F (V PASU) 0,25W RoHS                      ;USD;0,0016;1
+9609;  ODPOR SMD 1206 390K/F (V PASU)                                 ;  ODPOR SMD 1206 390K/F (V PASU)                                 ;USD;0,0016;1
+42345;  FMMT558TA (SMD SOT-23) RoHS                                    ;  FMMT558TA (SMD SOT-23) RoHS                                    ;CZK;5,7784;1
+38110;  FMMT458TA (SMD SOT-23) RoHS                                    ;  FMMT458TA (SMD SOT-23) RoHS                                    ;CZK;5,12;1
+42347;  ZD 0,25W 62V BZX84C62 (SMD SOT23) RoHS                         ;  ZD 0,25W 62V BZX84C62 (SMD SOT23) RoHS                         ;CZK;0,6379;1
+42348;  ZD 0,25W 47V BZX84C47 (SMD SOT23) RoHS                         ;  ZD 0,25W 47V BZX84C47 (SMD SOT23) RoHS                         ;CZK;0,6379;1
+29812;  BAS16 (SMD SOT23) 75V/200mA RoHS                               ;  BAS16 (SMD SOT23) 75V/200mA RoHS                               ;EUR;0,012;1
+42340;  TK 4N7/2000V 10%  X7R RM7,5 RoHS                               ;  TK 4N7/2000V 10%  X7R RM7,5 RoHS                               ;CZK;6,52;1
+41946;  PAJECI KOLIK 4022 007 45740                                    ;  PAJECI KOLIK 4022 007 45740                                    ;CZK;2,61;3
+41989;SROUB M3X8 ISO 14583-A4 (BN 20038)                                ;SROUB M3X8 ISO 14583-A4 (BN 20038)                                ;CZK;0,66;3
+41991;SROUB M4X16 ISO 14583-A4 (BN 20038)                               ;SROUB M4X16 ISO 14583-A4 (BN 20038)                               ;CZK;0,99;2
+42297;SROUB M3X40 ISO 14583-A4 (BN 20038)                               ;SROUB M3X40 ISO 14583-A4 (BN 20038)                               ;CZK;2,22;2
+41992;PODLOZKA 3,2 DIN 125-A4 (BN 671), ISO 7089                        ;PODLOZKA 3,2 DIN 125-A4 (BN 671), ISO 7089                        ;CZK;0,16;7
+41993;PODLOZKA 4,3 DIN 125-A4 (BN 671)                                  ;PODLOZKA 4,3 DIN 125-A4 (BN 671)                                  ;CZK;0,19;2
+42299;PODLOZKA 4,3 DIN 6798A-A4 (BN4880)                                ;PODLOZKA 4,3 DIN 6798A-A4 (BN4880)                                ;CZK;0,42;4
+41947;KRYT 4022 261 52251                                               ;KRYT 4022 261 52251                                               ;CZK;267;1
+42346;FOTONASOBIC R580 PMT Tube, vèetnì patice                          ;FOTONASOBIC R580 PMT Tube, vèetnì patice                          ;EUR;234;1
+41020;VODIÈ 200-24HVFEP-CLR                                             ;VODIÈ 200-24HVFEP-CLR                                             ;USD;0,9647;1
+42438;KABEL LIYY UL/CSA 3x0,14 (HNEDY)                                  ;KABEL LIYY UL/CSA 3x0,14 (HNEDY)                                  ;USD;0,5774;1
+42440;VODIC OLFLEX HEAT 145 SERIES 0,50MM2              (FEI: 0722 187 00068 )                 ;VODIC OLFLEX HEAT 145 SERIES 0,50MM2              (FEI: 0722 187 00068 )                 ;EUR;0,049;1
+42928;POUZDRO STINICI 4022 197 55861;POUZDRO STINICI 4022 197 55861;CZK;977;1
+42300;STITEK SAMOLEPICI VYSTRAZNY 90X35MM (FEI 4022 260 08643)          ;STITEK SAMOLEPICI VYSTRAZNY 90X35MM (FEI 4022 260 08643)          ;CZK;15,5;1
+42809;STITEK TYPOVY 63,5x29,6 mm  odolné vlivùm poèasí ( L6011-20);STITEK TYPOVY 63,5x29,6 mm  odolné vlivùm poèasí ( L6011-20);CZK;1,2;1
+41374;STITEK TYPOVY 45,7x21,2 mm odolné vlivùm poèasí (L4778-20);STITEK TYPOVY 45,7x21,2 mm odolné vlivùm poèasí (L4778-20);CZK;0,65;1
+24382;PASKA VINYLOVA D1 DYMO 12/5,5 bílá;PASKA VINYLOVA D1 DYMO 12/5,5 bílá;CZK;0,2;1
+45232;Balící materiál (ant. sáèky);Balící materiál (ant. sáèky);CZK;70;1

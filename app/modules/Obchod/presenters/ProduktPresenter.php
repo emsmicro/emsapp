@@ -124,6 +124,7 @@ class ProduktPresenter extends ObchodPresenter
 		//dd($capac,'CAPACITY');
 		$prices = $instance->prices($id, $this->idn, false);
 		$isceny = count($prices)>0;
+		//dd($prices,'PRICES');
         $this->template->isceny = $isceny;
         $this->template->prices = $prices;
 		$kalk = new Kalkul;
@@ -642,32 +643,6 @@ class ProduktPresenter extends ObchodPresenter
 		} 
 		$this->template->titul = "Změna nabídkové ceny v ".$row['mena'];
 	}	
-
-	
-	/*
-	public function renderEditPricen($id_nabidky, $id_produkty, $id_meny, $id_pocty)
-	{
-		if(!$this->isMySet(3)){
-			//nelze aktualizovat ceny, není vybrána nabídka
-			$this->flashMessage('Ceny nelze měnit, není aktivována žádná nabídka.','exclamation');
-			$this->redirect('detail', $id_produkty);
-		}
-		
-		$item = new Produkt;
-        $row = $item->getPriceNab($id_nabidky, $id_produkty, $id_meny, $id_pocty)->fetch();
-		$form = $this['pricenForm'];
-		if (!$form->isSubmitted()) {
-			
-			if (!$row) {
-				throw new NA\BadRequestException('Záznam nenalezen.');
-			}
-			$form->setDefaults($row);
-		} 
-		$this->template->titul = "Změna nabídkové ceny v ".$row['mena'];
-	}
-	 * 
-	 */	
-	
 	
 	
 	/********************* component factories *********************/
@@ -872,11 +847,6 @@ class ProduktPresenter extends ObchodPresenter
 			$data = $form->values;
 			$id_nabidky = $this->getIdFromMySet(3);
 			$data['id_nabidky'] = $id_nabidky;
-			/*
-			dump($id,$idp,$data);
-			exit;
-			 * 
-			 */
 			$amount = new Pocet;
 			if ($id > 0) {
 				$amount->update($id, $data);

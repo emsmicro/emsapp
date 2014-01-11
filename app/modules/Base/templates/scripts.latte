@@ -1,0 +1,63 @@
+<script type="text/javascript">
+	$(document).ready(init);
+
+	function init()
+	{
+		setStyle($.cookie("style"));
+	}
+
+
+	function setStyle(name)
+	{
+	  if (name)
+		$.cookie("style", name, { expires: 300, path: '/' }); // 300 dni
+	  else
+		name = 'Gold';
+
+	  $('link[rel$=stylesheet][title]:not([title='+name+'])').attr('disabled', 'disabled');
+	  $('link[rel$=stylesheet][title='+name+']').removeAttr('disabled');
+	}
+
+
+	document.onkeydown = function (e) { 
+	  e = e || window.event;
+	  var keyCode = e.keyCode || e.which,
+		  arrow = { left: 37, up: 38, right: 39, down: 40 };
+
+	  if (e.ctrlKey) {
+		switch (keyCode) {
+		  case arrow.left:
+		  //... handle Ctrl-LeftArrow
+			  history.back()
+			  break;
+		  case arrow.right:
+		  //... handle Ctrl-RightArrow
+			  history.forward()
+			  break;
+		}
+	  } else {
+		if(keyCode === 27){ // escape, close box, esc 
+			 //... Go back one page
+			history.back()
+		} 
+	  }
+	};	
+
+</script>
+	
+<script>
+/* Remove _fid from url */
+$(function(){
+    if(window.history.replaceState) {
+        l = window.location.toString();
+        uri = l.indexOf('_fid=');
+        if(uri != -1) {
+            uri = l.substr(0, uri)+l.substr(uri+10);
+            if( (uri.substr(uri.length-1) == '?') || (uri.substr(uri.length-1) == '&') ) {
+                uri = uri.substr(0, uri.length-1);
+            }
+            window.history.replaceState('', document.title, uri);
+        }
+    }
+});
+</script>

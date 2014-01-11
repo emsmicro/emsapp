@@ -591,4 +591,23 @@ class Model extends DibiRow
 				)->fetchAll();
 	}
 	
+	/** 
+	 * Return data array with separated fields
+	 * @param type $data .. data as key => value
+	 * @param type $excpt .. separated keys
+	 * @return object or array
+	 */
+	public function dataExcept($data, $excptKeys)
+	{
+		$pole = (array) $data;
+		$ret = array();
+		foreach ($pole as $key => $value) {
+			$pos1 = strpos($key, $excptKeys);
+			if($pos1 === FALSE){
+				$ret[$key] = $value;
+			}
+		}
+		return $ret;
+	}
+	
 }

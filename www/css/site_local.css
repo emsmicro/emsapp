@@ -1,0 +1,273 @@
+html {
+      border-color: #5E3F00;
+}
+
+body {
+	color: #333;
+	background-color: #E6E6E6;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+
+}
+
+h1, h2, h3, h2 a, h3 a {
+    color: #463000;
+}
+
+A:hover
+{
+	background-color: #FFDDBB;
+      color: #351B00;
+}
+A.active, A.focus
+{
+	background-color: #FF9933;
+}
+
+#logo {
+
+}
+
+#titul {
+	color: #CCC;
+}
+
+#titul a {
+	color: #EEE;
+}
+
+#slogan a {
+	color: #CCC;
+}
+
+#titul a:hover, #slogan a:hover {
+}
+
+
+#slogan {
+	color: #AAA;
+}
+
+#slogan:hover {
+}
+
+#logged-in {
+	color: #F3E8DE;
+}
+
+#logged-in a {
+	color: #F3E8DE;
+}
+
+#logged-in a:hover {
+	color: #FFF;
+	background-color: #5E3F00;
+}
+
+#style-sw {
+}
+
+#style-sw a {
+	color: #999;
+}
+
+#style-sw a:hover {
+	background-color: #5E3F00;
+}
+
+#style-sw li {
+}
+
+/* ------------------ MENU --------------------------- */
+
+#menu {
+      background: #372500;
+	background: -webkit-linear-gradient(#996600, #372500);
+	background: -moz-linear-gradient(#996600, #372500);
+	background: -ms-linear-gradient(#996600, #372500);
+	background: -o-linear-gradient(#996600, #372500);
+	background: linear-gradient(#996600, #372500);
+      left: 15px;
+}
+
+#menu ul {
+}
+
+#menu a {
+	color: #FFF;
+}
+
+#menu li {
+}
+
+#menu li span.main {
+	border-color: #5E3F00;
+}
+
+#menu li span.nomain {
+	border-color: #555;
+	background: #FFF;
+}
+
+#menu li span.nomain:last-child {
+	border-color: #555;
+}
+
+#menu li span.nomain a {
+}
+
+#menu li:first-child {
+}
+
+#menu li a {
+	padding: 0;
+}
+
+#menu li span a:hover {
+   color: #5E3F00;
+}
+
+#menu li:hover, #menu li span:hover, #menu li span a:hover {
+   background: transparent;
+   text-shadow: 2px 2px 2px #999999;
+}
+
+#menu li span.nomain:hover {
+    height: 28px;
+    background: #FBF8F4;
+}
+
+#menu li span.nomain a:hover {
+    color: #FF9933;
+}
+
+
+#menu li span.main:hover {
+    color: #463000;
+    background: #AFB5C9;
+}
+
+#menu li span.main.active {
+   	color: #463000;
+	border-left: solid 1px #5E3F00;
+	border-right: solid 1px #5E3F00;
+}
+
+#menu li span.nomain.active {
+	border-top: solid 1px #5E3F00;
+	border-left: solid 1px #5E3F00;
+	border-right: solid 1px #5E3F00;
+	border-bottom: solid 1px #FFF;
+}
+
+#menu span.main.active a {
+  color: #463000;
+}
+
+/* ------------- MY SETTING -------------------*/
+#mysetting {
+	color:#5E3F00;
+	background-color: #F9F3EE;
+      box-shadow: inset 0 0 5px #463000;
+      -webkit-box-shadow: inset 0 0 5px #463000;
+      -moz-box-shadow: inset 0 0 5px #463000;
+}
+
+#mysetting span {
+}
+
+#mysetting a {
+	color:#463000;
+}
+
+#mysetting:hover {
+}
+
+#mysetting a:hover {
+	background-color: #FF9933;
+}
+
+#messages {
+  	background-color: #FFF;
+	border-color: #AAA;
+}
+
+#topcont {
+}
+
+#content {
+  	background-color: #FFF;
+	border-color: #AAA;
+}
+
+table.grid th {;
+    background-color: #666666;
+    color: #FFFFFF;
+}
+
+table.grid th a, table.grid td a {;
+    color: #C16100;
+    text-shadow: 0.1em 0.1em 0.05em #666666;
+}
+
+
+table.grid, table.grid td, table.grid th, table.grid tr {
+    border-color: #888888;
+}
+
+table.grid td {
+    background-color: #F9F9F9;
+}
+
+table.grid .tsepright, table.grid .tsepleft, table.grid .tseptop, table.grid .tsepbot {
+      border-color: #999;
+}
+
+
+form {
+    background-color: #DDDDDD;
+    border-color: #888888;
+}
+
+form input, form select {
+      border-color: #888;
+}
+
+
+form input.button {
+    background: #D26900;
+    border-color: #C16100;
+}
+
+form input.button.default {
+    border-color: #9B4E00;
+}
+
+form input.button:hover {
+    background: #FF9933;
+    border-color: #C16100;
+}
+
+#footer {
+	color: #333;
+}
+
+#footer a {
+	color: #555;
+}
+
+#footer a:hover {
+	background-color: #FF9933;
+}
+
+/*=========================== KONEC SCHEMATU============================================================*/
+

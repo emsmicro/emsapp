@@ -1149,7 +1149,7 @@ FORM INPUT.button
 	background: #659BF5;
 	background: -webkit-gradient(linear,0% 40%,0% 70%,from(#659BF5),to(#4184F3));
 	background: -moz-linear-gradient(linear,0% 40%,0% 70%,from(#659BF5),to(#4184F3));
-	border: 1px solid #3D88D3;
+	border: 2px solid #3D88D3;
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
@@ -1157,7 +1157,7 @@ FORM INPUT.button
 }
 FORM INPUT.button.default
 {
-	border: 1px solid #215992;
+	border: 2px solid #215992;
 }
 FORM INPUT.button.small
 {
@@ -1830,12 +1830,44 @@ box-shadow:         1px 6px 10px rgba(50, 50, 50, 0.84);
 }
 .kolaps
 {
+	//margin-top: 10px;
 	margin-bottom: 0;
+	//padding-top: 0;
+	//border: 1px dotted #AAA;
 }
-.kolaps H3.active
-{
-	background-color: transparent;
-}
+	.kolaps H3, .kolaps H2
+	{
+		/*inactive = default*/
+		//margin: 0 auto 10px auto;
+		padding-left: 30px;
+		background: url(../images/arrow-d.png) no-repeat 3px 3px;
+		//border: solid 1px #AAA;
+	}
+	.kolaps H3.active
+	{
+		background-color: transparent;
+	}
+	.kolaps H3.active, .kolaps H2.active
+	{
+		padding-left: 30px;
+		background-color: transparent;
+		background: url(../images/arrow-u.png) no-repeat 3px 3px;
+		//border-bottom: solid 1px #FFF;
+	}
+	.kolaps H2
+	{
+		border: 1px dotted #999999;
+		border-radius: 5px;
+	}
+	.kolaps H2.active
+	{
+		border-bottom: none;
+	}
+	.kolaps TABLE.grid, DIV.subtit
+	{
+		margin-left: 10px;
+	}
+	
 .expand
 {
 	padding-left: 30px;
@@ -1849,30 +1881,7 @@ box-shadow:         1px 6px 10px rgba(50, 50, 50, 0.84);
 	background: #F7F7F7 url(../images/arrow-u.png) no-repeat 8px 3px;
 	border-bottom: 1px solid #F7F7F7;
 }
-.kolaps H3, .kolaps H2
-{
-	/*inactive = default*/
-	padding-left: 30px;
-	background: url(../images/arrow-d.png) no-repeat 3px 3px;
-}
-.kolaps H3.active, .kolaps H2.active
-{
-	padding-left: 30px;
-	background: url(../images/arrow-u.png) no-repeat 3px 3px;
-}
-.kolaps H2
-{
-	border: 1px dotted #999999;
-	border-radius: 5px;
-}
-.kolaps H2.active
-{
-	border-bottom: none;
-}
-.kolaps TABLE.grid, DIV.subtit
-{
-	margin-left: 10px;
-}
+
 .detail
 {
 	width: 97%;

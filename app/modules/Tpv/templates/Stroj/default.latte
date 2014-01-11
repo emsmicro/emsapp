@@ -5,6 +5,11 @@
 
 <h1 n:block="title">{$titul}</h1>
 
+<ul id="navi">
+	<li n:if="$user->isAllowed('Stroj','recalAll')" title="Hromadná rekalkulace sazeb"><a n:href="recalAll">Přepočítat sazby</a></li>
+</ul>
+
+
 {* $cond .. pokud jsou práva na add/edit/delete zobrazí se záhlaví. Testujeme pak: n:if="$cond"*}
 {var $cond = $user->isAllowed('Stroj','add') || $user->isAllowed('Stroj','edit') || $user->isAllowed('Stroj','delete')}
 
@@ -52,3 +57,4 @@
 </tr>
 {/foreach}
 </table>
+{include 'params.latte'}

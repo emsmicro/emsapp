@@ -27,58 +27,13 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_green.css" title="Green" disabled="disabled" />
 	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_blue.css" title="Blue" disabled="disabled" />
 	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_gray.css" title="Gray" disabled="disabled" />
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_local.css" title="Brown" disabled="disabled" />
 	<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/autoNumeric.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/jquery.cookie.js"></script>
 	
-	<script type="text/javascript">
-		$(document).ready(init);
-
-		function init()
-		{
-			setStyle($.cookie("style"));
-		}
-
-
-		function setStyle(name)
-		{
-		  if (name)
-			$.cookie("style", name, { expires: 300, path: '/' }); // 300 dni
-		  else
-			name = 'Gold';
-
-		  $('link[rel$=stylesheet][title]:not([title='+name+'])').attr('disabled', 'disabled');
-		  $('link[rel$=stylesheet][title='+name+']').removeAttr('disabled');
-		}
-	
-	
-		document.onkeydown = function (e) { 
-		  e = e || window.event;
-		  var keyCode = e.keyCode || e.which,
-			  arrow = { left: 37, up: 38, right: 39, down: 40 };
-
-		  if (e.ctrlKey) {
-			switch (keyCode) {
-			  case arrow.left:
-			  //... handle Ctrl-LeftArrow
-				  history.back()
-				  break;
-			  case arrow.right:
-			  //... handle Ctrl-RightArrow
-				  history.forward()
-				  break;
-			}
-		  } else {
-			if(keyCode === 27){ // escape, close box, esc 
-				 //... Go back one page
-				history.back()
-			} 
-		  }
-		};	
-				
-	</script>
-	
+	{include 'scripts.latte'}
 		
 	{ifset $is_addon}{include #addon}{/ifset}
 
@@ -136,6 +91,7 @@
 			  <li><a href="javascript:setStyle('Blue')"	>Blue	</a></li>
 			  <li><a href="javascript:setStyle('Green')">Green	</a></li>
 			  <li><a href="javascript:setStyle('Gray')"	>Gray	</a></li>
+			  <li><a href="javascript:setStyle('Brown')">Brown	</a></li>
 			</ul>			
 		</div>
 

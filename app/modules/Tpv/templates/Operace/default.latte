@@ -85,7 +85,7 @@
 	{foreach $items as $it}
 	<tr>
 		<td>{$it->oporadi}</td>
-		<td>{$it->nazev|truncate:40} <span class="mini" style="float:right;" title="Pořadí u typu operace (id: {$it->id})">({$it->tporadi|trim})</span></td>
+		<td>{$it->nazev|truncate:40} <span class="mini" style="float:right;" title="Pořadí u typu operace &#10;(id operace: {$it->id})">({$it->tporadi|trim})</span></td>
 		<td><a n:href="detail, $it->id">{$it->popis}</a></td>
 		<td>{$it->druh}</td>
 

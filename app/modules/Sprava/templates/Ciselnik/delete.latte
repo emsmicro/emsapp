@@ -5,5 +5,10 @@
 
 <h1 n:block="title">{$titul}</h1>
 
-{control itemForm}
-{include '../../../Base/templates/js_number.latte', mDec => 4}
+{if $item}
+	<p>Opravdu chcete smazat záznam?</p>
+	{control deleteForm}
+
+{else}
+	<p>Položka nebyla nalezena.</p>
+{/if}

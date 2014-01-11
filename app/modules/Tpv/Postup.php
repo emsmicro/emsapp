@@ -31,7 +31,8 @@ class Postup extends Model
 		if ($id > 0) {
 			return $this->CONN->select('*')->from($this->table)->where('id_produkty=%i', $id);
 		} else {
-			return $this->CONN->select('*')->from($this->table);
+			return $this->CONN->query("SELECT tp.*, pr.zkratka [pzkratka], pr.nazev [pnazev] 
+					FROM tpostupy tp LEFT JOIN produkty pr ON tp.id_produkty = pr.id");
 		}
 
 	}

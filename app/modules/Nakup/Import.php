@@ -292,13 +292,16 @@ class Import extends Material
 						if($dbfield=='cena_cm'){
 							$dbvalue = str_replace(',','.',$dbvalue);
 							$dbvalue = str_replace(' ','',$dbvalue);
-							$matdata[$dbfield] = (float) $dbvalue;
+							$dbvalue = (float) $dbvalue;
+							$matdata[$dbfield] = round($dbvalue+0.00009,4);
 						} elseif($dbfield=='zkratka') {
 	//						$matdata[$dbfield] = '[' . $id_product . '] ' . $dbvalue;
 							$matdata[$dbfield] = $dbvalue;
 						} elseif($dbfield=='mena') {
 							$matdata['id_meny'] = $this->getIdCurrencyByName($dbvalue, $meny);			//defaultní měna je Kč
 							//$matdata[$dbfield] = $dbvalue;
+						} elseif($dbfield=='id_k2'){
+							$matdata[$dbfield] = (int) str_replace(" ", "", $dbvalue);
 						} else {
 							$matdata[$dbfield] = $dbvalue;
 						}
@@ -306,9 +309,12 @@ class Import extends Material
 						$kusdata[$dbfield] = $dbvalue;
 					}
 				}
-				
-				$matdata['zkratka'] = substr($matdata['zkratka'],0,60);   //zkrácení zkratky na 60 znaků
+				$matdata['nazev'] = trim($matdata['nazev']);
+				$matdata['zkratka'] = trim(substr($matdata['zkratka'],0,60));   //zkrácení zkratky na 60 znaků
 				$matdata['id_merne_jednotky'] = 1;	//MJ je ks
+				if(!isset($matdata['id_meny']) or $matdata['id_meny']==NULL or $matdata['id_meny']==0){
+					$matdata['id_meny'] = 1;	//default CZK
+				}
 				$kusdata['id_vyssi'] = $id_product;
 				if($matdata){
 //					dd($matdata,'MATDATA');
@@ -322,7 +328,7 @@ class Import extends Material
 				unset($matdata);
 				unset($kusdata);
 			}
-//			exit();
+			//exit();
 			$this->CONN->commit();
 			return $cnt;
 	
