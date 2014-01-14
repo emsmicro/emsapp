@@ -1126,7 +1126,7 @@ FORM .required LABEL
 .uform FORM
 {
 	max-width: 100%;
-	font: 1em Courier, "monospace 13px";
+	/*font: 1em Courier, "monospace 13px"; */
 }
 /*-----------------------------------*/
 FORM INPUT.button

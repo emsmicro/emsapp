@@ -296,7 +296,7 @@ class Import extends Material
 							$matdata[$dbfield] = round($dbvalue+0.00009,4);
 						} elseif($dbfield=='zkratka') {
 	//						$matdata[$dbfield] = '[' . $id_product . '] ' . $dbvalue;
-							$matdata[$dbfield] = $dbvalue;
+							$matdata[$dbfield] = trim($dbvalue);
 						} elseif($dbfield=='mena') {
 							$matdata['id_meny'] = $this->getIdCurrencyByName($dbvalue, $meny);			//defaultní měna je Kč
 							//$matdata[$dbfield] = $dbvalue;

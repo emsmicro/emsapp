@@ -88,7 +88,7 @@ SELECT * FROM numbered WHERE row_no > 1;
 		} else {
 		
 			$rows = $q->go($dot);
-			
+			$this->template->csql = '';
 			if($rows){
 				$cnt = $q->countRows($rows);
 				if ($cnt<1) {
@@ -99,8 +99,10 @@ SELECT * FROM numbered WHERE row_no > 1;
 					$this->template->head = $head;
 					$this->template->data = $data;
 					$this->template->idc = $idc;
-					if($idc>0 and $idc<9){
-						$this->template->csql = "SELECT * FROM ";
+					if($idc<9){
+						if($idc==1){$this->template->csql = "SELECT * FROM ";}
+						if($idc==2){$this->template->csql = "sp_helpdb ";}
+						if($idc==4){$this->template->csql = "";}
 					} else {
 						$this->template->csql = '';
 					}
@@ -137,6 +139,7 @@ SELECT * FROM numbered WHERE row_no > 1;
             ->addRule(Form::MAX_LENGTH, 'Dotaz je příliš dlouhý.', 15000);
 			
 		$form->addSubmit('gou', 'Spustit SQL')->setAttribute('class', 'default');
+		$form->addSubmit('dtb', 'Databáze');
 		$form->addSubmit('tbs', 'Tabulky');
 		$form->addSubmit('sch', 'Schéma');
 		$form->addSubmit('srv', 'Server');
@@ -154,9 +157,15 @@ SELECT * FROM numbered WHERE row_no > 1;
 			$dot = $data['dotaz'];
 			$this->redirect('default', $dot);
 		}
+		
+		if ($form['dtb']->isSubmittedBy()) {
+			$dot = "SELECT DB_NAME() AS DataBaseName";
+			$this->redirect('default', $dot, 2);
+		}
+		
 		if ($form['tbs']->isSubmittedBy()) {
-			$dot = "select name, create_date, modify_date, max_column_id_used [cols]
-	from sys.tables order by name";
+			$dot = "SELECT name, create_date, modify_date, max_column_id_used [cols]
+	FROM sys.tables ORDER BY name";
 			$dot = "SELECT
 obj.name [name], tab.max_column_id_used [cols], ind.rows [rows], tab.create_date, tab.modify_date
 FROM sysobjects as obj
@@ -164,8 +173,9 @@ INNER JOIN sysindexes as ind on obj.id = ind.id
 INNER JOIN sys.tables as tab on obj.id = tab.object_id
 WHERE obj.xtype = 'U' AND ind.indid < 2
 ORDER BY name";
-			$this->redirect('default', $dot, 1);
-		}		
+			$this->redirect('default', $dot, 8);
+		}
+		
 		if ($form['sch']->isSubmittedBy()) {
 			$dot = "SELECT table_name [table], ordinal_position [pos], column_name [column], data_type [type], 
 	case when character_maximum_length is null then
@@ -179,7 +189,8 @@ WHERE table_name like '%%'
 ORDER BY table_name, pos
 -- mezi znaky %% doplňte název tabulky spusťte dotaz znovu";
 			$this->redirect('default', $dot, 1);
-		}		
+		}
+		
 		if ($form['srv']->isSubmittedBy()) {
 			$dot = "SELECT @@SERVERNAME AS 'Server Name'
 ,@@VERSION AS 'Server Version'
@@ -188,7 +199,7 @@ ORDER BY table_name, pos
 ,SYSTEM_USER AS 'Login'
 ,USER AS 'User'
 ";
-			$this->redirect('default', $dot, 1);
+			$this->redirect('default', $dot, 4);
 		}		
 		
 		

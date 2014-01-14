@@ -215,6 +215,7 @@ class ImportPresenter extends MaterialPresenter
 	}
 
 	private function defValSloupce($h) {
+		if($h==''){return NULL;}
 		foreach($this->npole as $key => $val) {
 			$pos = strpos($key, $h);
 			if($pos !== FALSE){

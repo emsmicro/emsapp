@@ -216,7 +216,7 @@ table.grid th {;
 
 table.grid th a, table.grid td a {;
     color: #C16100;
-    text-shadow: 0.1em 0.1em 0.05em #666666;
+    text-shadow: 1px 1px 1px #666666;
 }
 
 
@@ -256,6 +256,19 @@ form input.button:hover {
     background: #FF9933;
     border-color: #C16100;
 }
+
+.paginator A
+{
+	border-color: #FFDDBB;
+	color: #9B4E00;
+}
+
+.paginator .current
+{
+	background: #D26900;
+	border-color: #D26900;
+}
+
 
 #footer {
 	color: #333;

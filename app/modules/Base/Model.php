@@ -610,4 +610,60 @@ class Model extends DibiRow
 		return $ret;
 	}
 	
+	/**
+	 * Move data into structure $data[$key1][array $key2]{... data ...]
+	 * @param type $rows
+	 * @param type $key1
+	 * @param type $key2
+	 * @return type
+	 */
+	public function dataIntoAssoc($rows, $key1, $key2) {
+		if(!$rows){return FALSE;}
+		$out = array();
+		$idkey = null;
+		$rk = 0;
+		$i=0;
+		foreach($rows as $row){
+			$rk = $row[$key1];
+			if($rk<>$idkey){
+				if(isset($pom)){
+					$out[$rk] = $pom;
+					unset($pom);
+					$idkey = null;
+				}
+				$pom = array();
+				$idkey = $row[$key1];
+				$i=0;
+			}
+			$pom[$i] = $row;
+			$i++;
+		}
+		$out[$rk] = $pom;
+		unset($pom);
+		return $out;
+	}	
+
+	public function dataIntoAssoc2($rows, $key1, $key2) {
+		if(!$rows){return FALSE;}
+		$out = array();
+		$idkey = null;
+		$rk = 0;
+		foreach($rows as $row){
+			$rk = $row[$key1];
+			if($rk<>$idkey){
+				if(isset($pom)){
+					$out[$rk] = $pom;
+					unset($pom);
+					$idkey = null;
+				}
+				$pom = array();
+				$idkey = $row[$key1];
+			}
+			$pom[$row[$key2]] = $row;
+		}
+		$out[$rk] = $pom;
+		unset($pom);
+		return $out;
+	}		
+	
 }

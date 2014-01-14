@@ -162,13 +162,12 @@ class Produkt extends Model
 			$activCond = "";
 			if ($active_only){$activCond = " AND c.aktivni=1";}
 			return $this->CONN->query("SELECT c.id_produkty [id], c.id_nabidky [idn], n.popis [nabidka], c.aktivni, c.id_vzorec, c.id [id_cena],
-									t.zkratka, RTRIM(t.zkratka2) [zkratka2], t.id [idt], t.nazev, c.hodnota, c.hodnota_cm, 
-									m.zkratka [mena], m.nazev [n_mena], m.id [idm], 
-									COALESCE(k.kurz_prodejni,1) [kurz],
-									p.id [idpoc], p.vyrobni_davka [davka], p.mnozstvi, t.poradi, 
-									v.zkratka [kvzorec], v.nazev [nvzorec], v.popis [pvzorec], ltrim(rtrim(v.definice)) [definice], 
-									ltrim(rtrim(v.procedura)) [procedura], ltrim(rtrim(v.param)) [param], ltrim(rtrim(v.mater_c)) [mater_c],
-									COALESCE(c.id_set_sazeb,0) [idss], COALESCE(s.nazev,'defaultní') [set_sazeb]
+											t.zkratka, RTRIM(t.zkratka2) [zkratka2], t.id [idt], t.nazev, c.hodnota, c.hodnota_cm, 
+											m.zkratka [mena], m.nazev [n_mena], m.id [idm], COALESCE(k.kurz_prodejni,1) [kurz],
+											p.id [idpoc], p.vyrobni_davka [davka], p.mnozstvi, t.poradi, 
+											v.zkratka [kvzorec], v.nazev [nvzorec], v.popis [pvzorec], ltrim(rtrim(v.definice)) [definice], 
+											ltrim(rtrim(v.procedura)) [procedura], ltrim(rtrim(v.param)) [param], ltrim(rtrim(v.mater_c)) [mater_c],
+											COALESCE(c.id_set_sazeb,0) [idss], COALESCE(s.nazev,'defaultní') [set_sazeb]
 									FROM ceny c
 										LEFT JOIN typy_cen	t ON c.id_typy_cen=t.id
 										LEFT JOIN meny		m ON c.id_meny=m.id

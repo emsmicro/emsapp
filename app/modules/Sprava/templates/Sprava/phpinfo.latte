@@ -13,13 +13,13 @@
     {foreach $phpinfo as $name => $section} 
 		{var $s .= ".ckol_".$i.", "}
 		<div class="ckol_{$i}">
-        <h3 style="border: none; background-color: #DDD;">{$name}</h3>
+        <h3 style="border: none; background-color: #DDD; font-size:x-large;">{$name}</h3>
 		<div>
 		<table class="grid" style="width:98%;">
         {foreach $section as $key => $val} 
 			<tr>
             {if is_array($val)}
-				<th style="width:20%;">{$key}</th>
+				<th style="width:20%;">{$key|noescape}</th>
 				<td style="padding:0;">
 				<div style="width:100%;"><span style="width:100%;">
 				{var $j=0}
@@ -30,16 +30,16 @@
 						<span>
 					{/if}
 					<span style="color:#222; background:#DDD; padding: 3px 10px 3px 5px; margin:0 5px 0 0;">{$k}</span>
-					<span style="color: #444; margin:0 10px 0 5px;" title="{$v}">{$v}</span>
+					<span style="color: #444; margin:0 10px 0 5px;" title="{$v}">{$v|noescape}</span>
 					</span>
 					{var $j++}
 				{/foreach}
 				</span></div>
 				</td>
             {elseif is_string($key)}
-                <th style="width:25%;">{$key}</th><td>{$val}</td>
+                <th style="width:25%;">{$key}</th><td>{$val|noescape}</td>
             {else}
-                <td>{$val}</td>
+                <td>{$val|noescape}</td>
 			{/if}
 			</tr>
         {/foreach}

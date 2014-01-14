@@ -112,6 +112,12 @@ class ProduktPresenter extends ObchodPresenter
         $sazby = $sazb->show($idss);
 		$this->template->sazby = $sazby;
 		
+		$rates = $sazb->show(0, $id);
+		//$rat = array_merge(array(), $rates);
+		dd($rates, 'RATES');
+		$this->template->rates = $rates;
+		
+		
 		$costs = $instance->costs($id);
 		$isnaklady = count($costs)>0;
         $this->template->isnaklady = $isnaklady;
@@ -124,7 +130,7 @@ class ProduktPresenter extends ObchodPresenter
 		//dd($capac,'CAPACITY');
 		$prices = $instance->prices($id, $this->idn, false);
 		$isceny = count($prices)>0;
-		//dd($prices,'PRICES');
+		dd($prices,'PRICES');
         $this->template->isceny = $isceny;
         $this->template->prices = $prices;
 		$kalk = new Kalkul;

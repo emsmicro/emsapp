@@ -14,11 +14,12 @@
 </ul>
 
 	<div style="position:relative; width:1180px;">
-		<span style="position:absolute;float:left; left:250px; width:500px; top:-40px;">
+		<span style="position:absolute;float:left; left:250px; width:600px; top:-40px;">
 			{input gou class => 'button default'}
 			<span style="margin-left: 150px;">
 				{input tbs class => 'button small'}
 				{input sch class => 'button small'}
+				{input dtb class => 'button small'}
 				{input srv class => 'button small'}
 			</span>
 		</span>
@@ -31,7 +32,7 @@
 <div id="centered">
 	
 {if isset($head)}
-	<p></p>
+	<p>{*idc: {$idc}*}</p>
 	<table class="grid">
 		<thead
 		<tr>
@@ -73,10 +74,19 @@
 							<span class="mini"><i>null</i></span>
 					{else}
 						<td>
-							{if $ii == $idc}
-								<a n:href="default, $csql . $item" title="Data tabulky">{$item}</a>
+							{if $idc>4}
+								{if $idc>4}
+									<a n:href="default, $csql . $item" title="Data tabulky">{$item}</a>
+									<span class="spright mini">
+										<a n:href="default, $item, 9" title="Test na duplicitu">Test duplicity</a>
+									</span>
+								{else}
+									{$item}
+								{/if}
+							{elseif $idc==2}
+								{$item}
 								<span class="spright mini">
-									<a n:href="default, $item, 9" title="Test na duplicitu">Test duplicity</a>
+									<a n:href="default, $csql . $item" title="Detail databáze">Info</a>
 								</span>
 							{else}
 								{$item}

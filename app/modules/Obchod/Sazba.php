@@ -20,21 +20,40 @@ class Sazba extends Model
     }
 	
 	/**
-	 * 	Vrací vybrané atributy tabulky pro konkrétní záznam
+	 * Vrací vybrané atributy tabulky pro konkrétní záznam/nebo všechny atributy setů sazeb
 	 * @param int 
 	 * @return record set
 	 */
-	public function show($id=0)
+	public function show($id = 0, $id_produkty = 0)
 	{
-		return $this->CONN->query("SELECT	ts.id [tid], ts.nazev [typ], s.id [sid], ROUND(s.hodnota*100,2) [hodnota], 
-									s.id_set_sazeb [idss], ts.zkratka, ts.poradi, s.pravidlo
-								FROM typy_sazeb ts
-								LEFT JOIN (SELECT * FROM sazby WHERE id_set_sazeb=$id) s ON ts.id=s.id_typy_sazeb
-								ORDER BY ts.poradi
-								"
-								);
+		$specif = "WHERE sa.id_set_sazeb=$id";
+		if($id==0){
+			if($id_produkty>0)
+				$specif = "WHERE sa.id_set_sazeb IN 
+							(SELECT DISTINCT COALESCE(c.id_set_sazeb, n.id_set_sazeb) [idss]
+								FROM ceny c
+								LEFT JOIN nabidky n ON c.id_nabidky = n.id
+								WHERE id_produkty=$id_produkty)";
+			else {
+				$specif = "";
+			}
+			
+		}
+		$res = $this->CONN->query("
+				SELECT sa.id_set_sazeb [idss], ts.id [tid], ts.nazev [typ], sa.id [sid], 
+						ROUND(sa.hodnota*100,2) [hodnota], ts.zkratka, ts.poradi, sa.pravidlo
+							FROM typy_sazeb ts
+							LEFT JOIN sazby sa ON ts.id=sa.id_typy_sazeb
+							$specif 
+							ORDER BY idss, poradi			
+								")->fetchAll();
+		$ret = $res;
+		//$ret = $this->dataIntoAssoc($res, 'idss', 'poradi');
+		//dd($ret,"ASSOC pole");
+		return $ret;
 	}
 
+	
 	/**
 	 * Vrací data pro konkrétní záznam
 	 * @param int

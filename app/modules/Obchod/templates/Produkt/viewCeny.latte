@@ -81,18 +81,29 @@
 									</a>
 								</span>
 							</th>
+							{var $idss = $cen->idss}
+							{if $idss == 0}
+								{var $idss = $item->idss}
+							{/if}
 							{if $cen->id_vzorec == $item->vzorec or $cen->set_sazeb == "defaultní" or $cen->idss == $item->idss}
 								{if $cen->aktivni == 1}
-									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span></th>
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b>&nbsp;&nbsp;&nbsp;
+										<span class="hlp mini" title="setId: {$cen->idss}">[sazby: {$cen->set_sazeb}]</span>
+										{*<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss]}<span>*}
+									</th>
 								{else}
-									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Variantní cena</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span>
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Variantní cena</b>&nbsp;&nbsp;&nbsp;
+										<span class="hlp mini" title="setId: {$cen->idss}">[sazby: {$cen->set_sazeb}]</span>
+										{*<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss]}<span>*}
 										<span class="setactive" style="float:right;" title="Aktivovat tuto cenu ({$cen->id_cena})">
 											<a n:if="$user->isAllowed('Produkt','priceActivate') && $unlocked" n:href="priceActivate, $cen->id, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
 										</span>
 									</th>
 								{/if}
 							{else}
-								<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Simulační cena</b>&nbsp;&nbsp;&nbsp;<span class="mini">[sazby: {$cen->set_sazeb}]</span></th>
+								<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Simulační cena</b>&nbsp;&nbsp;&nbsp;
+									<span class="mini" title="setId: {$cen->idss}">[sazby: {$cen->set_sazeb}]</span>
+								</th>
 							{/if}
 							<th class="{$actclass}" style="min-width:80px; text-align:right;">Cena [Kč]</th>
 							{if $cen->idm <> 1}
@@ -197,6 +208,7 @@
 					{$item->sazby}.
 					<span class="def">
 						{include 'viewSazby.latte'}
+						TEST
 					<span>
 				</a>
 			</span>
