@@ -717,6 +717,10 @@ TD DIV.popup SPAN.value
 	float: right;
 	font-weight: bold;
 }
+SPAN.hlp
+{
+	cursor: help;
+}
 SPAN.def
 {
 	position: absolute;
@@ -733,7 +737,7 @@ SPAN.def
 	-moz-box-shadow: 1px 2px 3px #444444;
 	-webkit-box-shadow: 1px 2px 3px #444444;
 	box-shadow: 1px 2px 3px #444444;
-	z-index: 1;
+	z-index: 2;
 }
 SPAN.hlp SPAN.def
 {
@@ -771,7 +775,7 @@ DIV.skryvat1, DIV.skryvat2, DIV.skryvat3
 	position: absolute;
 	float: right;
 	top: 50px;
-	width: 96px;
+	width: 103px;
 	z-index: 1;
 	text-align: center;
 	padding: 3px;
@@ -951,6 +955,10 @@ TABLE.grid TD.tselgreen
 TABLE.grid TD.tselorange
 {
 	background-color: #FFD06F;
+}
+TABLE.grid TD.tselnosave
+{
+	background-color: #FFDDBB;
 }
 TABLE.grid .tsepright
 {
@@ -1847,6 +1855,9 @@ box-shadow:         1px 6px 10px rgba(50, 50, 50, 0.84);
 	{
 		background-color: transparent;
 	}
+	.kolaps H3:hover {
+		cursor: pointer;
+	}
 	.kolaps H3.active, .kolaps H2.active
 	{
 		padding-left: 30px;
@@ -2237,14 +2248,15 @@ TABLE.grid.aval TD, TABLE.grid.aval TH
 }
 TABLE.grid.aval TD
 {
-	background-color: #FFF;
+	background-color: transparent;
 	border: none;
 }
 TABLE.grid.aval TH
 {
 	font-size: x-small;
 	border: none;
-	text-align: right;
+	text-align: left;
+	border-left: solid 1px white;
 }
 TABLE.grid.aval.best TD
 {
@@ -2265,6 +2277,10 @@ TABLE.grid.aval TD.light
 	background: #E4F1FC;
 	font-weight: bold;
 }
+
+TABLE.grid.aval TR:nth-child(odd)	{ background-color:#eee; }
+TABLE.grid.aval TR:nth-child(even)	{ background-color:#fff; }
+
 DIV.detcol
 {
 	width: 99%;

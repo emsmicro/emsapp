@@ -71,6 +71,8 @@ class SpravaPresenter extends SecuredPresenter
 		phpinfo();
 		$info_arr = array();
 		$info_lines = explode("\n", strip_tags(ob_get_clean(), "<tr><td><h2>"));
+		//dd($info_lines);
+		$this->template->info = $info_lines;
 		$cat = "General";
 		foreach($info_lines as $line)
 		{

@@ -102,18 +102,19 @@ class Material extends Model
 			$ordsql = ' ORDER BY '.$ordfil;
 			$ordovr = $ordfil.", ".$ordovr;
 		}
+		$uf = new FilterModel;
 		if ($cond<>''){
 			$cond = ' WHERE '.$cond;
 			if ($this->filter<>''){
 				//$cond .= " AND m.zkratka+m.nazev LIKE '%$this->filter%'";
-				$uf = new FilterModel;
-				$cond .= " AND " . $uf->setCondFilter("m.zkratka+m.nazev", $this->filter);
+				
+				$cond .= " AND " . $uf->setCondFilter("m.zkratka+m.nazev+Convert(varchar,m.id)", $this->filter);
 			}
 		} else {
 			if ($this->filter<>''){
 				//$cond = " WHERE m.zkratka+m.nazev LIKE '%$this->filter%'";
-				$uf = new FilterModel;
-				$cond .= " WHERE " . $uf->setCondFilter("m.zkratka+m.nazev", $this->filter);
+				
+				$cond .= " WHERE " . $uf->setCondFilter("m.zkratka+m.nazev+Convert(varchar,m.id)", $this->filter);
 			}
 		}
 		if($this->limit==0 && $this->offset==0){
@@ -265,6 +266,19 @@ class Material extends Model
 							WHERE CAST(m.cena_kc2 AS money) <= 0 AND v.id_vyssi=$id_produkty")->fetchSingle();
 	}
 	
+	/**
+	 * Vrací rozdělení objemu mater. nákladů dle měn
+	 * @param type $id_produkty .. produkt
+	 * @return type
+	 */
+	public function groupByCurrency($id_produkty)
+	{
+		return $this->CONN->query("SELECT SUM(m.cena_kc*v.mnozstvi) [value], me.zkratka [name], m.id_meny FROM material m 
+			LEFT JOIN vazby v ON m.id=v.id_material 
+			LEFT JOIN meny me ON m.id_meny=me.id
+			WHERE v.id_vyssi=$id_produkty
+			GROUP BY me.zkratka, m.id_meny ORDER BY m.id_meny")->fetchAll();
+	}
 }
 
 

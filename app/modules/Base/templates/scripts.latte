@@ -46,18 +46,62 @@
 </script>
 	
 <script>
-/* Remove _fid from url */
-$(function(){
-    if(window.history.replaceState) {
-        l = window.location.toString();
-        uri = l.indexOf('_fid=');
-        if(uri != -1) {
-            uri = l.substr(0, uri)+l.substr(uri+10);
-            if( (uri.substr(uri.length-1) == '?') || (uri.substr(uri.length-1) == '&') ) {
-                uri = uri.substr(0, uri.length-1);
-            }
-            window.history.replaceState('', document.title, uri);
-        }
-    }
-});
+	/* Remove _fid from url */
+	
+	$(function(){
+		if(window.history.replaceState) {
+			l = window.location.toString();
+			uri = l.indexOf('?_fid=');
+			if(uri != -1) {
+				uri = l.substr(0, uri)+l.substr(uri+10);
+				if( (uri.substr(uri.length-1) == '?') || (uri.substr(uri.length-1) == '&') ) {
+					uri = uri.substr(0, uri.length-1);
+				}
+				window.history.replaceState('', document.title, uri);
+			}
+		}
+	});
+	
+	
+	var divID = '#mysetting';
+
+	$(window).scroll(function() {					
+		var currentScroll = $(window).scrollTop();	
+		if (currentScroll >= 120) {					
+			$(divID).css({
+				position: 'fixed',
+				left: '50px',
+				top: '2px',
+				width: '100%'
+			});	
+			$('#menu').css({
+				position: 'fixed',
+				left: '48px',
+				top: '32px',
+				width: '100%'
+			});	
+			$('#cout').css({
+				position: 'fixed',
+				left: '33%',
+				top: '100px',
+			});				
+		} else {									
+			$(divID).css({
+				position: 'relative',
+				left: '20px',
+				top: '-85px'
+			});
+			$('#menu').css({
+				position: 'relative',
+				left: '16px',
+				top: '-80px'
+			});	
+			$('#cout').css({
+				position: 'absolute',
+				left: '33%',
+				top: '100px'
+			});				
+		}
+	});		
+	
 </script>

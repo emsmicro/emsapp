@@ -22,9 +22,10 @@ class Query extends Model // DibiRow obstará korektní načtení dat
 	public function go($ssql='')
 	{
 		if($ssql<>'' 
-				&& strpos(strtoupper($ssql),'UPDATE') === false
-				&& strpos(strtoupper($ssql),'INSERT') === false
-				&& strpos(strtoupper($ssql),'DELETE') === false) {
+				and strpos(strtoupper($ssql),'UPDATE') === false
+				and strpos(strtoupper($ssql),'INSERT') === false
+				and strpos(strtoupper($ssql),'DELETE') === false
+				and strpos(strtoupper($ssql),'PHP') === false) {
 			
 			return $this->CONN->query($ssql)->fetchAll();
 			

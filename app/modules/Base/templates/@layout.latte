@@ -79,7 +79,7 @@
 	<div id="content">
 
 		<div id="logged-in" n:if="$user->loggedIn">
-				<a n:href="Homepage:editMe, $user->getIdentity()->id" title="{$user->getIdentity()->nrole}">{$user->getIdentity()->jmeno} {$user->getIdentity()->prijmeni}</a>
+				<a n:href="Homepage:editMe, $user->getIdentity()->id" title="{$user->getIdentity()->nrole}">{$user->getIdentity()->jmeno} {$user->getIdentity()->prijmeni}</a> |
 				<a n:href="Sign:out">Odhlásit se.</a>
 				<span n:if="$user->isAllowed('Sprava','default')" class="config" title="Správa systému">
 					<a n:href="Sprava:default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -102,41 +102,7 @@
 		
 		<div style="clear:both;"></div>	
 	</div>
-	
-	<script type="text/javascript">
-		var divID = '#mysetting';
-		$(window).scroll(function() {					
-			var currentScroll = $(window).scrollTop();	
-			if (currentScroll >= 120) {					
-				$(divID).css({
-					position: 'fixed',
-					left: '50px',
-					top: '2px',
-					width: '100%'
-				});	
-				$('#menu').css({
-					position: 'fixed',
-					left: '48px',
-					top: '32px',
-					width: '100%'
-				});	
-			} else {									
-				$(divID).css({
-					position: 'relative',
-					left: '20px',
-					top: '-85px'
-				});
-				$('#menu').css({
-					position: 'relative',
-					left: '16px',
-					top: '-80px'
-				});	
-			}
-		});		
-	
-	</script>
-		
-		
+			
 	<div id="footer">
            Copyright © 2011 - 2013, Bc. Štěpán Mračko, Powered by Apache, PHP, MSSQL, Nette.&nbsp;&nbsp;&nbsp;&nbsp;
            <a href='mailto:emsmicro@gmail.com?subject=Zpráva%20pro%20administrátora%20EMS nabídky...&body=Drahý%20správče!%0D' title='Poslat mail správci'>Poslat zprávu správci</a>

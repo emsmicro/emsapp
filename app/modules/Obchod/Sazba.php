@@ -47,10 +47,9 @@ class Sazba extends Model
 							$specif 
 							ORDER BY idss, poradi			
 								")->fetchAll();
-		$ret = $res;
-		//$ret = $this->dataIntoAssoc($res, 'idss', 'poradi');
 		//dd($ret,"ASSOC pole");
-		return $ret;
+//		return array($res, $ret);
+		return $res;
 	}
 
 	

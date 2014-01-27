@@ -15,19 +15,10 @@
 		color: #ADCDED;
 		font-weight: 300;
 	}
-	.icomp {
-		opacity: 0.7;
-		cursor:pointer;
-	}
-	.icomp:hover {
-		opacity: 1;
-	}
 </style>
 
 	<script>
 		$(function () {	
-			{if !$currdata}
-			
 				Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
 					return {
 						radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
@@ -37,8 +28,6 @@
 						]
 					};
 				});
-			
-			{/if}
 				Highcharts.setOptions({
 					lang: {
 						decimalPoint: ',',
@@ -64,16 +53,17 @@
 						{var $acena = $cen->id_cena}
 					{/if}
 					{var $actclass = ""}
-					{var $acttile = "Variantní"}
+					{var $acttile = "Variantní cena"}
 					{if $cen->aktivni == 1}
 						{var $actclass = "aktivni"}
-						{var $acttitle = "Aktivní"}
+						{var $acttitle = "Aktivní cena"}
 					{/if}
 					{if $cen->id_vzorec <> $item->vzorec}
 						{var $actclass = "simulacni"}
 					{/if}
 					{if $stab > 0}
 						</table>
+						{var $i++}
 						<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
 						</div>
 						{include 'detaval.latte', item => $aval[$acena]}
@@ -81,7 +71,6 @@
 					{/if}
 				<div class="gridseparator">
 					<div style='position: relative;'>
-					{var $i++}
 					<table id="tceny{$cen->id_cena}" class="grid">
 					<thead>
 						<tr title="{$acttitle}">
@@ -96,46 +85,27 @@
 							{if $idss == 0}
 								{var $idss = $item->idss}
 							{/if}
-							{var $namss = $cen->set_sazeb}
-							{if $namss == "defaultní"}
-								{var $namss = $item->sazby}
-							{/if}
 							{if $cen->id_vzorec == $item->vzorec or $cen->set_sazeb == "defaultní" or $cen->idss == $item->idss}
 								{if $cen->aktivni == 1}
-									<th class="{$actclass}" style="width:250px;"><b>{$acttitle}</b>&nbsp;&nbsp;|&nbsp;
-										<span class="hlp mini">
-											<span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
-											sazby: {$cen->set_sazeb}
-											<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss], sname => $namss}<span>
-										</span>
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>{$acttitle}</b>&nbsp;&nbsp;&nbsp;
+										<span class="hlp mini" title="setId: {$cen->idss}">[sazby: {$cen->set_sazeb}]</span>
+										{*<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss]}<span>*}
 									</th>
 								{else}
-									<th class="{$actclass}" style="width:250px;"><b>Variantní</b>
-										&nbsp;&nbsp;|&nbsp;
+									<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Variantní cena</b>&nbsp;&nbsp;&nbsp;
+										<span class="hlp mini" title="setId: {$cen->idss}">[sazby: {$cen->set_sazeb}]</span>
+										{*<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss]}<span>*}
 										<span class="setactive" style="float:right;" title="Aktivovat tuto cenu ({$cen->id_cena})">
 											<a n:if="$user->isAllowed('Produkt','priceActivate') && $unlocked" n:href="priceActivate, $cen->id, $cen->id_cena">&nbsp;&nbsp;&nbsp;&nbsp;</a>
-										</span>
-										<span class="hlp mini">
-											<span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
-											sazby: {$cen->set_sazeb}
-											<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss], sname => $namss}<span>
 										</span>
 									</th>
 								{/if}
 							{else}
-								<th class="{$actclass}" style="width:250px;"><b>Simulační</b>
-									&nbsp;&nbsp;<img class="icomp" src="{$basePath}/images/compare.png" onclick="comPrices(event, 'tceny{$acena}', 'tceny{$cen->id_cena}', 'cout', {$i})" title="Porovnat" />|&nbsp;
-									<span class="hlp mini">
-										<span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
-										sazby: {$cen->set_sazeb}
-										<span class="def">{include 'viewSazby.latte', sazby => $rates[$idss], sname => $namss}<span>
-									</span>
+								<th class="{$actclass}" style="width:250px;" title="cena: {$cen->id_cena}"><b>Simulační cena</b>&nbsp;&nbsp;&nbsp;
+									<span class="mini" title="setId: {$cen->idss}">[sazby: {$cen->set_sazeb}]</span>
 								</th>
 							{/if}
-							<th class="{$actclass}" style="min-width:80px; text-align:right;">
-								<img n:if="$cen->aktivni <> 1" class="icomp" src="{$basePath}/images/compare.png" onclick="comPrices(event, 'tceny{$acena}', 'tceny{$cen->id_cena}', 'cout', {$i})" title="Porovnat s aktivní cenou" />&nbsp;
-								Cena [Kč]
-							</th>
+							<th class="{$actclass}" style="min-width:80px; text-align:right;">Cena [Kč]</th>
 							{if $cen->idm <> 1}
 								<th class="{$actclass}">Cena [{$cen->mena}]</th>
 								{var $spanmn = 4}
@@ -196,7 +166,7 @@
 							</span>
 						{/if}					
 					</td>
-					<td class="tcislo cena {$actclass}" id="{$cen->zkratka}">{$cen->hodnota|number:2:',':' '}</td>
+					<td class="tcislo cena {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
 					{if $cen->idm <> 1}
 						<td class="tcislo cena {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
 					{/if}
@@ -209,14 +179,14 @@
 							</span>
 						{/if}					
 					</td>
-					<td class="tcislo cenanab {$actclass}" id="{$cen->zkratka}">{$cen->hodnota|number:2:',':' '}</td>
+					<td class="tcislo cenanab {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
 					{if $cen->idm <> 1}
 						<td class="tcislo cenanab {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
 					{/if}
 				{else}
 					<td class="mini {$actclass}">{$cen->poradi}</td>
 					<td class="{$actclass}">{$cen->nazev}</td>
-					<td class="tcislo {$actclass}" id="{$cen->zkratka}">{$cen->hodnota|number:2:',':' '}</td>
+					<td class="tcislo {$actclass}">{$cen->hodnota|number:2:',':' '}</td>
 					{if $cen->idm <> 1}
 						<td class="tcislo {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
 					{/if}
@@ -224,23 +194,23 @@
 			</tr>
 			{/foreach}
 		</table>
+		{var $i++}
 		<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
 		</div>
-			{if $stab > 0 and $aval}
+			{if $stab > 0}
 				{include 'detaval.latte', item => $aval[$acena]}
 			{/if}
 		</div>
 
 		<div class="subtit">
-			<span class="hlp mini">
-				<i><span class="tooltip">&nbsp;&nbsp;&nbsp;</span>Defaultní set sazeb režií:</i> 
+			<span class="hlp mini"><i><span class="tooltip">&nbsp;&nbsp;&nbsp;</span>Defaultní set sazeb režií:</i> 
 				<a n:if="$user->isAllowed('SetSazeb','detail')" n:href="SetSazeb:detail, $item->idss">
-					{$item->sazby}
-				</a>.
-				<span class="def">
-					{include 'viewSazby.latte', sazby => $sazby, sname => $item->sazby . ' (defaultní)'}
-					{*include 'viewSazby.latte', sazby => $rates[$item->idss], sname => $item->sazby . ' (defaultní)'*}
-				</span>
+					{$item->sazby}.
+					<span class="def">
+						{include 'viewSazby.latte'}
+						TEST
+					<span>
+				</a>
 			</span>
 			<span class="mini">
 				<i>Defaultní kalkul. vzorec:</i> {$item->kalkzkratka}: {$item->kalknazev}

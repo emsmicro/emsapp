@@ -7,6 +7,10 @@
 {var $unlocked = $item->id_stav<>21}
 
 <script type='text/javascript' src='{$basePath}/js/highcharts.js'></script>
+<script type="text/javascript" src="{$basePath}/js/modules/exporting.js"></script>
+
+{* Highcharts theme *}
+<script type='text/javascript' src='{$basePath}/js/themes/mypie.js'></script>
 
 <h1 n:block="title"><span class="iditem"># {$item->id}</span>{$titul}</h1>
 <h2></h2>
@@ -18,7 +22,7 @@
 	<li n:if="$user->isAllowed('Operace','default')" title="Výrobní operace"><a n:href="Operace:">TPV ({$countTPV})</a></li>
 	<li n:if="$user->isAllowed('Produkt','toPdf')" title="Výstup do PDF"><a n:href="toPdf, $item->id">► do PDF</a></li>
 	<li n:if="$user->isAllowed('Produkt','copyProdukt')" title="Vytvořit kopii produktu"><a n:href="copyProdukt, $item->id">Kopie</a></li>	
-	<li n:if="$user->isAllowed('Produkt','kalkulatePrices')" title="Kalkulace defaultní ceny"><a n:href="kalkulatePrices">Def. cena</a></li>	
+	{*<li n:if="$user->isAllowed('Produkt','kalkulatePrices')" title="Kalkulace defaultní ceny"><a n:href="kalkulatePrices">Def. cena</a></li>	*}
 </ul>
 
 <table class="grid">
@@ -40,6 +44,14 @@
 </tr>
 
 </table>
+
+
+{if $currdata}
+	<div style="position:absolute;top:80px;left:40%;">
+		{include '../../../Nakup/templates/Material/piechart.latte', pdata => $vol_curr, psize => 150}
+	</div>
+{/if}
+
 
 {* status produktu *}
 
@@ -202,10 +214,18 @@
 					{/foreach}
 				</table>
 				{include 'capacity.latte'}
-				<div class="subtit">
-					<span class="mini"><i>Set sazeb operací:</i> 
-						<a n:if="$user->isAllowed('SetSazebO','detail')" n:href="SetSazebO:detail, $item->idsso">{$item->sazby_o}</a>
+				<div class="subtit" style="margin-top:10px;">
+					<span class="hlp mini"><i><span class="tooltip">&nbsp;&nbsp;&nbsp;</span>Set sazeb operací:</i> 
+						<a n:if="$user->isAllowed('SetSazebO','detail')" n:href="SetSazebO:detail, $item->idsso">
+							{$item->sazby_o}.
+							<span class="def">
+								{include 'viewSazbyOper.latte'}
+							<span>
+						</a>
 					</span>
+					
+					
+					
 				</div>
 			{/if}
 
@@ -235,6 +255,8 @@
 	{if $isceny}
 			
 		{include 'viewCeny.latte', prices => $prices, aval => $aval, unlocked => $unlocked}
+		
+		{include 'compare.latte'}
 						
 	{/if}
 
@@ -254,7 +276,7 @@
 			
 			{include 'graph.latte', data_bar => $data_bar}
 
-			<div id="container_graph" style="margin: 0 auto; width: 90%; height: 180px; background: transparent; max-width: 1150px;">
+			<div id="container_graph" style="margin: 0 auto; width: 90%; height: 250px; background: transparent; max-width: 1150px;">
 				
 					<p style="color:darkred; font-size: large;text-align:center;">
 						<b>VYSKYTLA SE CHYBA - graf nelze vykreslit</b>
@@ -298,5 +320,4 @@
              });
 
 </script>
-{* Highcharts theme *}
-<script type='text/javascript' src='{$basePath}/js/themes/mypie.js'></script>
+

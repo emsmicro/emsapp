@@ -12,7 +12,7 @@ class K2Presenter extends NakupPresenter
 
 	private $titul;
 	/** @var Nette\Database\Table\Selection */
-	private $items;
+	//private $items;
 	private $k2param;
 	
 
@@ -20,9 +20,9 @@ class K2Presenter extends NakupPresenter
 	{
 		parent::startup();
 		$k2param = $this->getContext()->parameters['k2'];
-		$instance = new K2($k2param);
 		$this->k2param = $k2param;
-		$items = $instance->show();
+		//$instance = new K2($k2param);
+		//$items = $instance->show();
 	}
 
 

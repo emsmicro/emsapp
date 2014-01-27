@@ -261,6 +261,10 @@ class Model extends DibiRow
 		return $items;
 	}
 	
+	public function getTypyCen() {
+		return $this->CONN->query("SELECT * FROM typy_cen ORDER BY poradi")->fetchAll();
+	}	
+	
 	public function getMenyAsList() {
 		return $this->CONN->query("
 				DECLARE @CurrList nvarchar(max);
@@ -351,11 +355,12 @@ class Model extends DibiRow
 	 * Prepare JSON data for graph
 	 * @param type $data pairs of data name - value
 	 * @param type $like_percent 0..no, 1..yes
-	 * @param type $like_type 0..list of data, 1..array name_data, 2..categ+data, ...
+	 * @param type $like_type 0..list of data, 1..array name_data, 2..categ+data, 3..=2 bez categ ...
+	 * @param type $slice .. value of name where is sliced
 	 * @param type $round number of decimal
 	 * @return type 
 	 */
-	public function dataPairsForGraph($data, $like_percent = 0, $like_type = 0, $round = 1, $desc = 1){
+	public function dataPairsForGraph($data, $like_percent = 0, $like_type = 0, $round = 1, $desc = 1, $slice = '', $colors = null){
 		if(!$data){return "";}
 		$ret = array();
 		$sum = 0;
@@ -386,11 +391,20 @@ class Model extends DibiRow
 					$retstr .=  "{name: '$k', data: [$ret[$k]], legendIndex: $j}, ";
 				}
 			}
-			if($like_type==2){
+			if($like_type>1){
 				//array: category + data string
+				$cols = "";
+				if($colors){
+					$cols = ", color: colors[$colors[$i]]";
+				}
+				if($slice <> '' and $slice == $k){
+					$retstr .=  "{name: '$k', y: $ret[$k], sliced: true, selected: true $cols}, ";
+				} else {
+					$retstr .=  "{name: '$k', y: $ret[$k] $cols}, ";
+				}
 				$i++;
-				$retstr .=  "{name: '$k', y: $ret[$k]}, ";
 				$catstr .=  "'$i', ";
+				$i--;
 			}
 			$i++;
 		}
@@ -402,7 +416,7 @@ class Model extends DibiRow
 	}
 
 	
-	public function dataPairsForGraphOLD($data, $like_percent = 0, $like_type = 0, $round = 1){
+	public function dataPairsForGraphOLD($data, $like_percent = 0, $like_type = 0, $round = 1, $slice = ''){
 		if(!$data){return "";}
 		$ret = array();
 		$sum = 0;
@@ -427,10 +441,14 @@ class Model extends DibiRow
 				//array: name, data
 				$retstr .=  "{name: '".$k."', data: [".$ret[$k]."]}, ";
 			}
-			if($like_type==2){
+			if($like_type>=2){
 				//array: category + data string
 				$i++;
-				$retstr .=  "{name: '$k', y: $ret[$k]}, ";
+				if($slice <> '' and $slice == $k){
+					$retstr .=  "{name: '$k', y: $ret[$k], sliced: true}, ";
+				} else {
+					$retstr .=  "{name: '$k', y: $ret[$k]}, ";
+				}
 				$catstr .=  "'$i', ";
 			}
 			
@@ -442,7 +460,14 @@ class Model extends DibiRow
 		}
 	}
 	
-
+	/**
+	 * Připraví data pro zobrazení v grafu
+	 * @param type $data .. data objekt
+	 * @param type $like_percent .. převod hodnot na procenta
+	 * @param type $like_type .. 0 .. list, 1 .. array[name, data], 2 .. array[name, y]
+	 * @param type $round
+	 * @return string
+	 */
 	public function dataMoreForGraph($data, $like_percent = 0, $like_type = 0, $round = 1){
 		if(!$data){return "";}
 		$ret = array();
@@ -617,7 +642,44 @@ class Model extends DibiRow
 	 * @param type $key2
 	 * @return type
 	 */
-	public function dataIntoAssoc($rows, $key1, $key2) {
+	public function dataIntoAssoc($rows, $key='') {
+		if(!$rows){return FALSE;}
+		$out = array();
+		if($key==''){
+			foreach($rows as $k => $v){
+				$out[$k]=$v;
+			}
+			return $out;
+		}
+		$idkey = null;
+		$rk = 0;
+		$i=0;
+		foreach($rows as $row){
+			$rk = $row[$key];
+			if($rk<>$idkey){
+				if(isset($pom)){
+					$out[$idkey] = $pom;
+					unset($pom);
+					$idkey = null;
+				}
+				$pom = array();
+				$idkey = $row[$key];
+				$i=0;
+			}
+			$r = array();
+			foreach($row as $k => $v){
+				$r[$k]=$v;
+			}
+			$pom[$i] = $r;
+			$i++;
+			unset($r);
+		}
+		$out[$idkey] = $pom;
+		unset($pom);
+		return $out;
+	}	
+	
+	public function dataIntoAssoc1($rows, $key1, $key2) {
 		if(!$rows){return FALSE;}
 		$out = array();
 		$idkey = null;

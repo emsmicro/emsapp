@@ -1,0 +1,23 @@
+{* Highcharts library *}
+<script type='text/javascript' src='{$basePath}/js/highcharts.js'></script>
+{* Highcharts theme *}
+<script type='text/javascript' src='{$basePath}/js/themes/mypie.js'></script>
+{var $dh = $psize * 1.5}
+{var $dw = $psize * 2.7}
+<div id="pgraph" class="popgr" title="Skladba měn při nákupu"
+	 style="position: absolute; 
+			padding: 0;
+			top: 0; left: 0; 
+			z-index: 1;
+			width: {$dw}px; height: {$dh}px;
+			//background: #FFF7E6;
+	 ">
+	<p style="font-size: small;"><b>Kreslím graf...</b></p>
+	<div style="display:block;width:100%;text-align:left;font-size: x-small;"> 
+		
+		data = {$pdata}
+
+	</div>
+</div>
+{include 'graval.latte', pdata => $pdata, psize => $psize}
+						

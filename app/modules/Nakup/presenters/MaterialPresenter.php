@@ -82,7 +82,7 @@ class MaterialPresenter extends NakupPresenter
 			$this->template->items = $rowp;
 			$is_rows = count($rowp)>0;
 		}
-		
+		// data pro View
 		$this->template->idp=$id;
 		$this->template->koefmat = (float)$kmat['koef'];
 		$ilocked = $mat->isProductLocked($id);
@@ -96,12 +96,12 @@ class MaterialPresenter extends NakupPresenter
 		$this->template->sProdej = $sProdej;
 		$this->template->sProAlt = $sProAlt;
 		$this->template->noAltProdej = ($sProdej == $sProAlt or $sProAlt == 0);
-		if ($summat['sumNaklad']>0){
+		if (round($summat['sumNaklad'],2)>0){
 			$this->template->sNaklad = round($summat['sumNaklad'],2);
 			$this->template->procprd = (round($summat['sumProdej'],2)/round($summat['sumNaklad'],2)-1)*100;
 			$this->template->procpra = (round($summat['sumProAlt'],2)/round($summat['sumNaklad'],2)-1)*100;
 		} else {
-			$this->template->sNaklad = 0.001;
+			$this->template->sNaklad = 0.0001;
 			$this->template->procprd = 0;
 			$this->template->procpra = 0;
 		}
@@ -111,6 +111,13 @@ class MaterialPresenter extends NakupPresenter
 		$this->template->is_rows = $is_rows;
 		$this->template->co = $wh;
 		$this->template->titul = self::TITUL_DEFAULT . $addtitul;
+		
+		$currdata = $mat->groupByCurrency($id);
+		$cnt_curr = count($currdata);
+		$vol_curr = $mat->dataPairsForGraph($currdata, 0, 3, 1, 1, $slice = 'EUR', $colors = array(11,1,8,2,4,5,6,7));
+		$this->template->currdata = $currdata;
+		$this->template->vol_curr = $vol_curr;
+		$this->template->cnt_curr = $cnt_curr;
 
 	}
 
@@ -266,7 +273,8 @@ class MaterialPresenter extends NakupPresenter
         $instance = new Material;
 		$this->template->id = $id;
 		if($id>0){
-			$this->template->item = $instance->find($id)->fetch();
+			$item = $instance->find($id)->fetch();
+			$this->template->item = $item;
 			$this->template->nazev = $item->nazev;
 			if (!$this->template->item) {
 				throw new Nette\Application\BadRequestException('Záznam nenalezen!');

@@ -34,22 +34,22 @@
 	</tr>
 	{foreach $sazby as $saz}
 	<tr>
-		<td><i>{$saz->poradi}</i></td>
-		<td><i>{$saz->typ}</i></td>
-		<td>{$saz->zkratka}</td>
-		<td class="tcislo"><b>{$saz->hodnota|number:1:',':' '} %</b></td>
-		<td>{$saz->pravidlo}</td>
+		<td><i>{$saz['poradi']}</i></td>
+		<td><i>{$saz['typ']}</i></td>
+		<td>{$saz['zkratka']}</td>
+		<td class="tcislo"><b>{$saz['hodnota']|number:1:',':' '} %</b></td>
+		<td>{$saz['pravidlo']}</td>
 		<td class="takce">
-			{if $saz->sid > 0}
+			{if $saz['sid'] > 0}
 				<span class="setedit" title="Změnit">
-					<a n:if="$user->isAllowed('SetSazeb','editRate')" n:href="editRate, $saz->sid, $saz->tid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<a n:if="$user->isAllowed('SetSazeb','editRate')" n:href="editRate, $saz['sid'], $saz['tid'], $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				</span>
 				<span class="setdel" title="Odstranit">
-					<a n:if="$user->isAllowed('SetSazeb','deleteRate')" n:href="deleteRate, $saz->sid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<a n:if="$user->isAllowed('SetSazeb','deleteRate')" n:href="deleteRate, $saz['sid'], $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				</span>
 			{else}
 				<span class="setadd" title="Přidat...">
-					<a n:if="$user->isAllowed('SetSazeb','addRate')" n:href="addRate, $saz->tid, $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<a n:if="$user->isAllowed('SetSazeb','addRate')" n:href="addRate, $saz['tid'], $idss">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				</span>
 			{/if}
 		</td>

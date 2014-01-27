@@ -18,6 +18,7 @@ Highcharts.theme = {
            '#c42525',
            '#a6c96a',
            '#AF510C',
+           '#FFFFFF',
         ],
 	chart: {
 		backgroundColor: {
@@ -34,10 +35,10 @@ Highcharts.theme = {
 		plotBorderWidth: 0
 	},
 	title: {
-		style: {
-			color: '#FFF',
-			font: '16px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
-		}
+		//style: {
+		//	color: '#FFF',
+		//	font: '14px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif'
+		//}
 	},
 	subtitle: {
 		style: {

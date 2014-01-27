@@ -1,0 +1,71 @@
+<style type="text/css">
+	#cout {
+		position: absolute; 
+		float:left;
+		
+		top: 100px; 
+		left: 33%; 
+		
+		background: #FFF4DD;
+		padding: 6px;
+		border: 1px solid #BBB;
+		padding: 10px;
+		padding-right:20px;
+		border-radius: 5px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		-moz-box-shadow: 3px 3px 3px #BBB;
+		-webkit-box-shadow: 3px 3px 3px #BBB;
+		box-shadow: 3px 3px 3px #BBB;
+		display: none;
+		z-index: 3;
+		font-family: 'Lato','Open Sans',sans-serif;
+		font-size: x-large;
+		}
+	#cout table {
+		font-family: "Trebuchet MS", "Geneva CE", lucida, sans-serif;
+		}
+	#cout table thead td {
+		font-style: italic;
+		}
+	#cout img {
+		position:absolute;
+		float:right;
+		top: 5px;
+		right: 5px;
+		cursor: pointer;
+		opacity: 1;
+		}
+		
+	#cout img:hover {
+		opacity: 0.7;
+	}
+
+		
+</style>
+
+{include 'js_compare_prices.latte'}
+<div id="cout">
+	<img src="{$basePath}/images/close.png" onclick="$('#cout').hide();" title="Zavřít okno" />
+	<span style="display:block; margin-left: 10px;">Porovnání cen</span>
+	<table class="grid">
+		<thead>
+			<tr>
+				<td>Položka / cena</td>
+				<th>Aktivní</th>
+				<th>Cena č. <b><span id="priceNo"></span></b></th>
+				<th>(C-A)/A</th>
+			<tr>
+		</thead>
+		<tbody>
+		{foreach $typycen as $typ}
+			<tr>
+				<th>{$typ->zkratka2}</th>
+				<td id="a_{$typ->zkratka}" class="tcislo"></td>
+				<td id="c_{$typ->zkratka}" class="tcislo"></td>
+				<td id="d_{$typ->zkratka}" class="tcislo"></td>
+			</tr>
+		{/foreach}
+		</tbody>
+	</table>
+</div>

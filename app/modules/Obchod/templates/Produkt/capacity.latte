@@ -58,23 +58,23 @@
 				{/foreach}
 				{var $kklas = "tseptop"}
 				{if $rr > 1}
-					{var $kklas = ""}
 					{var $sumrm = $sumr/$mypar['rucni_smena']}
 					{var $sumpp = $sumr/($mypar['fond_rucni'] * $mypar['rucni_smena'])}
-					<tr>
-						<td class="tseptop" style="min-width:45%;max-width:60%;"><b>CELKEM ruční práce</b></td>
-						<td class="tcislo tseptop">{$sumtar|number:2:',':' '}</td>
-						<td class="tcislo tseptop tsepright">{$sumtpr|number:1:',':' '}</td>
-						<td class="tcislo tseptop">{$sumr|number:1:',':' '}</td>
-						<td class="tcislo tseptop">{$sumrm|number:1:',':' '}</td>
-						<td class="tcislo tseptop"><b>{$sumpp|number:2:',':' '}</b> prac.</td>
+					<tr class="{$kklas}">
+						<td style="min-width:45%;max-width:60%;"><b>CELKEM ruční práce</b></td>
+						<td class="tcislo">{$sumtar|number:2:',':' '}</td>
+						<td class="tcislo tsepright">{$sumtpr|number:1:',':' '}</td>
+						<td class="tcislo">{$sumr|number:1:',':' '}</td>
+						<td class="tcislo">{$sumrm|number:1:',':' '}</td>
+						<td class="tcislo"><b>{$sumpp|number:2:',':' '}</b> prac.</td>
 					</tr>
+					{var $kklas = ""}
 				{/if}
 				{if $sr > 0}
 					{var $sumsm = $sums/$mypar['rucni_smena']}
 					{var $sumpo = $sums * 100/($mypar['fond_strojni'] * $mypar['rucni_smena'] * $mypar['smennost_strojni'] * $sr)}
-					<tr>
-						<td class="{$kklas}" style="min-width:45%;max-width:60%;"><b>CELKEM strojní práce</b></td>
+					<tr class="{$kklas}">
+						<td style="min-width:45%;max-width:60%;"><b>CELKEM strojní práce</b></td>
 						<td class="tcislo">{$sumtas|number:2:',':' '}</td>
 						<td class="tcislo tsepright">{$sumtps|number:1:',':' '}</td>
 						<td class="tcislo {$kklas}">{$sums|number:1:',':' '}</td>

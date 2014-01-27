@@ -69,7 +69,7 @@
 		{else}
 			{if $cena->idtc == 8}
 				{var $obj += $cena->objem}
-				{if $cena->aktivni == 1}
+				{if $cena->aktivni == 1 && isset($aval[$cena->id_produkty][$cena->id])}
 					{var $MAT = $aval[$cena->id_produkty][$cena->id]['maternak']}
 					{var $VN = $aval[$cena->id_produkty][$cena->id]['vyrobnak']}
 					{var $PHR = $obj - $VN}

@@ -82,7 +82,7 @@
 				</ul>
 			</td>
 			<td n:if="$cond" style="vertical-align:bottom;" class="takce">
-				<span class="setperm" title="Nastavit práva pro roli"><a n:if="$user->isAllowed('Prava','setRights')" n:href="setRights, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+				<span class="setperm" title="Nastavit práva pro roli {$rol}"><a n:if="$user->isAllowed('Prava','setRights')" n:href="setRights, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
 				<span class="setedit" title="Změnit roli"><a n:if="$user->isAllowed('Prava','edit')" n:href="edit, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
 				<span class="setdel" title="Odstranit roli"><a n:if="$user->isAllowed('Prava','delete')" n:href="delete, $iid">&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
 			</td>

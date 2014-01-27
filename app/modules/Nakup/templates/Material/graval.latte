@@ -1,0 +1,80 @@
+<script type='text/javascript'>
+$(function () {	
+		Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.5, r: 0.5 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')] // darken
+		        ],
+		    };
+		});
+	
+        var colors = Highcharts.getOptions().colors,
+            data = {$pdata|noescape},
+			size = {$psize};
+			
+		Highcharts.setOptions({
+			lang: {
+				decimalPoint: ',',
+				thousandsSep: ' ',
+			},
+		});
+			
+		$('#pgraph').highcharts({
+					chart: {    
+						backgroundColor: 'transparent',
+						plotBorderWidth: null,
+						plotShadow: false,
+						//shadow: true,
+						style: {
+						//	right: '95px',
+						//	top: '-50px',
+						},
+					},
+					title: {
+						text: null, //'Skladba měn v nákupu', 
+						style: {
+							color: '#000',
+							fontSize: '12px',
+						},
+					},
+                    credits: {
+                          enabled: false
+                    },
+					tooltip: {
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y/1000) +' tis. Kč';
+						}
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							size: size,
+							dataLabels: {
+								enabled: true,
+								//color: 'white',
+								//connectorWidth: 0,
+								//connectorColor: '#999',
+								inside: true,
+								distance: 12,
+								formatter: function() {
+									return '<b>'+this.point.name +'</b>: '+ Math.round(this.percentage*10)/10 +' %';
+								},
+								style: {
+									padding: 0,
+									fontSize: '10px'
+								},
+							}
+						},
+					},
+				    series: [{
+						type: 'pie',
+						name: 'měny',
+						data: data,
+					}]
+				});
+			});
+			
+</script>

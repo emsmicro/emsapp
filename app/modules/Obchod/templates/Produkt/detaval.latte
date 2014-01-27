@@ -14,12 +14,13 @@
 		<tr><th>Tržba</th>		<td class="cislo">{$item['trzba']|number:2:',':' '} Kč</td></tr>
 		<tr title="Hrubá PH = Tržba - Nákady (přímé: mat., mzdy, stroje - bez režií)"><th>Hrubá PH</th>	<td class="cislo">{$item['avalcist']|number:2:',':' '} Kč</td></tr>
 		<tr title="Real. PH = Tržba - Výr. nákady + Mater. přirážka"><th>Real. PH</th>	<td class="cislo">{$item['avalkalk']|number:2:',':' '} Kč</td></tr>
-		<tr><th>Zisk</th>		<td class="cislo">{$item['kalkzisk']|number:2:',':' '} Kč</td></tr>
+		{var $zisk_sr = $item['kalkzisk'] + $item['spravrez']}
+		<tr title="Zisk vč. správní režie"><th>Zisk + SR</th>	<td class="cislo">{$zisk_sr|number:2:',':' '} Kč</td></tr>
 		<tr><th>PH/Tržba</th>	<td class="cislo light" title="{$bestit}">{$item['avalproc']|number:2:',':' '} %</td></tr>
 		<tr><td colspan="2" class="mini" style="text-align:right;cursor:default;background-color:#FFF;padding:3px 5px 0 0;">
 				<span class="tooltip2">&nbsp;&nbsp;&nbsp;</span>
 				Další údaje...
-				<div class="popup" style="min-width:90%;right:-10px;top:3px;">
+				<div class="popup" style="min-width:90%;right:30px;top:3px;">
 					<div style="border-bottom: dotted 1px #BBB;">
 					  <span class="label">Mater. tržba</span>
 					  <span class="value">{$item['trzbamat']|number:0:',':' '} Kč [{$item['matcproc']|number:1:',':' '} %]</span>
@@ -45,14 +46,22 @@
 					  <span class="value">{$item['spravrez']|number:0:',':' '} Kč [{$item['sprvproc']|number:1:',':' '} %]</span>
 					</div>
 				</div>
-				<div id="dgraph_{$item['id_cena']}" class="popgr">
+				<div id="dgraph_{$item['id_cena']}" class="popgr"
+					 style="position: absolute; 
+							float: left;
+							padding: 0;
+							top: -140px; left: -480px; 
+							z-index: 1;
+							width: 440px; height: 300px;
+							//background: #FFF7E6;
+					">
 					<p style="color:darkred; font-size: large;"><b>VYSKYTLA SE CHYBA - graf nelze vykreslit</b></p>
 					<div style="display:block;width:100%;text-align:left;"> 
 						id_cena = {$item['id_cena']} 
 						<br /> 
 						data = {$item['datagraf']}
 					
-						{*{dump $item};*}
+						{*dump $item*}
 						
 					</div>
 				</div>

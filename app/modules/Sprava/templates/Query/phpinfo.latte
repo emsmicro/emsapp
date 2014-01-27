@@ -1,0 +1,92 @@
+{extends '../Sprava/default.latte'}
+{block #drobecky3} » <a n:href="phpinfo">Php Info</a>{block #drobecky4}{/block}{/block}
+
+{block #content}
+
+{*
+<h1 n:block="title">Info</h1>
+<div>
+	{foreach $info as $name => $section}
+		<h3>{$name}</h3>
+		<table class="grid">
+        {foreach $section as $key => $val}
+            {if is_array($val)}
+                <tr><td>{$key}</td><td>{$val[0]}</td><td>{$val[1]}</td></tr>
+            {elseif is_string($key)}
+                <tr><td>{$key}</td><td>{$val}</td></tr>
+            {else}
+                <tr><td>{$val}</td></tr>
+			{/if}
+        {/foreach}
+        </table>		
+	{/foreach}
+</div>
+*}
+
+<h1 n:block="title">PHP info</h1>
+<div>
+<div class="kolaps">
+	{var $i=0}
+	{var $s=''}
+    {foreach $phpinfo as $name => $section} 
+		{var $s .= ".ckol_".$i.", "}
+		<div class="ckol_{$i}">
+        <h3 style="border: none; background-color: #DDD; font-size:x-large;">{$name}</h3>
+		<div>
+		<table class="grid" style="width:98%;">
+        {foreach $section as $key => $val} 
+			<tr>
+            {if is_array($val)}
+				<th style="width:20%;">{$key|noescape}</th>
+				<td style="padding:0;">
+				<div style="width:100%;"><span style="width:100%;">
+				{var $j=0}
+				{foreach $val as $k => $v}
+					{if $j>0}
+						<span style="position:absolute;left:50%;">
+					{else}
+						<span>
+					{/if}
+					<span style="color:#222; background:#DDD; padding: 3px 10px 3px 5px; margin:0 5px 0 0;">{$k}</span>
+					<span style="color: #444; margin:0 10px 0 5px;" title="{$v}">{$v|noescape}</span>
+					</span>
+					{var $j++}
+				{/foreach}
+				</span></div>
+				</td>
+            {elseif is_string($key)}
+                <th style="width:25%;">{$key}</th><td>{$val|noescape}</td>
+            {else}
+                <td>{$val|noescape}</td>
+			{/if}
+			</tr>
+        {/foreach}
+        </table>
+		</div>
+		</div>
+		{var $i++}
+    {/foreach}
+	{var $s = substr($s, 0, -2)}
+</div>
+</div>
+
+
+{* collapse *}
+<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
+<script type='text/javascript'>
+
+            $({$s}).collapse({ show: function(){ 
+                    this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+					
+                 },
+				head: 'h3',
+                hide : function() { 
+                    this.fadeOut();
+                 }
+             });
+
+</script>

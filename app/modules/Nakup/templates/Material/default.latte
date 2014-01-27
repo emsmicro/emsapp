@@ -71,6 +71,13 @@
 				background-color: #EEE;
 				border: 1px solid #888;
 			">
+
+		{if $vol_curr and $sNaklad>0.01}	
+			<div style="position:relative;top:-160px;left:52%;">
+				{include 'piechart.latte', pdata => $vol_curr, psize => 100}
+			</div>
+		{/if}		
+		
 		{if !$noAltProdej}
 			<div style="float:right;border: solid 2px #BBB; padding: 0;">
 			<div class="infosum">
@@ -244,7 +251,7 @@
 				{$it->cena_cm|number:4:',':' '} {$it->mena}
 			</td>
 		{if $it->cena_kc2 <= 0}
-			<td class="tcislo tselorange" title="Tato cena není uložena v databázi.">
+			<td class="tcislo tselnosave" title="Tato cena není uložena v databázi.">
 				<span>
 					{$it->cena_kc*$koefmat|number:4:',':' '}
 				</span>

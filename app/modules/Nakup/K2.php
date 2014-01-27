@@ -43,6 +43,7 @@ class K2 extends Model
     public function __construct($arr = array())
     {
         parent::__construct($arr);
+		//$ark = $container->parameters['k2'];
 		$connk2 = new DibiConnection($arr);
 		$this->connk2 = $connk2;
 

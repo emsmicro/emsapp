@@ -15,8 +15,25 @@ $(function () {
 			
 		Highcharts.setOptions({
 			lang: {
-				decimalPoint: ',',
-				thousandsSep: ' ',
+                    months:             ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+                    shortMonths:        ['Led', 'Úno', 'Bře', 'Dub', 'Kvě', 'Čer', 'Čec', 'Srp', 'Zář', 'Říj', 'Lis', 'Pro'],
+                    weekdays:           ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
+                    loading:            'Načítám...',
+                    contextButtonTitle: 'Lokální menu',
+                    printChart:         'Tisk grafu',
+                    rangeSelectorFrom:  'Od',
+                    rangeSelectorTo:    'Do',
+                    rangeSelectorZoom:  'Období',
+                    downloadPNG:        'Uložit jako PNG',
+                    downloadJPEG:       'Uložit jako JPEG',
+                    downloadPDF:        'Uložit jako PDF',
+                    downloadSVG:        'Uložit jako SVG',
+                    resetZoom:          'Zoom 1:1',
+                    resetZoomTitle:     'Zpět zvětšení',					
+					
+					decimalPoint: ',',
+					thousandsSep: ' ',
+				
 			},
 		});
 			
@@ -26,12 +43,12 @@ $(function () {
 						plotBorderWidth: null,
 						plotShadow: false,
 						style: {
-							right: '95px',
-							top: '-50px',
+							//right: '95px',
+							//top: '-50px',
 						},
 					},
 					title: {
-						text: '', //Skladba nákladů a PH
+						text: null, //Skladba nákladů a PH
 						style: {
 							color: '#000'
 						},
@@ -48,13 +65,13 @@ $(function () {
 						pie: {
 							allowPointSelect: true,
 							cursor: 'pointer',
-							size: 280,
+							size: 220,
 							dataLabels: {
 								enabled: true,
 								//color: '#000',
 								//connectorWidth: 0,
 								connectorColor: '#999',
-								//distance: 5,
+								distance: 10,
 								formatter: function() {
 									return this.point.name +': '+ Math.round(this.percentage*10)/10 +' %';
 								},

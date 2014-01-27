@@ -115,7 +115,14 @@ SELECT * FROM numbered WHERE row_no > 1;
 
 		}
 		$this->template->titul = self::TITUL_DEFAULT;
-
+		$php_server = $_SERVER["REMOTE_ADDR"];
+		if(in_array($php_server, array("127.0.0.1","::1")))
+		{
+			$this->template->server = 'LOCALHOST';
+		} else {
+			$this->template->server = $php_server . " - " . $_SERVER["HTTP_HOST"];
+		}
+		//dd($php_server,'SERVER');
 	}
 
 
@@ -142,7 +149,8 @@ SELECT * FROM numbered WHERE row_no > 1;
 		$form->addSubmit('dtb', 'Databáze');
 		$form->addSubmit('tbs', 'Tabulky');
 		$form->addSubmit('sch', 'Schéma');
-		$form->addSubmit('srv', 'Server');
+		$form->addSubmit('srv', 'DB Server');
+		$form->addSubmit('inf', 'PhpInfo');
 		$form->onSuccess[] = callback($this, 'qFormSubmitted');
 		$form->addProtection(self::MESS_PROTECT);
 		return $form;
@@ -202,6 +210,10 @@ ORDER BY table_name, pos
 			$this->redirect('default', $dot, 4);
 		}		
 		
+		if ($form['inf']->isSubmittedBy()) {
+			$dot = "";
+			$this->redirect('phpInfo');
+		}		
 		
 		
 	}

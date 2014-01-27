@@ -107,14 +107,17 @@ class ProduktPresenter extends ObchodPresenter
 		$this->idn = $item->idn;
 		$this->template->inabidka = $this->idn;
 		
+		$sazo = new SazbaO;	
+        $sazbo = $sazo->show($item->idsso)->fetchAll();
+        $this->template->sazbyop = $sazbo;		
+		
+		
 		$idss = $item->idss;
 		$sazb = new Sazba;	
-        $sazby = $sazb->show($idss);
-		$this->template->sazby = $sazby;
-		
-		$rates = $sazb->show(0, $id);
-		//$rat = array_merge(array(), $rates);
-		dd($rates, 'RATES');
+		$rate = $sazb->show(0, $id);
+		$rates = $sazb->dataIntoAssoc($rate,'idss');
+		//dd($rates, 'RATES');
+		$this->template->sazby = $rates[$idss];
 		$this->template->rates = $rates;
 		
 		
@@ -127,10 +130,11 @@ class ProduktPresenter extends ObchodPresenter
 		$capac = $oper->sumKapacitaDruh($id, $this->getIdFromMySet(3));
         $this->template->capac = $capac;
 		$this->template->mypar = $this->mpars;
+		$this->template->typycen = $oper->getTypyCen();
 		//dd($capac,'CAPACITY');
 		$prices = $instance->prices($id, $this->idn, false);
 		$isceny = count($prices)>0;
-		dd($prices,'PRICES');
+		//dd($prices,'PRICES');
         $this->template->isceny = $isceny;
         $this->template->prices = $prices;
 		$kalk = new Kalkul;
@@ -151,7 +155,15 @@ class ProduktPresenter extends ObchodPresenter
 			$this->template->data_bar = $data_bar;
 			$this->template->factor = 0;
 		}
-
+		$mat = new Material;
+		$currdata = $mat->groupByCurrency($id);
+		$cnt_curr = count($currdata);
+		$vol_curr = $mat->dataPairsForGraph($currdata, 0, 3, 1, 1, $slice = 'EUR', $colors = array(11,1,8,2,4,5,6,7));
+		$this->template->currdata = $currdata;
+		$this->template->vol_curr = $vol_curr;
+		$this->template->cnt_curr = $cnt_curr;
+		//dd($currdata,"CurrData");
+				
 	}
 
 	/**
@@ -499,6 +511,8 @@ class ProduktPresenter extends ObchodPresenter
 		$kalk = new Kalkul;
 		$res = $kalk->refreshProductPrices($id, $go_where);
 		$this->flashMessage($res['message'],$res['type']);
+		dd($res,'RESULT');
+		//exit();
 		$this->redirect($res['redirect'], $res['param']);
 	}
 

@@ -5,6 +5,7 @@
 
 <h2>{$titul}</h2>
 <span class="mini" style="position:relative;float:right;top:-20px;right:20px;"><i>Jen SQL příkaz SELECT</i></span>
+<span class="mini" style="position:relative;float:right;top:-80px;right:-90px;">PHP server: <b>{$server}</b></span>
 
 {form qForm class => 'hledat'}
 
@@ -14,13 +15,14 @@
 </ul>
 
 	<div style="position:relative; width:1180px;">
-		<span style="position:absolute;float:left; left:250px; width:600px; top:-40px;">
+		<span style="position:absolute;float:left; left:250px; width:800px; top:-40px;">
 			{input gou class => 'button default'}
 			<span style="margin-left: 150px;">
 				{input tbs class => 'button small'}
 				{input sch class => 'button small'}
 				{input dtb class => 'button small'}
 				{input srv class => 'button small'}
+				{input inf class => 'button small'}
 			</span>
 		</span>
 		{*<span>{input cancel class => 'button'}</span>*}

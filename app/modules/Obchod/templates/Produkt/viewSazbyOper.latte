@@ -1,0 +1,39 @@
+<table class="grid aval" style="width:100%; font-size: 10px; z-index: 9;">
+<tr style="border: solid 1px #ADD4FB;">
+	<th>#</th>
+	<th>Druh</th>
+	<th>Název sazby služby</th>
+	<th>Sazba [Kč/h]</th>
+	<th>Stroj</th>
+	<th>[Kč/h]</th>
+	<th>Obsluha</th>
+	<th>[Kč/h]</th>
+	<th title="Vypočteno stroj + obsluha">S + O [Kč/h]</th>
+</tr>
+
+{foreach $sazbyop as $saz}
+	{if round($saz->sazba_celkem,2) > round($saz->hodnota,2)}
+		{var $stl = "#FFD7D7"}
+	{elseif round($saz->sazba_celkem,2) < round($saz->hodnota,2)}
+		{var $stl = "#FFFFE6"}
+	{else}
+		{var $stl = "transparent"}
+	{/if}
+	{if $saz->sazba_stroje>0}
+		{var $str = "#FFFFE6"}
+	{else}
+		{var $str = "transparent"}
+	{/if}
+	<tr>
+		<td>{$saz->poradi}</td>
+		<td>{$saz->druh}</td>
+		<td><i>{$saz->typ}</i></td>
+		<td class="tcislo"><b><span n:if="$saz->hodnota>0">{$saz->hodnota|number:2:',':' '}</span></b></td>
+		<td title="{$saz->nstroj}" style="background-color:{$str};">{$saz->stroj}</td>
+		<td class="tcislo" style="background-color:{$str};"><span n:if="$saz->sazba_stroje>0">{$saz->sazba_stroje|number:2:',':' '}</span></td>
+		<td>{$saz->obsluha}</td>
+		<td class="tcislo"><span n:if="$saz->sazba_obsluhy>0">{$saz->sazba_obsluhy|number:2:',':' '}</span></td>
+		<td class="tcislo" style="background-color:{$stl};"><span n:if="$saz->sazba_celkem>0">{$saz->sazba_celkem|number:2:',':' '}</span></td>
+	</tr>
+{/foreach}
+</table>

@@ -109,10 +109,35 @@ class Kalkul extends Model
 	 */
 	public function recalMatPrices($idproduktu, $koeficient, $meze=FALSE, $nacenu=FALSE)
 	{
+		$sql_cmd = "
+				--USE DEMS;
+				--GO;
+				DISABLE trigger cenaczk_material ON material
+				UPDATE M
+						SET	cena_kc = cena_cm * COALESCE(K1.kurz_nakupni,K2.kurz_nakupni,1),
+							id_kurzy = COALESCE(K1.id, K2.id, null)
+						FROM material M
+							-- buď najít platný kurz měny
+							LEFT JOIN (SELECT * FROM kurzy
+									WHERE	platnost_do < '19710101' OR
+											platnost_do > GETDATE() OR
+											platnost_do IS NULL) K1
+								ON M.id_meny = K1.id_meny
+							-- nebo najít alespoň poslední zadaný kurz měny
+							LEFT JOIN (SELECT *, ROW_NUMBER () OVER (PARTITION BY id_meny 
+										ORDER BY platnost_do DESC) rn FROM kurzy
+										) K2
+								ON M.id_meny = K2.id_meny AND rn=1
+							LEFT JOIN vazby v ON M.id=v.id_material 
+							LEFT JOIN meny me ON M.id_meny = me.id
+						WHERE v.id_vyssi=$idproduktu
+				";
+		$this->CONN->query($sql_cmd);
 		if($meze & $meze<>''){
 			// bude vypočtena alternativní cena
 			$sql_cmd = "UPDATE $this->t_mater  
 						SET cena_kc2 = cena_kc * $koeficient
+							--id_kurzy = id_kurzy, id_meny = id_meny
 						FROM $this->t_mater m
 									LEFT JOIN vazby v ON m.id=v.id_material 
 									LEFT JOIN meny me ON m.id_meny = me.id
@@ -121,7 +146,7 @@ class Kalkul extends Model
 			
 			// cena s mezemi - kalkulační
 			if($nacenu){$pole_cena = "cena_kc3";} else {$pole_cena = "cena_kc";}
-			$sql_cmd = "UPDATE $this->t_mater SET cena_kc3 = CASE";
+			$sql_cmd = "UPDATE $this->t_mater SET cena_kc3 = (CASE";
 			$case = '';
 			for($i = 0; $i < count($meze); ++$i) {
 				$do = $meze[$i]['mez'];
@@ -136,7 +161,7 @@ class Kalkul extends Model
 					$case .= " WHEN cena_kc >= $max THEN $pole_cena * $koef";
 				}
 			}
-			$sql_cmd .= $case .	" END
+			$sql_cmd .= $case .	" END) --, id_kurzy = id_kurzy, id_meny = id_meny
 						FROM $this->t_mater m
 									LEFT JOIN vazby v ON m.id=v.id_material 
 									LEFT JOIN meny me ON m.id_meny = me.id
@@ -144,7 +169,7 @@ class Kalkul extends Model
 		} else {
 			// alternativní cena - vynulování
 //			$sql_cmd = "UPDATE material  
-//						SET cena_kc3 = 0
+//						SET cena_kc3 = 0, id_kurzy = id_kurzy, id_meny = id_meny
 //						FROM material m
 //									LEFT JOIN vazby v ON m.id=v.id_material 
 //									LEFT JOIN meny me ON m.id_meny = me.id
@@ -154,6 +179,7 @@ class Kalkul extends Model
 			if($nacenu === FALSE){
 				$sql_cmd = "UPDATE $this->t_mater  
 							SET cena_kc2 = cena_kc * $koeficient, cena_kc3 = cena_kc * $koeficient
+								--id_kurzy = id_kurzy, id_meny = id_meny
 							FROM $this->t_mater m
 										LEFT JOIN vazby v ON m.id=v.id_material 
 										LEFT JOIN meny me ON m.id_meny = me.id
@@ -161,6 +187,7 @@ class Kalkul extends Model
 			} else {
 				$sql_cmd = "UPDATE $this->t_mater  
 							SET cena_kc2 = cena_kc * $koeficient
+								--id_kurzy = id_kurzy, id_meny = id_meny
 							FROM $this->t_mater m
 										LEFT JOIN vazby v ON m.id=v.id_material 
 										LEFT JOIN meny me ON m.id_meny = me.id
@@ -645,7 +672,7 @@ class Kalkul extends Model
 			if($go_where=='N'){
 				$pres = 'Nabidka:';
 				$id_ret = $id_nabidka;
-				$posret = "";
+				$posret = "#ceny";
 			} else {
 				$pres='Produkt:';
 				$id_ret = $id_produkt;
@@ -723,7 +750,7 @@ class Kalkul extends Model
 						SELECT 
 							c.id_nabidky,
 							c.id_produkty,
-							n.id_set_sazeb,
+							COALESCE(c.id_set_sazeb,n.id_set_sazeb) [id_set_sazeb],
 							c.id_meny,
 							c.id_pocty,
 							c.id_vzorec,
@@ -937,7 +964,7 @@ class Kalkul extends Model
 				$ziskproc = $czsk/$cnab * 100;
 				$odpiproc = $odps['odpis']/($mnoz * $cnab) * 100;
 				$aval[$ic]['matnproc']	= $matnproc;
-				$aval[$ic]['matcproc']	= ($cmat/$matn - 1) * 100;
+				$aval[$ic]['matcproc']	= $matn>0 ? ($cmat/$matn - 1) * 100 : 0;
 				$aval[$ic]['sluzproc']	= $sluzproc;
 				$aval[$ic]['vyreproc']	= $vyreproc;
 				$aval[$ic]['sprvproc']	= $sprvproc;
@@ -1113,7 +1140,7 @@ class Kalkul extends Model
 			$ziskproc = $czsk/$cnab * 100;
 			$odpiproc = $odps['odpis']/($mnoz * $cnab) * 100;
 			$aval[$ic]['matnproc']	= $matnproc;
-			$aval[$ic]['matcproc']	= ($cmat/$matn - 1) * 100;
+			$aval[$ic]['matcproc']	= $matn>0 ? ($cmat/$matn - 1) * 100 : 0;
 			$aval[$ic]['sluzproc']	= $sluzproc;
 			$aval[$ic]['vyreproc']	= $vyreproc;
 			$aval[$ic]['sprvproc']	= $sprvproc;

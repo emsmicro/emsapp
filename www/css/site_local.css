@@ -220,8 +220,13 @@ table.grid th a, table.grid td a {;
 }
 
 
-table.grid, table.grid td, table.grid th, table.grid tr {
-    border-color: #888888;
+table.grid {
+	border: 2px solid #888;
+} 
+
+table.grid td, table.grid th, table.grid tr {
+    //border-color: #888888;
+	border: 1px solid #888;
 }
 
 table.grid td {
@@ -229,7 +234,7 @@ table.grid td {
 }
 
 table.grid .tsepright, table.grid .tsepleft, table.grid .tseptop, table.grid .tsepbot {
-      border-color: #999;
+	  border-color: #999;
 }
 
 
@@ -255,6 +260,16 @@ form input.button.default {
 form input.button:hover {
     background: #FF9933;
     border-color: #C16100;
+}
+
+
+
+span.iditem, span.iditemin {
+	background-color: #463000;
+}
+
+.kvzorce .popis {
+	border-color: #463000;
 }
 
 .paginator A

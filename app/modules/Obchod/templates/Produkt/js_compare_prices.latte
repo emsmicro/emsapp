@@ -1,0 +1,138 @@
+<script type='text/javascript'>
+	
+	var xdivID = '#cout';
+
+	$(window).scroll(function() {					
+		var currentScroll = $(window).scrollTop();	
+		if (currentScroll >= 120) {					
+			$(xdivID).css({
+				position: 'fixed',
+			});				
+		} else {									
+			$(xdivID).css({
+				position: 'absolute',
+			});				
+		}
+	});		
+	
+
+	function comPrices(e, activeTable, currentTable, idDiv, priceNo){
+				
+		var div = document.getElementById(idDiv);
+		var sNo = document.getElementById("priceNo");
+		var act = getPrices(activeTable);
+		var cur = getPrices(currentTable);
+		writeVal('MaterialC', act.matc, cur.matc);
+		writeVal('RucPraceC', act.rucc, cur.rucc);
+		writeVal('StrPraceC', act.strc, cur.strc);
+		writeVal('MontPraceC', act.monc, cur.monc);
+		writeVal('OstSluzbC', act.ostc, cur.ostc);
+		writeVal('VyrobniC', act.vyrc, cur.vyrc);
+		writeVal('SprvRezie', act.sprc, cur.sprc);
+		writeVal('Zisk', act.zisc, cur.zisc);
+		writeVal('ProdCenaP', act.proc, cur.proc);
+		writeVal('CenaNab', act.nabc, cur.nabc);
+
+					   
+		var posx = 0;
+		var posy = 0;
+		if (!e) var e = window.event;
+		if (e.pageX || e.pageY)
+		{
+			posx = e.pageX;
+			posy = e.pageY;
+		}
+		else if (e.clientX || e.clientY)
+		{
+			posx = e.clientX;
+			posy = e.clientY;
+		}
+					   
+		//moveHim(div);
+		//div.style.left = posx;
+		//div.style.top = posy;
+		sNo.innerHTML = priceNo;
+		div.style.display = "block";
+		
+	}
+
+	function writeRow(title, cell1, cell2, body) {
+		var row = document.createElement("tr");
+		row.appendChild(writeCell(title));
+		row.appendChild(writeCell(cell1));
+		row.appendChild(writeCell(cell2));
+		body.appendChild(row);
+	}
+
+
+	function writeCell(data){
+		var cell = document.createElement("td");
+		var cellText = document.createTextNode(data);
+		cell.appendChild(cellText);	
+		return cell;
+	}
+
+	function getCell(table, idtd) {
+		for (var i = 0, row; row = table.childNodes[3].childNodes[i]; i++) {
+			if(row.nodeName == 'TR'){
+				for (var j = 0, cell; cell = row.childNodes[j]; j++) {
+					if(cell.nodeName == 'TD' && cell.id == idtd){
+						return cell.innerHTML;
+					}
+				}
+			}
+		}
+		return '0';
+	}
+
+	//return prices from table by id
+	function getPrices(id){
+		var table = document.getElementById(id);
+		var matC = myFloat(getCell(table,'MaterialC'));
+		var rucC = myFloat(getCell(table,'RucPraceC'));
+		var strC = myFloat(getCell(table,'StrPraceC'));
+		var monC = myFloat(getCell(table,'MontPraceC'));
+		var ostC = myFloat(getCell(table,'OstSluzbC'));
+		var vyrC = myFloat(getCell(table,'VyrobniC'));
+		var sprC = myFloat(getCell(table,'SprvRezie'));
+		var zisC = myFloat(getCell(table,'Zisk'));
+		var proC = myFloat(getCell(table,'ProdCenaP'));
+		var nabC = myFloat(getCell(table,'CenaNab'));
+		return {
+			matc: matC,
+			rucc: rucC,
+			strc: strC,
+			monc: monC,
+			ostc: ostC,
+			vyrc: vyrC,
+			sprc: sprC,
+			zisc: zisC,
+			proc: proC,
+			nabc: nabC
+		};
+	}
+	
+	function myFloat(str) { 
+		if(str==''){ str='0'; }
+		return parseFloat(str.replace(',', '.').replace(/ /g, '')); 
+	}
+	
+	function writeVal(id, val1, val2){
+		var c1 = document.getElementById("a_"+id);
+		var c2 = document.getElementById("c_"+id);
+		var c3 = document.getElementById("d_"+id);
+		c1.innerHTML = val1.toLocaleString();
+		c2.innerHTML = val2.toLocaleString();
+		var dif = (Math.round(1000*(val2-val1)/val1)/10);
+		var cis = dif.toLocaleString();
+		if(dif<0){
+			c3.style.color = 'red';
+		} else if(dif>0){
+			c3.style.color = 'green';
+			cis = '+'+cis;
+		}
+		c3.innerHTML = cis+' %';
+	}
+	
+
+</script>

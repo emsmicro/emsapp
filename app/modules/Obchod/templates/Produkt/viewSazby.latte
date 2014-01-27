@@ -1,20 +1,26 @@
-
-<table id="tsazby" class="grid">
-
+<div>
+	{ifset $sname}
+		<span style="padding: 0 0 0 10px;font-size: small;">Set sazeb: <b>{$sname}</b></span>
+		<a n:if="$user->isAllowed('SetSazeb','addGroup')" n:href="SetSazeb:addGroup, $sazby[0]['idss']">
+			edit
+		</a>
+	{/ifset}
 	<table class="grid aval" style="width:100%; font-size: 10px;">
-	<tr style="border: solid 1px #ADD4FB;">
-		<th style="text-align:left;">#</th>
-		<th style="text-align:left;">Název</th>
-		<th style="text-align:left;">Sazba</th>
-		<th style="text-align:left;">Pravidlo</th>
-	</tr>
-	{foreach $sazby as $saz}
-	<tr style="border: dotted 1px #ADD4FB;">
-		<td>{$saz->poradi}</td>
-		<td><i>{$saz->typ}</i></td>
-		<td class="tcislo" style="border: dotted 1px #ADD4FB;"><b>{$saz->hodnota|number:1:',':' '} %</b></td>
-		<td>{$saz->pravidlo}</td>
-	</tr>
-	{/foreach}
-
-</table>
+		<tr style="border: solid 1px #ADD4FB;">
+			<th style="text-align:left;">#</th>
+			<th style="text-align:left;">Název</th>
+			<th style="text-align:left;">Kód</th>
+			<th style="text-align:left;">Sazba</th>
+			<th style="text-align:left;">Pravidlo</th>
+		</tr>
+		{foreach $sazby as $saz}
+		<tr style="border: dotted 1px #ADD4FB;">
+			<td>{$saz['poradi']}</td>
+			<td><i>{$saz['typ']}</i></td>
+			<td>{$saz['zkratka']}</td>
+			<td class="tcislo" style="border: dotted 1px #ADD4FB;"><b>{$saz['hodnota']|number:1:',':' '} %</b></td>
+			<td>{$saz['pravidlo']}</td>
+		</tr>
+		{/foreach}
+	</table>
+</div>
