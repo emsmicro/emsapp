@@ -73,7 +73,7 @@ class Produkt extends Model
 		if($this->filter<>''){
 			//$sql_cmd = $this->full_detail_query . "	WHERE Convert(varchar, COALESCE(n.popis,'Přiřadit k nabídce'))+p.zkratka+p.nazev+f.nazev LIKE '%$this->filter%'";
 			$uf = new FilterModel;
-			$sql_cmd = $this->full_detail_query . "	WHERE " . $uf->setCondFilter("Convert(varchar, COALESCE(n.popis,'Přiřadit k nabídce'))+p.zkratka+p.nazev+f.nazev", $this->filter);
+			$sql_cmd = $this->full_detail_query . "	WHERE " . $uf->setCondFilter("Convert(varchar, COALESCE(n.popis,'Přiřadit k nabídce'))+p.zkratka+p.nazev+f.nazev+Convert(varchar,p.id)", $this->filter);
 		} else {
 			$sql_cmd = $this->full_detail_query;
 		}

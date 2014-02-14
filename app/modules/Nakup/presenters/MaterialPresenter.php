@@ -56,6 +56,9 @@ class MaterialPresenter extends NakupPresenter
 		if($id){
 			$addtitul = ' - BOM: '.$this->getNameFromMySet(4);
 		}
+		// Kurzy
+		$rater = $this['rater'];
+		$this->template->is_rates = TRUE;
 		
 		// User filter
 		$ufilter = $this['uFilter'];
@@ -115,6 +118,9 @@ class MaterialPresenter extends NakupPresenter
 		$currdata = $mat->groupByCurrency($id);
 		$cnt_curr = count($currdata);
 		$vol_curr = $mat->dataPairsForGraph($currdata, 0, 3, 1, 1, $slice = 'EUR', $colors = array(11,1,8,2,4,5,6,7));
+		if($cnt_curr==1){
+			if($currdata[0]['value']<0.1){$currdata=FALSE;}
+		}
 		$this->template->currdata = $currdata;
 		$this->template->vol_curr = $vol_curr;
 		$this->template->cnt_curr = $cnt_curr;

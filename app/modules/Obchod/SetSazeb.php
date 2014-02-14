@@ -143,7 +143,54 @@ class SetSazeb extends Model
 		return $this->CONN->delete('kalkulace')->where('id=%i', $id)->execute();
 	}
 	
+	public function getSazbyFromSet($id) {
+		$rows = $this->CONN->query("
+			SELECT tt.zkratka [sazba], tt.nazev, sa.hodnota, sa.pravidlo, 
+				ss.platnost_od, ss.platnost_do, ss.id, ss.nazev [set]
+				FROM sazby sa
+				LEFT JOIN typy_sazeb tt ON sa.id_typy_sazeb = tt.id
+				LEFT JOIN set_sazeb ss ON sa.id_set_sazeb = ss.id
+				WHERE id_set_sazeb = $id
+				ORDER BY poradi")->fetchAll();
+		$sazby = $this->dataIntoAssoc2D($rows,'sazba');
+		$res = $this->correctRates($sazby);
+		return $res;
+	}
 	
+	
+	private function correctRates($data){
+		$ret = array();
+		foreach($data as $key => $item){
+			if($item['pravidlo']<>'' and $key<>'ZasR'){
+				$ret[$key] = (float) $this->jakoDesCislo($item['pravidlo']);
+			} else {
+				$ret[$key] = (float) $item['hodnota'];
+			}
+		}
+		$ret['platnost_od'] = $item['platnost_od'];
+		$ret['platnost_do'] = $item['platnost_do'];
+		$ret['id'] = $item['id'];
+		$ret['set'] = $item['set'];
+		return $ret;
+	}
+	
+	
+	private function jakoDesCislo($cislo){
+		if(trim($cislo)==''){
+			return '';
+		} else {
+			$cislo = str_replace('(', '', $cislo);
+			$cislo = str_replace(')', '', $cislo);
+			$cislo = str_replace(',', '.', $cislo);
+			if(is_numeric($cislo)){
+				$c = (float) $cislo;
+				$c = $c/100;
+				return number_format($c, 6);
+			} else {
+				return '';
+			}
+		}
+	}		
 	
 	
 }

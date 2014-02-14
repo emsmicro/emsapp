@@ -70,7 +70,7 @@ H3
 {
 	position: absolute;
 	top: -125px;
-	left: 330px;
+	left: 15%;
 }
 #slogan:hover
 {
@@ -1657,6 +1657,19 @@ background-color: #FFFFFF;
 	position: relative;
 	left: 40px;
 	top: 0px;
+}
+
+.shade {
+	-moz-box-shadow: 3px 3px 5px #BBB;
+	-webkit-box-shadow: 3px 3px 5px #BBB;
+	box-shadow: 3px 3px 5px #BBB;
+}
+
+.radius {
+	border-radius: 15px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	overflow:hidden;
 }
 /*
 (c) 2009 David Grudl. All rights reserved.

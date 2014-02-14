@@ -13,7 +13,7 @@ abstract class BasePresenter extends Presenter
 	public  $is_todo;
 	public	$company;
 	/** Moje parametry - fond, smennost, delka smeny*/
-	public	$mypar;		
+	public	$myvar;		//todos, kurzy
 	public	$stroje;
 	public	$mpars;
 	/** @var Nette\DI\Container */ 
@@ -42,8 +42,8 @@ abstract class BasePresenter extends Presenter
 		if(isset($context->parameters['company'])){
 			$this->company = $context->parameters['company'];
 		}
-		if(isset($context->parameters['mypar'])){
-			$this->mypar = $context->parameters['mypar'];
+		if(isset($context->parameters['myvar'])){
+			$this->myvar = $context->parameters['myvar'];
 		}		
 		if(isset($context->parameters['stroje'])){
 			$this->stroje = $context->parameters['stroje'];

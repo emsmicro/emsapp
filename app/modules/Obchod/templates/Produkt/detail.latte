@@ -47,8 +47,11 @@
 
 
 {if $currdata}
-	<div style="position:absolute;top:80px;left:40%;">
-		{include '../../../Nakup/templates/Material/piechart.latte', pdata => $vol_curr, psize => 150}
+	<div style="position:absolute;top:100px;left:35%;">
+		{include '../../../Nakup/templates/Material/piechart.latte', pdata => $vol_curr, psize => 120}
+		<span style="position:relative;left:70%;top:180px;z-index:2;font-size: small; font:italic small Palatino, sherif">
+			Podíl měn při nákupu
+		</span>
 	</div>
 {/if}
 

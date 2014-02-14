@@ -64,7 +64,10 @@
 	
 	
 	var divID = '#mysetting';
-
+	var menuID = '#menu';
+	var id1 = '#cout';
+//	var id2 = '#kurzy';
+	
 	$(window).scroll(function() {					
 		var currentScroll = $(window).scrollTop();	
 		if (currentScroll >= 120) {					
@@ -74,34 +77,61 @@
 				top: '2px',
 				width: '100%'
 			});	
-			$('#menu').css({
+			$(menuID).css({
 				position: 'fixed',
 				left: '48px',
 				top: '32px',
 				width: '100%'
 			});	
-			$('#cout').css({
+			$(id1).css({
 				position: 'fixed',
-				left: '33%',
 				top: '100px',
 			});				
+//			$(id2).css({
+//				position: 'fixed',
+//				right: '26%',
+//				fontSize: '0.2em',
+//				top: '22px'
+//			});				
+//			$('.rate2').css({
+//				fontSize: '32px',
+//			});	
 		} else {									
 			$(divID).css({
 				position: 'relative',
 				left: '20px',
 				top: '-85px'
 			});
-			$('#menu').css({
+			$(menuID).css({
 				position: 'relative',
 				left: '16px',
 				top: '-80px'
 			});	
-			$('#cout').css({
+			$(id1).css({
 				position: 'absolute',
-				left: '33%',
 				top: '100px'
-			});				
+			});	
+//			$(id2).css({
+//				position: 'absolute',
+//				right: '10px',
+//				top: '-140px'
+//			});	
+//			$('.rate2').css({
+//				fontSize: '40px',
+//			});	
+			
+			
 		}
 	});		
 	
 </script>
+
+ <script>
+  $(function() {
+    $( "#cout" ).draggable({ cursor: "move", cursorAt: { top: 0 } });
+	$( ".daval" ).draggable({ cursor: "move" });
+	//$( ".def" ).draggable({ cursor: "move" });
+	//$( "#tprice" ).draggable();
+	//$( "[id*='tceny']" ).draggable({ cursor: "move" });
+  });
+ </script>

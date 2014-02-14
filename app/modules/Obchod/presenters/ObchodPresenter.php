@@ -57,6 +57,11 @@ class ObchodPresenter extends SecuredPresenter
 				//'Správa'	=> 'Sprava',
 		        );
         $this->navigace = $menu;
+		// Kurzy
+		$this['rater']->setPath($this->myvar['rates']);
+		//$this['rater']->setCurrencies(array('EUR','USD','GBP:3'));
+		$this->template->is_rates = TRUE;
+		
 	}
 	
 	

@@ -32,25 +32,8 @@
 		writeVal('Zisk', act.zisc, cur.zisc);
 		writeVal('ProdCenaP', act.proc, cur.proc);
 		writeVal('CenaNab', act.nabc, cur.nabc);
+		writeVal('JednorazC', act.jedc, cur.jedc);
 
-					   
-		var posx = 0;
-		var posy = 0;
-		if (!e) var e = window.event;
-		if (e.pageX || e.pageY)
-		{
-			posx = e.pageX;
-			posy = e.pageY;
-		}
-		else if (e.clientX || e.clientY)
-		{
-			posx = e.clientX;
-			posy = e.clientY;
-		}
-					   
-		//moveHim(div);
-		//div.style.left = posx;
-		//div.style.top = posy;
 		sNo.innerHTML = priceNo;
 		div.style.display = "block";
 		
@@ -98,6 +81,7 @@
 		var zisC = myFloat(getCell(table,'Zisk'));
 		var proC = myFloat(getCell(table,'ProdCenaP'));
 		var nabC = myFloat(getCell(table,'CenaNab'));
+		var jedC = myFloat(getCell(table,'JednorazC'));
 		return {
 			matc: matC,
 			rucc: rucC,
@@ -108,7 +92,8 @@
 			sprc: sprC,
 			zisc: zisC,
 			proc: proC,
-			nabc: nabC
+			nabc: nabC,
+			jedc: jedC
 		};
 	}
 	
@@ -121,17 +106,21 @@
 		var c1 = document.getElementById("a_"+id);
 		var c2 = document.getElementById("c_"+id);
 		var c3 = document.getElementById("d_"+id);
+		var rw = document.getElementById("r_"+id);
 		c1.innerHTML = val1.toLocaleString();
 		c2.innerHTML = val2.toLocaleString();
 		var dif = (Math.round(1000*(val2-val1)/val1)/10);
 		var cis = dif.toLocaleString();
 		if(dif<0){
-			c3.style.color = 'red';
+			c3.style.color = '#990000';
 		} else if(dif>0){
 			c3.style.color = 'green';
 			cis = '+'+cis;
 		}
 		c3.innerHTML = cis+' %';
+		if(val1==0 && val2==0){
+			rw.style.display = "none";
+		}
 	}
 	
 

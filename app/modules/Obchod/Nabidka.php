@@ -46,7 +46,7 @@ class Nabidka extends Model // DibiRow obstará korektní načtení dat
 		if($this->filter<>''){
 			//$sql_cmd = $this->full_detail_query . "	WHERE Convert(varchar, n.popis) + f.nazev LIKE '%$this->filter%'";
 			$uf = new FilterModel;
-			$sql_cmd = $this->full_detail_query . "	WHERE " . $uf->setCondFilter("Convert(varchar, n.popis) + f.nazev", $this->filter);
+			$sql_cmd = $this->full_detail_query . "	WHERE " . $uf->setCondFilter("Convert(varchar, n.popis) + f.nazev + +Convert(varchar,n.id)", $this->filter);
 		} else {
 			$sql_cmd = $this->full_detail_query;
 		}

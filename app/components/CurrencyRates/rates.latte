@@ -1,0 +1,90 @@
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300' rel='stylesheet' type='text/css'>
+<style>
+	.kurzy {
+		float: right;
+		height: 37px;
+		position: absolute;
+		top: -140px;
+		right: 10px;
+		color: #3D3C3F;
+		color: #FFF;
+		font-family: 'Lato','Open Sans',sans-serif;
+		cursor: pointer;
+		z-index: 3;
+		//background-color: #080;
+		
+	}
+	.rate {
+		float: left;
+		position: relative;
+		color: #FFF;
+		top: 0;
+	}
+	.rate1 {
+		float: left;
+		//font: 1.2em 'Trebuchet MS';
+		font-weight: bold;
+		font-size: 20px;
+		color: #595959;
+		margin: 22px 3px 0 6px;
+		color: #BBB;
+	}
+	.rate2 {
+		float: left;
+		//font: bold 2.2em/37px 'Trebuchet MS';
+		font-weight: bold;
+		font-size: 40px;
+		margin: 1px 0 0 0;
+	}	
+	.rate3 {
+		float: left;
+		font-size: 20px;
+		margin: 12px 0 0 0;
+	}	
+	.rate4 {
+		float: left;
+		font-size: 40px;
+		margin: 1px 0 0 0;
+		color: #AAA;
+	}
+	.rate5 {
+		position: absolute;
+		float: right;
+		right: 0px;
+		top: 30px;
+		font-weight: bold;
+		font-size: 22px;
+		color: #595959;
+		//margin: 22px 3px 0 6px;
+		color: #BBB;
+	}
+	
+</style>
+{var $j = 0}
+{if isset($exchs)}
+	<div n:if="$exchs" id="kurzy" class="kurzy">
+		{foreach $exchs as $rate}
+			{if !$iterator->first}
+				<span n:if="$rate" class="rate4">|</span>
+			{/if}
+			<div class="rate" n:if="$rate" title="Kurz {$rate['rate']|number:4:',':' '} {$rate['from']}/{$rate['to']} z {$rate['date']|date:'%d.%m.%Y'}.&#10;Historie po kliknutí...[{$rate['source']}]"
+				  onclick="window.open({$rate['url']});">
+				<span class="rate1">{$rate['symbol']|noescape}</span>
+				<span class="rate2">{$rate['int']}</span>
+				<span class="rate3">{$rate['dec']}</span>
+				<span class="rate5" style ="color: {$rate['devcol']};">
+					{$rate['devel']|noescape}
+				</span>
+			</div>
+			{var $j++}
+		{/foreach}
+	</div>
+{/if}
+{if $j == 0}
+	<div class="kurzy" title="Zobrazit vývoj kurzu">
+		<span class="rate1" onclick="window.open('http://www.google.com/finance?q=EURCZK');">&euro; |</span>
+		<span class="rate1" onclick="window.open('http://www.google.com/finance?q=USDCZK');">$ |</span>
+		<span class="rate1" style="font-size: 15px; margin-top: 26px;" onclick="window.open('http://www.google.com/finance?q=EURUSD');">$/&euro;</span>
+	</div>
+{/if}
+

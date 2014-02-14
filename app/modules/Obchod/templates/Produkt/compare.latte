@@ -52,14 +52,19 @@
 		<thead>
 			<tr>
 				<td>Položka / cena</td>
-				<th>Aktivní</th>
+				<th>Aktivní c.</th>
 				<th>Cena č. <b><span id="priceNo"></span></b></th>
-				<th>(C-A)/A</th>
+				<th title="Změna vůči aktivní ceně">(C-A)/A</th>
 			<tr>
 		</thead>
 		<tbody>
 		{foreach $typycen as $typ}
-			<tr>
+			{if $typ->zkratka<>"CenaNab"}
+				{var $styl = ""}
+			{else}
+				{var $styl = "style='font-weight:bold;'"}
+			{/if}
+			<tr id="r_{$typ->zkratka}" {$styl|noescape}>
 				<th>{$typ->zkratka2}</th>
 				<td id="a_{$typ->zkratka}" class="tcislo"></td>
 				<td id="c_{$typ->zkratka}" class="tcislo"></td>

@@ -36,7 +36,7 @@ Vodacek\Forms\Controls\DateInput::register();
 
 //Extras\Debug\ComponentTreePanel::register();
 
-Kdyby\Extension\Diagnostics\HtmlValidator\DI\ValidatorExtension::register($configurator);
+//Kdyby\Extension\Diagnostics\HtmlValidator\DI\ValidatorExtension::register($configurator);
 
 
 return $container;

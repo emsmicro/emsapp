@@ -16,6 +16,9 @@ class Kalkul extends Model
 	private $t_ceny = 'ceny';
 
 	private $pravidlaString = 'PRAVIDLA';
+		
+	private $fact_millions = 1000000;	// od jaké výše bude dělena hodnota 10^6 při zobrazení v grafech
+	private $fact_thousands = 10000;	// od jaké výše bude dělena hodnota 10^3 při zobrazení v grafech
 
 	public function __construct($arr = array())
     {
@@ -49,10 +52,12 @@ class Kalkul extends Model
 		if($id_cena>0)	{$cond1 = " AND ce.id = $id_cena ";}
 		return $this->CONN->query("
 								SELECT	ce.id, ce.id_nabidky, ce.id_produkty, ce.id_typy_cen, tc.zkratka, ce.aktivni,
-										ce.hodnota, ce.hodnota_cm, po.mnozstvi, po.vyrobni_davka, tc.poradi
+										ce.hodnota, ce.hodnota_cm, COALESCE(ce.id_set_sazeb, na.id_set_sazeb) [idss], 
+										po.mnozstvi, po.vyrobni_davka, tc.poradi
 									FROM $this->t_ceny ce
 									LEFT JOIN typy_cen tc ON ce.id_typy_cen = tc.id
 									LEFT JOIN pocty po ON ce.id_pocty = po.id
+									LEFT JOIN nabidky na ON ce.id_nabidky = na.id
 									WHERE	ce.id_nabidky = $id_nabidka 
 											AND ce.id_produkty = $id_produkt $cond1
 									ORDER BY ce.id, poradi			
@@ -831,6 +836,7 @@ class Kalkul extends Model
 		$naklady = $this->getProductCosts($id_produkt);
 		$ceny = $this->getProductPrices($id_produkt, $id_nabidka, $id_cena);
 		$odps = $this->getOdpisStrojeByProduct($id_produkt, $id_cena);
+		$sets = new SetSazeb;		
 		$aval = array();
 		//náklady do proměnných
 		$matn = 0;
@@ -905,6 +911,7 @@ class Kalkul extends Model
 			{
 				$i++;
 				$aval[$ic] = array();
+				$sazby = $sets->getSazbyFromSet($cena->idss);
 				$aval[$ic]['aktivni']	= $cakt;
 				$aval[$ic]['mnozstvi']	= $mnoz;
 				$aval[$ic]['davka']		= $davk;
@@ -915,6 +922,9 @@ class Kalkul extends Model
 				$aval[$ic]['stroj_ks']	= ($strp + $strd/$davk);
 				$aval[$ic]['ostat_ks']	= $ostp;
 				$aval[$ic]['vyrob_ks']	= $cvyr;
+				$aval[$ic]['prace_ks']	= ($rucp + $strp + ($rucd + $strd)/$davk)*(1+$sazby['VyrR']) + ($monp + $mond/$davk)*(1+$sazby['VyrMR']) + $ostp;
+				$aval[$ic]['vprir_ks']	= $aval[$ic]['prace_ks'] - ($aval[$ic]['rucni_ks'] + $aval[$ic]['monta_ks'] + $aval[$ic]['stroj_ks'] + $aval[$ic]['ostat_ks']);
+				//$aval[$ic]['vprir_ks']['name'] = "Přirážka k výrobním nákladům";
 				$aval[$ic]['vyrez_ks']	= $cvyr - ($matn + $rucp + $rucd/$davk + $monp + $mond/$davk + $strp + $strd/$davk + $ostp);
 				$aval[$ic]['sluzb_ks']	= ($cvyr-$matn);
 				$aval[$ic]['trzba_ks']	= $cnab;
@@ -930,7 +940,7 @@ class Kalkul extends Model
 											- $aval[$ic]['monta_ks']
 											- $aval[$ic]['ostat_ks']
 											- $aval[$ic]['jedno_ks'];
-
+				$aval[$ic]['davka_c']	= (($rucd + $strd) * (1+$sazby['VyrR']) + ($mond) * (1+$sazby['VyrMR']))*(1+$sazby['SpraR1']+$sazby['MZisku']);
 				// celkem
 				$aval[$ic]['maternak']	= $mnoz * $matn;
 				$aval[$ic]['rucninak']	= $mnoz * ($rucp + $rucd/$davk);
@@ -939,6 +949,8 @@ class Kalkul extends Model
 				$aval[$ic]['ostatnak']	= $mnoz * $ostp;
 				$aval[$ic]['jednonak']	= $jedn;
 				$aval[$ic]['vyrobnak']	= $mnoz * $cvyr;
+				$aval[$ic]['pracenak']  = $mnoz * $aval[$ic]['prace_ks'];
+				$aval[$ic]['vprirazk']	= $mnoz * $aval[$ic]['vprir_ks'];
 				$aval[$ic]['vyreznak']	= $mnoz * ($cvyr - ($matn + $rucp + $rucd/$davk + $monp + $mond/$davk + $strp + $strd/$davk + $ostp));
 				$aval[$ic]['sluzbnak']	= $mnoz * ($cvyr-$matn);
 				$aval[$ic]['trzba']		= $mnoz * $cnab;
@@ -946,7 +958,9 @@ class Kalkul extends Model
 				$aval[$ic]['trzbajed']	= $cjed;
 				$aval[$ic]['kalkzisk']	= $mnoz * $czsk;
 				$aval[$ic]['spravrez']	= $mnoz * $crsp;
-				$aval[$ic]['avalkalk']	= $aval[$ic]['trzba'] - $aval[$ic]['vyrobnak'] + ($aval[$ic]['trzbamat'] - $aval[$ic]['maternak']);
+				$marmat = $mnoz * ($cmat - $matn);
+				$matrnak = $marmat < $mnoz*$matn*($sazby['ZasR']) ? $marmat : $mnoz*$matn*($sazby['ZasR']);
+				$aval[$ic]['avalkalk']	= $aval[$ic]['trzba'] - $aval[$ic]['pracenak'] - $aval[$ic]['maternak'] - $matrnak;
 				$aval[$ic]['avalcist']	= $aval[$ic]['trzba'] + $aval[$ic]['trzbajed']
 											- $aval[$ic]['maternak'] 
 											- $aval[$ic]['strojnak'] 
@@ -954,9 +968,10 @@ class Kalkul extends Model
 											- $aval[$ic]['montanak']
 											- $aval[$ic]['ostatnak']
 											- $aval[$ic]['jednonak'];
-				$aval[$ic]['odpisnak']	= $odps['odpis'];
-				$aval[$ic]['stronnak']	= $odps['naklad'];
-				$aval[$ic]['strojcas']	= $odps['cas'];
+				$aval[$ic]['avalcis2']	= $aval[$ic]['trzba'] + $aval[$ic]['trzbajed'] - $aval[$ic]['pracenak'] - $aval[$ic]['maternak'] - $aval[$ic]['jednonak'];
+				$aval[$ic]['odpisnak']	= (float) $odps['odpis'];
+				$aval[$ic]['stronnak']	= (float) $odps['naklad'];
+				$aval[$ic]['strojcas']	= (float) $odps['cas'];
 				$matnproc = $matn/$cnab * 100;
 				$sluzproc = ($cvyr-$matn)/$cnab * 100;
 				$vyreproc = ($cvyr - ($matn + $rucp + $rucd/$davk + $monp + $mond/$davk + $strp + $strd/$davk + $ostp))/$cnab * 100;
@@ -970,13 +985,13 @@ class Kalkul extends Model
 				$aval[$ic]['sprvproc']	= $sprvproc;
 				$aval[$ic]['ziskproc']	= $ziskproc;
 				$aval[$ic]['odpiproc']	= $odpiproc;
-				$aval[$ic]['avalproc']	= $aval[$ic]['avalcist']/$aval[$ic]['trzba']*100;
+				$aval[$ic]['avalproc']	= $aval[$ic]['avalkalk']/$aval[$ic]['trzba']*100;
 				$aval[$ic]['avalbest']	= false;
 				$aval[$ic]['id_cena']	= $ic;
 				$aval[$ic]['c_poradi']	= $i;
-				if($aval[$ic]['trzba']>1000000){
+				if($aval[$ic]['trzba']>$this->fact_millions){
 					$aval[$ic]['factor'] = 6;
-				} elseif ($aval[$ic]['trzba']>10000){
+				} elseif ($aval[$ic]['trzba']>$this->fact_thousands){
 					$aval[$ic]['factor'] = 3;
 				} else {
 					$aval[$ic]['factor'] = 0;
@@ -1080,6 +1095,7 @@ class Kalkul extends Model
 		if($ic > 0 && $davk>0 && $cnab>0) {
 			$i++;
 			$aval[$ic] = array();
+			$sazby = $sets->getSazbyFromSet($cena->idss);
 			$aval[$ic]['aktivni']	= $cakt;
 			$aval[$ic]['mnozstvi']	= $mnoz;
 			$aval[$ic]['davka']		= $davk;
@@ -1091,6 +1107,8 @@ class Kalkul extends Model
 			$aval[$ic]['stroj_ks']	= ($strp + $strd/$davk);
 			$aval[$ic]['ostat_ks']	= $ostp;
 			$aval[$ic]['vyrob_ks']	= $cvyr;
+			$aval[$ic]['prace_ks']	= ($rucp + $strp + ($rucd + $strd)/$davk)*(1+$sazby['VyrR']) + ($monp + $mond/$davk)*(1+$sazby['VyrMR']) + $ostp;
+			$aval[$ic]['vprir_ks']	= $aval[$ic]['prace_ks'] - ($aval[$ic]['rucni_ks'] + $aval[$ic]['monta_ks'] + $aval[$ic]['stroj_ks'] + $aval[$ic]['ostat_ks']);
 			$aval[$ic]['vyrez_ks']	= $cvyr - ($matn + $rucp + $rucd/$davk + $monp + $mond/$davk + $strp + $strd/$davk + $ostp);
 			$aval[$ic]['sluzb_ks']	= ($cvyr-$matn);
 			$aval[$ic]['trzba_ks']	= $cnab;
@@ -1106,6 +1124,7 @@ class Kalkul extends Model
 										- $aval[$ic]['monta_ks']
 										- $aval[$ic]['ostat_ks']
 										- $aval[$ic]['jedno_ks'];
+			$aval[$ic]['davka_c']	= (($rucd + $strd) * (1+$sazby['VyrR']) + ($mond) * (1+$sazby['VyrMR']))*(1+$sazby['SpraR1']+$sazby['MZisku']);
 			
 			// celkem
 			$aval[$ic]['maternak']	= $mnoz * $matn;
@@ -1115,6 +1134,8 @@ class Kalkul extends Model
 			$aval[$ic]['ostatnak']	= $mnoz * $ostp;
 			$aval[$ic]['jednonak']	= $jedn;
 			$aval[$ic]['vyrobnak']	= $mnoz * $cvyr;
+			$aval[$ic]['pracenak']  = $mnoz * $aval[$ic]['prace_ks'];
+			$aval[$ic]['vprirazk']	= $mnoz * $aval[$ic]['vprir_ks'];
 			$aval[$ic]['vyreznak']	= $mnoz * ($cvyr - ($matn + $rucp + $rucd/$davk + $monp + $mond/$davk + $strp + $strd/$davk + $ostp));
 			$aval[$ic]['sluzbnak']	= $mnoz * ($cvyr-$matn);
 			$aval[$ic]['trzba']		= $mnoz * $cnab;
@@ -1122,7 +1143,9 @@ class Kalkul extends Model
 			$aval[$ic]['trzbajed']	= $cjed;
 			$aval[$ic]['kalkzisk']	= $mnoz * $czsk;
 			$aval[$ic]['spravrez']	= $mnoz * $crsp;
-			$aval[$ic]['avalkalk']	= $aval[$ic]['trzba'] - $aval[$ic]['vyrobnak'] + ($aval[$ic]['trzbamat'] - $aval[$ic]['maternak']);
+			$marmat = $mnoz * ($cmat - $matn);
+			$matrnak = $marmat < $mnoz*$matn*($sazby['ZasR']) ? $marmat : $mnoz*$matn*($sazby['ZasR']);
+			$aval[$ic]['avalkalk']	= $aval[$ic]['trzba'] - $aval[$ic]['pracenak'] - $aval[$ic]['maternak'] - $matrnak;
 			$aval[$ic]['avalcist']	= $aval[$ic]['trzba'] + $aval[$ic]['trzbajed']
 										- $aval[$ic]['maternak'] 
 										- $aval[$ic]['strojnak'] 
@@ -1130,9 +1153,10 @@ class Kalkul extends Model
 										- $aval[$ic]['montanak']
 										- $aval[$ic]['ostatnak']
 										- $aval[$ic]['jednonak'];
-			$aval[$ic]['odpisnak']	= $odps['odpis'];
-			$aval[$ic]['stronnak']	= $odps['naklad'];
-			$aval[$ic]['strojcas']	= $odps['cas'];
+			$aval[$ic]['avalcis2']	= $aval[$ic]['trzba'] + $aval[$ic]['trzbajed'] - $aval[$ic]['pracenak'] - $aval[$ic]['maternak'] - $aval[$ic]['jednonak'];
+			$aval[$ic]['odpisnak']	= (float) $odps['odpis'];
+			$aval[$ic]['stronnak']	= (float) $odps['naklad'];
+			$aval[$ic]['strojcas']	= (float) $odps['cas'];
 			$matnproc = $matn/$cnab * 100;
 			$sluzproc = ($cvyr-$matn)/$cnab * 100;
 			$vyreproc = ($cvyr - ($matn + $rucp + $rucd/$davk + $monp + $mond/$davk + $strp + $strd/$davk + $ostp))/$cnab * 100;
@@ -1146,13 +1170,13 @@ class Kalkul extends Model
 			$aval[$ic]['sprvproc']	= $sprvproc;
 			$aval[$ic]['ziskproc']	= $ziskproc;
 			$aval[$ic]['odpiproc']	= $odpiproc;
-			$aval[$ic]['avalproc']	= $aval[$ic]['avalcist']/$aval[$ic]['trzba']*100;
+			$aval[$ic]['avalproc']	= $aval[$ic]['avalkalk']/$aval[$ic]['trzba']*100;
 			$aval[$ic]['avalbest']	= false;
 			$aval[$ic]['id_cena']	= $ic;
 			$aval[$ic]['c_poradi']	= $i;
-			if($aval[$ic]['trzba']>1000000){
+			if($aval[$ic]['trzba']>$this->fact_millions){
 				$aval[$ic]['factor'] = 6;
-			} elseif ($aval[$ic]['trzba']>10000){
+			} elseif ($aval[$ic]['trzba']>$this->fact_thousands){
 				$aval[$ic]['factor'] = 3;
 			} else {
 				$aval[$ic]['factor'] = 0;
@@ -1207,6 +1231,7 @@ class Kalkul extends Model
 	 * @return type
 	 */
 	public function getActiveAvalId($aval_data){
+		if($aval_data==null){return FALSE;}
 		$id = 0;
 		foreach($aval_data as $k => $adata){
 			if($adata['aktivni']==1){

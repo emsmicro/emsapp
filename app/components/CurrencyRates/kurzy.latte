@@ -1,0 +1,61 @@
+<style>
+	.kurzy {
+		float: right;
+		height: 37px;
+		position: absolute;
+		top: -215px;
+		right: 10px;
+		color: #3D3C3F;
+		color: #FFF;
+		font-family: 'Lato','Open Sans',sans-serif;
+		cursor: default;
+		z-index: 3;
+	}
+	.rate {
+		float: left;
+		//font: 1.2em 'Trebuchet MS';
+		font-weight: bold;
+		font-size: 20px;
+		color: #595959;
+		margin: 22px 3px 0 6px;
+		color: #BBB;
+	}
+	.rate2 {
+		float: left;
+		//font: bold 2.2em/37px 'Trebuchet MS';
+		font-weight: bold;
+		font-size: 40px;
+		margin: 1px 0 0 0;
+	}	
+	.rate3 {
+		float: left;
+		font-size: 20px;
+		margin: 12px 0 0 0;
+	}	
+	.rate4 {
+		float: left;
+		font-size: 40px;
+		margin: 1px 0 0 0;
+		color: #AAA;
+	}
+</style>
+{var $eus = $usd['symbol'].'/'.$eur['symbol']}
+<div id= "kurzy" class="kurzy">
+	<span n:if="$eur" title="Aktuální kurz: {$eur['rate']|number:4:',':' '} {$eur['to']}/{$eur['from']}">
+		<span class="rate">{$eur['symbol']|noescape}</span>
+		<span class="rate2">{$eur['int']}</span>
+		<span class="rate3">{$eur['dec']}</span>
+	</span>
+	<span n:if="$usd" class="rate4">|</span>
+	<span n:if="$usd" title="Aktuální kurz: {$usd['rate']|number:4:',':' '} {$usd['to']}/{$usd['from']}">
+		<span class="rate">{$usd['symbol']|noescape}</span>
+		<span class="rate2">{$usd['int']}</span>
+		<span class="rate3">{$usd['dec']}</span>
+	</span>
+	<span n:if="$eurusd" class="rate4">|</span>
+	<span n:if="$eurusd" title="Aktuální kurz: {$eurusd['rate']|number:5:',':' '} {$eurusd['to']}/{$eurusd['from']}">
+		<span class="rate">{$eus|noescape}</span>
+		<span class="rate2">{$eurusd['int']}</span>
+		<span class="rate3">{$eurusd['dec']}</span>
+	</span>
+</div>

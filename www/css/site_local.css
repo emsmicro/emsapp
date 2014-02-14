@@ -237,6 +237,11 @@ table.grid .tsepright, table.grid .tsepleft, table.grid .tseptop, table.grid .ts
 	  border-color: #999;
 }
 
+table.grid.aval td.light
+{
+	background: #BBB;
+}
+
 
 form {
     background-color: #DDDDDD;

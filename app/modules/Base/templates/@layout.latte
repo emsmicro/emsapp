@@ -29,6 +29,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_gray.css" title="Gray" disabled="disabled" />
 	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/css/site_local.css" title="Brown" disabled="disabled" />
 	<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/autoNumeric.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/jquery.cookie.js"></script>
@@ -50,7 +51,7 @@
 		</div>
 		<div id="slogan">Systém pro správu nabídek a kalkulací cen
 				<a n:if="$user->isAllowed('Produkt','default')" n:href="Produkt:default" title="Seznam produktů">služeb a produktů</a>
-						v oblasti EMS ...
+						v oblasti EMS
 		</div>
 		<div id="fixMe">
 		{include 'mysetting.latte'}
@@ -71,9 +72,12 @@
 			{ifset $is_filter}
 				{if $is_filter} {control uFilter} {/if}
 			{/ifset}
-
+			{ifset $is_rates}
+				{if $is_rates} {control rater} {/if}
+			{/ifset}
+			
 			<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-		</div>
+		</div>					
 	</div>
 	
 	<div id="content">
@@ -97,6 +101,9 @@
 
 								
 		{include #content}
+		
+		{*include '../../Obchod/templates/rates.latte'*}
+
 				
 		<div style="height:30px;"></div>
 		

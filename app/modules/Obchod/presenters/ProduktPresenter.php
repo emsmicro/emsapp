@@ -95,7 +95,21 @@ class ProduktPresenter extends ObchodPresenter
 		if(!$item){$this->redirect('default');}
 		$this->setIntoMySet(4, $id);
 		$stavy = $instance->getStavProduct($id)->fetchAssoc('id');
-		//dd($stavy,"STAVY");
+
+		// Kurzy
+//		$rater = $this['rater'];
+//		$this->template->is_rates = TRUE;
+		
+		
+//		$eur = $instance->getGoogleExchange("EUR");
+//		$usd = $instance->getGoogleExchange("USD");
+//		$eurusd = $instance->getGoogleExchange("EUR","USD", 3);
+//		dd($usd,"Google USD");
+//		dd($eurusd,"Google USD/EUR");
+//		$this->template->eur = $eur;
+//		$this->template->usd = $usd;
+//		$this->template->eurusd = $eurusd;
+		
 		$this->template->stav = $stavy;
 		$this->template->countBOM = $vazby->bom;
 		$this->template->countTPV = $vazby->tpv;		
@@ -120,7 +134,6 @@ class ProduktPresenter extends ObchodPresenter
 		$this->template->sazby = $rates[$idss];
 		$this->template->rates = $rates;
 		
-		
 		$costs = $instance->costs($id);
 		$isnaklady = count($costs)>0;
         $this->template->isnaklady = $isnaklady;
@@ -138,8 +151,10 @@ class ProduktPresenter extends ObchodPresenter
         $this->template->isceny = $isceny;
         $this->template->prices = $prices;
 		$kalk = new Kalkul;
-		$aval = $kalk->calcAddedValue($id, $this->idn);
-		//dd($aval, 'AVAL');
+		//$aval = $kalk->calcAddedValue($id, $this->idn);
+		$ava = new CalcClass($id, $this->idn);
+		$aval = $ava->getAval();
+		dd($aval, 'AVAL');
 		$this->template->aval = $aval;
 		$hist = $instance->getProductHistory($id);
 		$this->template->history = $hist;
@@ -159,6 +174,9 @@ class ProduktPresenter extends ObchodPresenter
 		$currdata = $mat->groupByCurrency($id);
 		$cnt_curr = count($currdata);
 		$vol_curr = $mat->dataPairsForGraph($currdata, 0, 3, 1, 1, $slice = 'EUR', $colors = array(11,1,8,2,4,5,6,7));
+		if($cnt_curr==1){
+			if($currdata[0]['value']<0.1){$currdata=FALSE;}
+		}
 		$this->template->currdata = $currdata;
 		$this->template->vol_curr = $vol_curr;
 		$this->template->cnt_curr = $cnt_curr;

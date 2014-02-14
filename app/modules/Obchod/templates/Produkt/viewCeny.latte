@@ -18,9 +18,14 @@
 	.icomp {
 		opacity: 0.7;
 		cursor:pointer;
+		border: 1px solid;
+		border-radius: 3px;
+		padding: 0 2px 0 2px;
 	}
 	.icomp:hover {
 		opacity: 1;
+		color: green;
+		background: #FFF;
 	}
 </style>
 
@@ -57,6 +62,7 @@
 		{var $acena = 0}
 		{var $actclass = ""}
 		{var $acttitle = ""}
+		{var $aktcena = 0}
 		{var $i = 0}
 			{foreach $prices as $cen}
 				{if $acena<>$cen->id_cena}
@@ -68,6 +74,7 @@
 					{if $cen->aktivni == 1}
 						{var $actclass = "aktivni"}
 						{var $acttitle = "Aktivní"}
+						{var $aktcena = $cen->id_cena}
 					{/if}
 					{if $cen->id_vzorec <> $item->vzorec}
 						{var $actclass = "simulacni"}
@@ -76,13 +83,15 @@
 						</table>
 						<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
 						</div>
-						{include 'detaval.latte', item => $aval[$acena]}
+						{if $aval}
+							{include 'detaval.latte', item => $aval[$acena]}
+						{/if}
 						</div>
 					{/if}
 				<div class="gridseparator">
 					<div style='position: relative;'>
 					{var $i++}
-					<table id="tceny{$cen->id_cena}" class="grid">
+					<table id="tceny{$cen->id_cena}" class="grid shade" style="z-index: 1;">
 					<thead>
 						<tr title="{$acttitle}">
 							<th style="background:#EEE;">
@@ -124,7 +133,7 @@
 								{/if}
 							{else}
 								<th class="{$actclass}" style="width:250px;"><b>Simulační</b>
-									&nbsp;&nbsp;<img class="icomp" src="{$basePath}/images/compare.png" onclick="comPrices(event, 'tceny{$acena}', 'tceny{$cen->id_cena}', 'cout', {$i})" title="Porovnat" />|&nbsp;
+									&nbsp;&nbsp;|&nbsp;
 									<span class="hlp mini">
 										<span class="tooltip">&nbsp;&nbsp;&nbsp;</span>
 										sazby: {$cen->set_sazeb}
@@ -133,8 +142,9 @@
 								</th>
 							{/if}
 							<th class="{$actclass}" style="min-width:80px; text-align:right;">
-								<img n:if="$cen->aktivni <> 1" class="icomp" src="{$basePath}/images/compare.png" onclick="comPrices(event, 'tceny{$acena}', 'tceny{$cen->id_cena}', 'cout', {$i})" title="Porovnat s aktivní cenou" />&nbsp;
-								Cena [Kč]
+								{*<img n:if="$cen->aktivni <> 1 and $aktcena>0" class="icomp" src="{$basePath}/images/compare.png" onclick="comPrices(event, 'tceny{$aktcena}', 'tceny{$cen->id_cena}', 'cout', {$i})" title="Porovnat s aktivní cenou" />&nbsp;*}
+								<span n:if="$cen->aktivni <> 1 and $aktcena>0" class="icomp" src="{$basePath}/images/compare.png" onclick="comPrices(event, 'tceny{$aktcena}', 'tceny{$cen->id_cena}', 'cout', {$i})" title="Porovnat s aktivní cenou" >&#8613;&#8615;</span>
+								&nbsp;Cena [Kč]
 							</th>
 							{if $cen->idm <> 1}
 								<th class="{$actclass}">Cena [{$cen->mena}]</th>
@@ -221,7 +231,7 @@
 						<td class="tcislo {$actclass}">{$cen->hodnota_cm|number:3:',':' '}</td>
 					{/if}
 				{/if}
-			</tr>
+				</tr>
 			{/foreach}
 		</table>
 		<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>

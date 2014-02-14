@@ -89,6 +89,10 @@ class NabidkaPresenter extends ObchodPresenter
 		$volume = $nabidka->sumVolume($id)->fetch();
 		$isvol = $volume !== FALSE;
 
+		// Kurzy
+//		$rater = $this['rater'];
+//		$this->template->is_rates = TRUE;
+
 		$this->setIntoMySet(3, $id, 1);
 		
 		$produkt = new Produkt;

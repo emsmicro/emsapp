@@ -43,6 +43,7 @@ class KurzPresenter extends ObchodPresenter
 		$item = new Kurz;
 		$this->template->items = $item->show()->orderBy('platnost_do');
         $this->template->titul = self::TITUL_DEFAULT;
+
 	}
 
 

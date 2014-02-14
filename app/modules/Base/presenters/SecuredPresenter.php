@@ -35,6 +35,10 @@ abstract class SecuredPresenter extends BasePresenter
 		parent::startup();
         $this->user = $this->getUser();
 		$this->hasPermissions($this->name, $this->action);
+//		$model = new Model;
+//		$exchs = $model->getEcbExchange(array('EUR','USD','USD/EUR'));
+//		$this->template->exchs = $exchs;
+		
 	}
 
 	public function hasPermissions($presenter, $action)
@@ -134,6 +138,19 @@ abstract class SecuredPresenter extends BasePresenter
 		$control->setRender($this->getPresenter()->action);
 		$control->setUser($this->user->getIdentity()->id);
 		$gfil = $control->getFilter();
+		return $control;
+	}	
+	
+
+	/**
+	 * Komponenta kurzů vybraných měn
+	 * @return type
+	 */
+	protected function createComponentRater()
+	{
+
+		$control = new Rate();
+		$grat = $control->getRates();
 		return $control;
 	}	
 	

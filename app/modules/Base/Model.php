@@ -643,7 +643,7 @@ class Model extends DibiRow
 	 * @return type
 	 */
 	public function dataIntoAssoc($rows, $key='') {
-		if(!$rows){return FALSE;}
+		if(!$rows){return null;}
 		$out = array();
 		if($key==''){
 			foreach($rows as $k => $v){
@@ -679,34 +679,160 @@ class Model extends DibiRow
 		return $out;
 	}	
 	
-	public function dataIntoAssoc1($rows, $key1, $key2) {
-		if(!$rows){return FALSE;}
+	
+	public function dataIntoAssoc2D($rows, $key='') {
+		if(!$rows){return null;}
 		$out = array();
+		if($key==''){
+			foreach($rows as $k => $v){
+				$out[$k]=$v;
+			}
+			return $out;
+		}
+		$idkey = null;
+		$rk = 0;
+		//$i=0;
+		foreach($rows as $row){
+			$rk = $row[$key];
+			if($rk<>$idkey){
+				if(isset($pom)){
+					$out[$idkey] = $pom;
+					unset($pom);
+					$idkey = null;
+				}
+				$pom = array();
+				$idkey = $row[$key];
+				//$i=0;
+			}
+			//remove dibirow
+			$r = array();
+			foreach($row as $k => $v){
+				$r[$k]=$v;
+			}
+			$pom = $r;
+			//$i++;
+			unset($r);
+		}
+		$out[$idkey] = $pom;
+		unset($pom);
+		return $out;
+	}	
+	
+	
+	public function dataIntoAssoc2keys($rows, $key1, $key2) {
+		if(!$rows){return null;}
+		$out = array();
+		$idkey = null;
+		$rk = 0;
+		foreach($rows as $row){
+			$rk = $row[$key1];
+			if($rk<>$idkey){
+				if(isset($pom)){
+					$out[$idkey] = $pom;
+					unset($pom);
+					$idkey = $rk;
+				}
+				$pom = array();
+				$idkey = $row[$key1];
+			}
+			//remove dibirow
+			$r = array();
+			$k2 = null;
+			foreach($row as $k => $v){
+				$r[$k]=$v;
+				if($k==$key2){
+					$k2 = $v;
+				}
+			}
+			$pom[$k2] = $r;
+			unset($r);
+		}
+		$out[$idkey] = $pom;
+		unset($pom);
+		return $out;
+	}	
+	
+	
+	
+	/********* DATA INTO OBJECT **************************/
+	
+	public function dataIntoObject($rows, $key='') {
+		if(!$rows){return null;}
+		$out = array();
+		if($key==''){
+			foreach($rows as $k => $v){
+				$out += array($k => $v);
+			}
+			return $out;
+		}
 		$idkey = null;
 		$rk = 0;
 		$i=0;
 		foreach($rows as $row){
-			$rk = $row[$key1];
+			$rk = $row[$key];
 			if($rk<>$idkey){
 				if(isset($pom)){
-					$out[$rk] = $pom;
+					$out += array($idkey => $pom);
 					unset($pom);
 					$idkey = null;
 				}
 				$pom = array();
-				$idkey = $row[$key1];
+				$idkey = $row[$key];
 				$i=0;
 			}
-			$pom[$i] = $row;
+			$r = array();
+			foreach($row as $k => $v){
+				$r += array($k=>$v);
+			}
+			$pom += array($i=>$r);
 			$i++;
+			unset($r);
 		}
-		$out[$rk] = $pom;
+		$out += array($idkey => $pom);
 		unset($pom);
 		return $out;
 	}	
+	
+	
+	public function dataIntoObject2D($rows, $key='') {
+		if(!$rows){return null;}
+		$out = array();
+		if($key==''){
+			foreach($rows as $k => $v){
+				$out += array($k => $v);
+			}
+			return $out;
+		}
+		$idkey = null;
+		$rk = 0;
+		//$i=0;
+		foreach($rows as $row){
+			$rk = $row[$key];
+			if($rk<>$idkey){
+				if(isset($pom)){
+					$out += array($idkey => $pom);
+					unset($pom);
+					$idkey = null;
+				}
+				$pom = array();
+				$idkey = $row[$key];
+			}
+			//remove dibirow
+			$r = array();
+			foreach($row as $k => $v){
+				$r += array($k=>$v);
+			}
+			$pom = $r;
+			unset($r);
+		}
+		$out += array($idkey => $pom);
+		unset($pom);
+		return $out;
+	}	
+	
 
-	public function dataIntoAssoc2($rows, $key1, $key2) {
-		if(!$rows){return FALSE;}
+	public function dataIntoObject2keys($rows, $key1, $key2) {
+		if(!$rows or $rows[0][$key1]==null){return null;}
 		$out = array();
 		$idkey = null;
 		$rk = 0;
@@ -714,18 +840,29 @@ class Model extends DibiRow
 			$rk = $row[$key1];
 			if($rk<>$idkey){
 				if(isset($pom)){
-					$out[$rk] = $pom;
+					$out += array($idkey => $pom);
 					unset($pom);
-					$idkey = null;
+					$idkey = $rk;
 				}
 				$pom = array();
 				$idkey = $row[$key1];
 			}
-			$pom[$row[$key2]] = $row;
+			//remove dibirow
+			$r = array();
+			$k2 = null;
+			foreach($row as $k => $v){
+				$r += array($k=>$v);
+				if($k==$key2){
+					$k2 = $v;
+				}
+			}
+			$pom += array($k2 => $r);
+			unset($r);
 		}
-		$out[$rk] = $pom;
+		$out += array($idkey => $pom);
 		unset($pom);
 		return $out;
 	}		
+		
 	
 }
