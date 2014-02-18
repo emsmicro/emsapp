@@ -113,10 +113,10 @@
 	</div>
 {/if}
 <ul id="navi">
+	{if $co>0}
+		<li n:if="$user->isAllowed('Material','default')">	<a n:href="default">Všechno</a></li>
+	{/if}
 	{if $is_rows}
-		{if $co>0}
-			<li n:if="$user->isAllowed('Material','default')">	<a n:href="default">Všechno</a></li>
-		{/if}
 		{if $co==1}
 			<li n:if="$user->isAllowed('Material','list')" class="active">
 				<a n:href="list,1">Neoceněné položky</a>

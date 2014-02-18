@@ -168,15 +168,18 @@ class MaterialPresenter extends NakupPresenter
 		$sProAlt = round($summat['sumProAlt'],2);
 		$this->template->sProdej = $sProdej;
 		$this->template->sProAlt = $sProAlt;
-		$this->template->noAltProdej = ($sProdej == $sProAlt or $sProAlt == 0);		
-		
-		if ($summat['sumNaklad']>0){
+
+		$this->template->noAltProdej = ($sProdej == $sProAlt or $sProAlt == 0);
+		if (round($summat['sumNaklad'],2)>0){
 			$this->template->sNaklad = round($summat['sumNaklad'],2);
 			$this->template->procprd = (round($summat['sumProdej'],2)/round($summat['sumNaklad'],2)-1)*100;
+			$this->template->procpra = (round($summat['sumProAlt'],2)/round($summat['sumNaklad'],2)-1)*100;
 		} else {
-			$this->template->sNaklad = 0.001;
+			$this->template->sNaklad = 0.0001;
 			$this->template->procprd = 0;
+			$this->template->procpra = 0;
 		}
+		
 		$kmat = $kalk->getMatCoef($idnabidka);
 		$this->template->koefmat = (float)$kmat['koef'];
 		$noprices = $mat->countNoSalePrices($id);
@@ -191,6 +194,18 @@ class MaterialPresenter extends NakupPresenter
 		$this->template->co = $what;
 		$this->template->items = $rowp;
         $this->template->titul = self::TITUL_DEFAULT . $addtitul;
+		
+		$currdata = $mat->groupByCurrency($id);
+		$cnt_curr = count($currdata);
+		$vol_curr = $mat->dataPairsForGraph($currdata, 0, 3, 1, 1, $slice = 'EUR', $colors = array(11,1,8,2,4,5,6,7));
+		if($cnt_curr==1){
+			if($currdata[0]['value']<0.1){$currdata=FALSE;}
+		}
+		$this->template->currdata = $currdata;
+		$this->template->vol_curr = $vol_curr;
+		$this->template->cnt_curr = $cnt_curr;
+		
+		
 
 	}
 	
