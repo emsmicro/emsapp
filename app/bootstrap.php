@@ -55,7 +55,27 @@ function dd($var, $title='')
                 $backtrace[1]['class'] :
                 basename($backtrace[0]['file']);
         $line = $backtrace[0]['line'];
-        if($title !== '')
-                $title .= ' – ';
+        if($title !== '') {
+			$title .= ' – ';
+		} else {
+			$title = variable_name($var);
+		}
         return Nette\Diagnostics\Debugger::barDump($var, $title . $source . ' (' . $line .')');
+}
+
+
+function variable_name( &$var, $scope=false, $prefix='UNIQUE', $suffix='VARIABLE' ){
+    if($scope) {
+        $vals = $scope;
+    } else {
+        $vals = $GLOBALS;
+    }
+    $old = $var;
+    $var = $new = $prefix.rand().$suffix;
+    $vname = FALSE;
+    foreach($vals as $key => $val) {
+        if($val === $new) $vname = $key;
+    }
+    $var = $old;
+    return $vname;
 }

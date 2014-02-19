@@ -491,7 +491,8 @@ class SetSazebPresenter extends ObchodPresenter
 		$form = new Form;
 		$sazby = new Sazba;
 		$id_set_sazeb = $this->getParam('id');
-		$data = $sazby->getTypeRates($id_set_sazeb)->orderBy('poradi');
+		$data = $sazby->getTypeRates($id_set_sazeb)->orderBy('poradi')->fetchAll();
+		dd($data);
 		$container = $form->addContainer('mpole');
 		$i = 0;
 		foreach($data as $row => $v){

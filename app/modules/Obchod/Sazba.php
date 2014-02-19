@@ -117,8 +117,7 @@ class Sazba extends Model
 	{
 		return $this->CONN->dataSource("SELECT ts.id, ts.zkratka, ts.nazev, ts.poradi, ss.hodnota, COALESCE(ss.id,0) [ids], ss.pravidlo
 									FROM typy_sazeb ts
-									LEFT JOIN sazby ss ON ts.id = ss.id_typy_sazeb
-									WHERE ss.id_set_sazeb = $id_set_sazeb OR ss.id_set_sazeb is null
+									LEFT JOIN sazby ss ON ts.id = ss.id_typy_sazeb AND ss.id_set_sazeb = $id_set_sazeb
 								");
 		 
 	}
