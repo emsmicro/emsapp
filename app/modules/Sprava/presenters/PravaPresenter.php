@@ -151,7 +151,7 @@ class PravaPresenter extends SpravaPresenter
 		$form->addText('popis', 'Popis:', 30);
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -227,7 +227,7 @@ class PravaPresenter extends SpravaPresenter
 //				->setAttribute("onclick()","CheckAll();");
 		$form->addHidden('id_role');
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'rightsFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

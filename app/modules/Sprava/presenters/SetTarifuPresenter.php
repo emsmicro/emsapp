@@ -429,7 +429,7 @@ class SetTarifuPresenter extends SpravaPresenter
 					->addRule($form::FLOAT, 'Úroková míra: Hodnota musí být celé nebo reálné číslo.');
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -517,7 +517,7 @@ class SetTarifuPresenter extends SpravaPresenter
 		$form->addHidden('id_typy_tarifu');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'rateFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -613,7 +613,7 @@ class SetTarifuPresenter extends SpravaPresenter
 		$form->addHidden('id_set_tarifu')->setValue($id_set_tarifu);
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('saveas', 'Uložit jako kopii');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'groupoFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

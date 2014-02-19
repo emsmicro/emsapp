@@ -270,7 +270,7 @@ class K2Presenter extends NakupPresenter
 					->setRequired('Zadejte hledaný název položky, nebo jeho část(i).')
 					->setAttribute('placeholder', 'hledaný výraz');		
 		$form->addSubmit('find', 'Najít')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Zpět')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Zpět')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'findFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

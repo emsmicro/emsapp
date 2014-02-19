@@ -492,7 +492,7 @@ class NabidkaPresenter extends ObchodPresenter
 		$form->addTextArea('poznamka', 'Poznamka:');
 		$form->addText('folder', 'Umístění dat:', 60, 2000);	
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -539,7 +539,7 @@ class NabidkaPresenter extends ObchodPresenter
 			        ->setPrompt('[..vyberte nový stav nabídky..]')
 			        ->addRule(Form::FILLED, 'Vyberte stav.');
 		$form->addSubmit('change', 'Nastavit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'chngstatFormSubmitted');
 		$form->addProtection(self::MESS_PROTECT);
 		return $form;
@@ -571,7 +571,7 @@ class NabidkaPresenter extends ObchodPresenter
 	{
 		$form = new Form;
 		$form->addSubmit('copynab', 'Ano')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Ne')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Ne')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'copyNabFormSubmitted');
 		$form->addProtection(self::MESS_PROTECT);
 		return $form;

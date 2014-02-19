@@ -255,7 +255,7 @@ class FirmaPresenter extends ObchodPresenter
             ->addRule(Form::MAX_LENGTH, 'Poznámka je příliš dlouhá', 2000);
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'firmaFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -410,7 +410,7 @@ class FirmaPresenter extends ObchodPresenter
 		$form->addHidden('id_firmy');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'contactFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

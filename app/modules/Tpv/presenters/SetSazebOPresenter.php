@@ -250,7 +250,7 @@ class SetSazebOPresenter extends TpvPresenter
 		$form->addDate('platnost_do', 'Platnost do:', DateInput::TYPE_DATE);
 			
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -330,7 +330,7 @@ class SetSazebOPresenter extends TpvPresenter
 		$form->addHidden('id_typy_operaci');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'rateFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -416,7 +416,7 @@ class SetSazebOPresenter extends TpvPresenter
 		$form->addHidden('id_set_sazeb_o')->setValue($id_set_sazeb_o);
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('saveas', 'Uložit jako kopii');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'groupoFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

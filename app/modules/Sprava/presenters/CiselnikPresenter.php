@@ -117,7 +117,7 @@ class CiselnikPresenter extends SpravaPresenter
 		}
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = array($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

@@ -151,7 +151,7 @@ class UzivatelPresenter extends SpravaPresenter
 				->addRule(Form::FILLED, 'Zvolte roli');
 			
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -213,7 +213,7 @@ class UzivatelPresenter extends SpravaPresenter
 				->addRule(Form::FILLED, 'Zvolte roli');
 			
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'ritemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

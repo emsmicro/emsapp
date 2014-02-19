@@ -328,7 +328,7 @@ class SetSazebPresenter extends ObchodPresenter
 					->addRule(Form::FILLED, 'Zvolte kalkulační vzorec');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -418,7 +418,7 @@ class SetSazebPresenter extends ObchodPresenter
 		$form->addHidden('id_set_sazeb');
 		$form->addHidden('id_typy_sazeb');
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'rateFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -511,7 +511,7 @@ class SetSazebPresenter extends ObchodPresenter
 		$form->addHidden('id_set_sazeb')->setValue($id_set_sazeb);
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('saveas', 'Uložit jako kopii');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'groupsFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -569,7 +569,7 @@ class SetSazebPresenter extends ObchodPresenter
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
 		$form->addSubmit('saveas', 'Uložit kopii');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'kalkFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

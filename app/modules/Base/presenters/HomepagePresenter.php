@@ -142,7 +142,7 @@ final class HomepagePresenter extends BasePresenter
 			->setRequired('Uveďte email');		
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'passFormSubmitted');
 
 		$form->addProtection('Vypršel ochranný časový limit, odešlete prosím formulář ještě jednou.');

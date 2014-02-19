@@ -710,7 +710,7 @@ class ProduktPresenter extends ObchodPresenter
 		$form->addTextArea('popis', 'Popis:');
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = array($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -865,7 +865,7 @@ class ProduktPresenter extends ObchodPresenter
 
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'amountFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -1138,7 +1138,7 @@ class ProduktPresenter extends ObchodPresenter
 		$form->addHidden('tid');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'pricenFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -1208,7 +1208,7 @@ class ProduktPresenter extends ObchodPresenter
 			        ->setPrompt('[..vyberte nový stav produktu..]')
 			        ->addRule(Form::FILLED, 'Vyberte stav.');
 		$form->addSubmit('change', 'Nastavit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'chngstatFormSubmitted');
 		$form->addProtection(self::MESS_PROTECT);
 		return $form;

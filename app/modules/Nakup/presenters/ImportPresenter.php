@@ -149,7 +149,7 @@ class ImportPresenter extends MaterialPresenter
 				//->addRule(Form::MIME_TYPE, 'Zvolený soubor musí být ve formátu CSV.',array('text/csv','text/plain'))
 				->addRule(Form::MAX_FILE_SIZE, 'Maximální velikost souboru je 2 MB.', 2 * 1024 * 1024 /* v bytech */);
 		$form->addSubmit('save', 'Načíst')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'uploadFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -207,7 +207,7 @@ class ImportPresenter extends MaterialPresenter
         }		
 		$form->addCheckbox('skipfirst','Vynechat 1. řádek názvů');
 		$form->addSubmit('save', 'Importovat')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'checkFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

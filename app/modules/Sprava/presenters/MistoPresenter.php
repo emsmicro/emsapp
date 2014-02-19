@@ -170,7 +170,7 @@ class MistoPresenter extends SpravaPresenter
 			->setRequired('Uveďte název.');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'statFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -214,7 +214,7 @@ class MistoPresenter extends SpravaPresenter
 			->setRequired('Uveďte název.');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'krajFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -260,7 +260,7 @@ class MistoPresenter extends SpravaPresenter
 			->setRequired('Uveďte PSČ.');
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'obecFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

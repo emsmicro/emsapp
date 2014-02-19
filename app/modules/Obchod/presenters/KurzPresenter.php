@@ -146,7 +146,7 @@ class KurzPresenter extends ObchodPresenter
 		$form->addDate('k_platnost_do', 'Platnost do:', DateInput::TYPE_DATE);
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

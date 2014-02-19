@@ -306,7 +306,7 @@ class PostupPresenter extends TpvPresenter
 		}
 		$form->addHidden('id_produkty');
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -393,7 +393,7 @@ class PostupPresenter extends TpvPresenter
 						->addRule($form::INTEGER, 'Hodnota musí být celé číslo.');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'sablFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -506,7 +506,7 @@ class PostupPresenter extends TpvPresenter
 		$form->addHidden('id_tpostup');
 		$form->addHidden('id_sablony');
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'groupoFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -621,7 +621,7 @@ class PostupPresenter extends TpvPresenter
 						->addRule($form::FLOAT, 'Hodnota musí být celé nebo reálné číslo.');
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'operFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

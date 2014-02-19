@@ -351,7 +351,7 @@ class OperacePresenter extends TpvPresenter
 						->addRule($form::FLOAT, 'Hodnota musí být celé nebo reálné číslo.');
 		
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -495,7 +495,7 @@ class OperacePresenter extends TpvPresenter
 			$container->addHidden('ido'.$i)->setValue($v['ido']);
 		}
 		$form->addSubmit('save', 'Uložit'); //->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'groupoFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -565,7 +565,7 @@ class OperacePresenter extends TpvPresenter
 		$form->addHidden('ta_rezerva');
 		
 		$form->addSubmit('save', 'Uložit a přepočítat')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'tcalcFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

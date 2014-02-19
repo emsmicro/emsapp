@@ -235,7 +235,7 @@ class OsobaPresenter extends ObchodPresenter
 			        ->setPrompt('Zvol oslovení');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'osobaFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -320,7 +320,7 @@ class OsobaPresenter extends ObchodPresenter
 		$form->addHidden('id_osoby');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'contactFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);

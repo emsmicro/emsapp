@@ -237,7 +237,7 @@ class SablonaPresenter extends TpvPresenter
 				->setRequired('Uveďte název.');
 			
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'itemFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -318,7 +318,7 @@ class SablonaPresenter extends TpvPresenter
 		$form->addHidden('id_tp_sablony');
 
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'typoFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
@@ -400,7 +400,7 @@ class SablonaPresenter extends TpvPresenter
 		}
 		$form->addHidden('id_set_sazeb_o')->setValue($id_set_sazeb_o);
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');
-		$form->addSubmit('cancel', 'Storno')->setValidationScope(NULL);
+		$form->addSubmit('cancel', 'Storno')->setValidationScope(FALSE);
 		$form->onSuccess[] = callback($this, 'groupoFormSubmitted');
 
 		$form->addProtection(self::MESS_PROTECT);
