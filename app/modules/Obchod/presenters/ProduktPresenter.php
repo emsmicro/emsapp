@@ -154,8 +154,11 @@ class ProduktPresenter extends ObchodPresenter
 		//$aval = $kalk->calcAddedValue($id, $this->idn);
 		$ava = new CalcClass($id, $this->idn);
 		$aval = $ava->getAval();
+		$descr = $ava->descrAval();
 		dd($aval, 'AVAL');
+		dd($descr, 'AVAL popis');
 		$this->template->aval = $aval;
+		$this->template->descr = $descr;
 		$hist = $instance->getProductHistory($id);
 		$this->template->history = $hist;
 		$poc = new Pocet;
@@ -469,7 +472,7 @@ class ProduktPresenter extends ObchodPresenter
 	 * @return void
 	 * @throws BadRequestException
 	 */	
-	public function actionPricesUpd($id)
+	public function renderPricesUpd($id)
 	{
 		if(!$this->isMySet(3)){
 			//nelze aktualizovat ceny, není vybrána nabídka
@@ -497,7 +500,7 @@ class ProduktPresenter extends ObchodPresenter
 	 * @return void
 	 * @throws BadRequestException
 	 */	
-	public function actionPricesSim($id)
+	public function renderPricesSim($id)
 	{
 		if(!$this->isMySet(3)){
 			//nelze aktualizovat ceny, není vybrána nabídka
@@ -650,7 +653,7 @@ class ProduktPresenter extends ObchodPresenter
 	 * @return void
 	 * @throws BadRequestException
 	 */	
-	public function actionCopyProdukt($id)
+	public function renderCopyProdukt($id)
 	{
 		$item = new Produkt;
 		$this->template->item = $item->find($id)->fetch();

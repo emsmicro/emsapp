@@ -10,7 +10,7 @@ class QueryPresenter extends SpravaPresenter
 {
 
     /** Title constants */
-	const TITUL_DEFAULT = 'Přímý přístup k datům';
+	const TITUL_DEFAULT = 'Informace o databázi';
      /**
 	 * @var string
 	 * @titul
@@ -141,7 +141,7 @@ SELECT * FROM numbered WHERE row_no > 1;
 	{
 		$form = new Form;
 
-        $form->addTextArea('dotaz', '', 100, 13)
+        $form->addTextArea('dotaz', '', 100, 3)
 			->setAttribute('spellcheck','false')
             ->addRule(Form::MAX_LENGTH, 'Dotaz je příliš dlouhý.', 15000);
 			

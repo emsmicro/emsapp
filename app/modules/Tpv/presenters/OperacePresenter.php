@@ -243,7 +243,7 @@ class OperacePresenter extends TpvPresenter
 	/**
 	 * export TPV
 	 */
-	public function renderExport()
+	public function actionExport()
 	{
 
 		$id = $this->idproduct;
@@ -257,7 +257,7 @@ class OperacePresenter extends TpvPresenter
 
 		$idn = $this->getIdFromMySet(3);
 		$rows = $instance->showNaklady($id,$idn)->fetchAll();
-		dd($rows);
+		//dd($rows);
 		$this->template->items = $rows;
 		$this->template->idp=$id;
        // napojím data

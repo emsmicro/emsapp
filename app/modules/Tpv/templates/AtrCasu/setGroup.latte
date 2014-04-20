@@ -27,11 +27,8 @@
 			<td class="ntext">{$item->zkratka}</td>
 			<td class="ntext">{$item->tzkratka}</td>
 			<td class="ntext">{$item->nazev}<span class="mini">&nbsp;({$item->idto})</span></td>
-			<td style="text-align:right;">
-				<span title="Přiřadit">
+			<td style="text-align:left;">
 				{$control['setGroupForm']['mpole']['yes_'.$item->idto]->control}
-				</span>
-				&nbsp;
 			</td>
         </tr>
 	{/foreach}

@@ -15,6 +15,17 @@
 		}
 	});		
 	
+	function showDiv(me, idDiv){
+		var div = document.getElementById(idDiv);
+		if(div.style.display == "block") {
+			div.style.display = "none";
+			me.style.color='#888';
+			me.style.colorHover='black';
+		} else {
+			div.style.display = "block";
+			me.style.color='#FF5706';
+		}
+	}
 
 	function comPrices(e, activeTable, currentTable, idDiv, priceNo){
 				

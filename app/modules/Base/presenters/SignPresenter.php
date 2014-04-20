@@ -44,7 +44,7 @@ class SignPresenter extends BasePresenter
 			$this->getPresenter()->restoreRequest($this->getPresenter()->backlink);
 			$module = $this->user->getRoles();
 			$bmodule = $module[0];
-			if(in_array($bmodule, array('guest','Admin'))){
+			if(in_array($bmodule, array('guest','admin'))){
 				$this->getPresenter()->redirect("Homepage:");
 			} else {
 				$this->getPresenter()->redirect("$bmodule:");

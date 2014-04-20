@@ -229,7 +229,7 @@ class AtrCasuPresenter extends TpvPresenter
 		foreach($data as $row => $v){
 			$i++;
 			$chck = $v['yes']=='true' ? true : false;
-			$container->addCheckbox('yes_'.$v['idto'])->setValue($chck);
+			$container->addCheckbox('yes_'.$v['idto'], ' zvolit')->setValue($chck);
 		}
 		$form->addHidden('id_atr_casu');
 		$form->addSubmit('save', 'Uložit')->setAttribute('class', 'default');

@@ -11,7 +11,7 @@ class K2 extends Model
 	
 	private $ceny = "(SELECT ROW_NUMBER() OVER (ORDER BY ce.cis) [id] 
 							  ,[idzbo] = CE.Cis
-							  ,[ZFir] = DO.Zkr
+							  ,[ZFir] = DO.Zkr -- 'Dodavatel '+Convert(varchar, DO.CDo - 2568)
 							  ,[dodavatel] = RTRIM(DO.Fir)
 							  ,[mnoz] = Mnoz
 							  ,[cena] = Cena
@@ -149,14 +149,14 @@ class K2 extends Model
 	public function lastPurchase($id_k2)
 	{
 		$qry = "SELECT TOP 10
-					RTRIM(ZA.Fir)	[dodavatel]
-					, RTRIM(ZA.Zkr)	[ZFir]
-					, NA.Mnoz		[mnozstvi]
-					, NA.Ce_Jedn+NA.V_Nakl [cena]
-					, NA.DatP		[datum]
-					, ZB.Cis		[idzbo]
-					, RTRIM(ZB.Naz) [nazev]
-					, (CASE WHEN getdate()-NA.DatP<200 THEN 'NO' ELSE 'YES' END) [TooOld]
+					  [dodavatel] = RTRIM(ZA.Fir)	
+					, [ZFir] = RTRIM(ZA.Zkr)	--'Dodavatel '+Convert(varchar, ZA.CDo - 2568)
+					, [mnozstvi] = NA.Mnoz
+					, [cena] = NA.Ce_Jedn+NA.V_Nakl
+					, [datum] = NA.DatP
+					, [idzbo] = ZB.Cis
+					, [nazev] = RTRIM(ZB.Naz)
+					, [TooOld] = (CASE WHEN getdate()-NA.DatP<200 THEN 'NO' ELSE 'YES' END)
 				FROM K2_MIKRO.dbo.NAKUP NA
 					, K2_MIKRO.dbo.OBJEDNAV OB
 					, K2_MIKRO.dbo.ZAKAZNIK ZA

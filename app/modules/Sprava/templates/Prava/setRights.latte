@@ -46,7 +46,7 @@
 					<td colspan="2" style="background:#C1DAFF;color:#091726;font-size:large;padding-left:10px;">
 						<span style="font-size:small;"><i>Modul:</i></span>
 						<b>{$item->modul}</b>
-						<span style="position:absolute; font-size:12px; float:right;right:12px; top:10px;" title="Zvolit/zrušit vše">Vše: {input chckall}</span>
+						<span style="position:absolute; font-size:12px; float:right;right:12px; top:10px;" title="Zvolit/zrušit vše">{input chckall}</span>
 					</td>
 				</tr>
 				<tr>
@@ -66,15 +66,18 @@
 			{/if}
 			<td class="ntext">{$item->funkce}<span class="mini">&nbsp;({$item->id})</span></td>
 			<td class="ntext" style="min-width:300px;">{$item->popis}</td>
+			<td style="padding: 3px 3px 3px 8px;" title="Povolit - {$item->popis}">
+				{$control['setRightsForm']['mpole']['yes_'.$item->id]->control}
+			</td>			
+			{*
 			<td style="text-align:right;">
 				<span title="Povolit - {$item->popis}">
 					{$control['setRightsForm']['mpole']['yes_'.$item->id]->control}
 					{var $prvek = 'yes_'.$item->id}
-					{*input mpole[$prvek]*}
-					
 				</span>
 				&nbsp;
 			</td>
+			*}
         </tr>
 	{/foreach}
 		<tr class="noborder">
@@ -93,6 +96,7 @@
 </div>
 
 <script type='text/javascript'>
+
 
 $(document).ready(
     function() {

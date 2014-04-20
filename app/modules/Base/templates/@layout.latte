@@ -113,6 +113,10 @@
 	<div id="footer">
            Copyright © 2011 - 2013, Bc. Štěpán Mračko, Powered by Apache, PHP, MSSQL, Nette.&nbsp;&nbsp;&nbsp;&nbsp;
            <a href='mailto:emsmicro@gmail.com?subject=Zpráva%20pro%20administrátora%20EMS nabídky...&body=Drahý%20správče!%0D' title='Poslat mail správci'>Poslat zprávu správci</a>
+			<footer>PHP {=PHP_VERSION} |
+				{ifset $_SERVER['SERVER_SOFTWARE']}Server {$_SERVER['SERVER_SOFTWARE']}{/ifset} |
+				Nette Framework {=Nette\Framework::VERSION}
+			</footer>	
 	</div>
 	</div>
 </body>

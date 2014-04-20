@@ -25,7 +25,7 @@
 		</tr>
 		<tr><th title="Štětinovo číslo">SPH/Tržba</th><td class="cislo light" title="{$bestit}">{$item['avalproc']|number:2:',':' '} %</td></tr>
 		<tr><td colspan="2" class="mini" style="text-align:right;cursor:default;background-color:#FFF;padding:3px 5px 0 0;">
-				
+				<div style="position:relative;margin:0;left:0;top:0;">
 				<span class="tooltip2">&nbsp;&nbsp;&nbsp;</span>
 				Další údaje...
 				<div class="popup" style="min-width:90%;right:30px;top:3px;">
@@ -73,6 +73,7 @@
 						
 					</div>
 				</div>
+				</div>
 		</td></tr>
 
 		</tbody>
@@ -83,3 +84,6 @@
 {include 'graval.latte', idg => $item['id_cena'], gr_data => $item['datapie'], size => 220}
 
 
+{if $stab > 0 and $aval}
+	{include 'fullAval.latte', item => $item}
+{/if}

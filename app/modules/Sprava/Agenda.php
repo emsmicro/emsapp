@@ -10,7 +10,7 @@ class Agenda extends Model // DibiRow obstará korektní načtení dat
 	 *  @var string
 	 * @table
 	 */
-	private $table = 'permission';
+	private $table = 'agenda';
 
 
     public function __construct($arr = array())

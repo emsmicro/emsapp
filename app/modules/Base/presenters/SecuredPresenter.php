@@ -43,7 +43,7 @@ abstract class SecuredPresenter extends BasePresenter
 
 	public function hasPermissions($presenter, $action)
 	{
-
+		//dd($presenter,'PRESENTER');
         if (!$this->user->isLoggedIn()) {
             if ($this->user->getLogoutReason() === Nette\Http\UserStorage::INACTIVITY) {
 				$this->flashMessage('Uplynula doba neaktivity! Systém vás z bezpečnostných důvodů odhlásil.', 'warning');
@@ -57,7 +57,8 @@ abstract class SecuredPresenter extends BasePresenter
 
         } else {
 			$in_list = in_array($action, $this->setting_actions);
-			$is_guest = in_array('guest', $this->user->getRoles());
+			$is_guest = in_array('guest', $this->user->getRoles());	//$this->user->getRoles()
+			//dd($is_guest);
 			if (!$is_guest && $in_list) {return true;} //práva všem na mySetting kromě guesta
 			if (!$this->user->isAllowed($presenter, $action)) {
 				if($action == 'default') {

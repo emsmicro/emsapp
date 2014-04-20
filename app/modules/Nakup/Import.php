@@ -293,7 +293,7 @@ class Import extends Material
 							$dbvalue = str_replace(',','.',$dbvalue);
 							$dbvalue = str_replace(' ','',$dbvalue);
 							$dbvalue = (float) $dbvalue;
-							$matdata[$dbfield] = round($dbvalue+0.00009,4);
+							$matdata[$dbfield] = round($dbvalue,5);
 						} elseif($dbfield=='zkratka') {
 	//						$matdata[$dbfield] = '[' . $id_product . '] ' . $dbvalue;
 							$matdata[$dbfield] = trim($dbvalue);

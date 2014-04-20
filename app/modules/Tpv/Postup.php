@@ -159,6 +159,7 @@ class Postup extends Model
 									, COALESCE(s.nprodukt, o.nprodukt)	[nprodukt]
 									, COALESCE(s.pporadi, 1)	[pporadi]
 								FROM
+									-- odladit zda DISTINCT
 									(SELECT st.id_typy_operaci, ps.id_sablony, ps.id_tpostup, st.poradi [poradi], st.nazev [snazev], ps.poradi [pporadi],  
 											tt.nazev [tnazev], tt.poradi [tporadi], tt.ta_min, tt.ta_rezerva, tt.tp_default,
 											od.zkratka [zdruh], od.nazev [ndruh], ao.atr_ks,

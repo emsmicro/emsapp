@@ -94,6 +94,10 @@ H3
 {
 	color: #FFF;
 }
+
+footer { clear: both; position: relative; bottom: 0px; 
+			 padding: 1em 0; color: gray; }
+
 #style-sw
 {
 	position: absolute;
@@ -687,6 +691,20 @@ DIV.popup
 	box-shadow: 1px 2px 3px #444444;
 	z-index: 1;
 }
+
+SPAN.fullAval + DIV.popup
+{
+	display: none;
+}
+SPAN.fullAval:hover + DIV.popup
+{
+	display: block;
+}
+
+DIV.popup:hover {
+	display: block;
+}
+
 TD DIV.popup
 {
 	display: none;
@@ -775,7 +793,7 @@ DIV.skryvat1, DIV.skryvat2, DIV.skryvat3
 	position: absolute;
 	float: right;
 	top: 50px;
-	width: 103px;
+	width: 110px;
 	z-index: 1;
 	text-align: center;
 	padding: 3px;
@@ -794,6 +812,11 @@ DIV.skryvat1:hover DIV.skryto1, DIV.skryvat2:hover DIV.skryto2, DIV.skryvat3:hov
 	z-index: 3;
 	min-width: 300px;
 }
+DIV.skryto1, DIV.skryto2, DIV.skryto3
+{
+	top:15px;
+}
+
 DIV.skryto1 TABLE, DIV.skryto2 TABLE, DIV.skryto3 TABLE
 {
 	float: right;
@@ -807,6 +830,7 @@ DIV.skryto1 TABLE TD, DIV.skryto2 TABLE TD, DIV.skryto3 TABLE TD
 	padding: 3px;
 	font-size: 12px;
 }
+
 SPAN.kvzorec
 {
 	float: left;
@@ -962,20 +986,21 @@ TABLE.grid TD.tselnosave
 }
 TABLE.grid .tsepright
 {
-	border-right: 4px solid #ADD4FB;
+	border-right: 4px solid #888;
 }
 TABLE.grid .tsepleft
 {
-	border-left: 4px solid #ADD4FB;
+	border-left: 4px solid #888;
 }
 TABLE.grid .tseptop
 {
-	border-top: 4px solid #ADD4FB;
+	border-top: 4px solid #888;
 }
 TABLE.grid .tsepbot
 {
-	border-bottom: 4px solid #ADD4FB;
+	border-bottom: 4px solid #888;
 }
+
 TD.takce
 {
 	font-size: 9pt;
@@ -1491,6 +1516,7 @@ background-color: #FFFFFF;
 {
 	margin: 0;
 	padding: 0;
+	width: 100%;
 	background: none;
 	border: none;
 }
@@ -2293,6 +2319,17 @@ TABLE.grid.aval TD.light
 
 TABLE.grid.aval TR:nth-child(odd)	{ background-color:#eee; }
 TABLE.grid.aval TR:nth-child(even)	{ background-color:#fff; }
+
+TABLE.grid.aval TR:nth-child(odd) th	{ background-color:#C6E1F9; }
+TABLE.grid.aval TR:nth-child(even) th	{ background-color:#E4F1FC; }
+
+TABLE.grid.aval.best TR:nth-child(odd) td	{ background-color:#eee; }
+TABLE.grid.aval.best TR:nth-child(even) td	{ background-color:#fff; }
+
+
+TABLE.grid.aval.best TR:nth-child(odd) th	{ background-color:#FFB3B3; }
+TABLE.grid.aval.best TR:nth-child(even) th	{ background-color:#FFD7D7; }
+
 
 DIV.detcol
 {

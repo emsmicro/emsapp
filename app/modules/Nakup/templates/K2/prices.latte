@@ -10,9 +10,9 @@
 
 {if count($items)>0}
 	<h4>Dodavatelské ceny: [{$subtitle}]</h4>
-	<table class="grid" style="width:100%;">
+	<table class="grid" style="width:80%;">
 	<tr>
-		<th>id K2</th>
+		{*<th>id K2</th>*}
 		<th>Dodavatel</th>
 		<th>Množství</th>
 		<th>Cena</th>
@@ -25,7 +25,7 @@
 
 	{foreach $items as $it}
 		<tr>
-			<td>{$it->id}</td>
+			{*<td>{$it->id}</td>*}
 			<td title="{$it->dodavatel}">{$it->ZFir}</td>
 			<td class="tcislo">{$it->mnoz|number:0:',':' '} ks</td>
 			<td class="tcislo">{$it->cena|number:4:',':' '}</td>
@@ -43,7 +43,7 @@
 
 {if isset($purch)}
 	{if $cnp>0}
-		<h4>{$cnp} {$txlabel}: [{$czbo} - {$purch[0]->nazev}]</h4>
+		<h4>{$cnp} {$txlabel}: [{$czbo} - {{$subtitle}]</h4>
 		<table class="grid" style="width:80%;">
 		<tr>
 			<th>Dodavatel</th>

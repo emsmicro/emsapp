@@ -218,6 +218,12 @@ class K2Presenter extends NakupPresenter
 	 */
 	public function renderPrices($id_mat = 0, $id_k2 = 0)
 	{
+		//potom zrusit
+//		$mat = new Material;
+//		$id_prod = $this->getIdFromMySet(4);
+//		$matp = $mat->find($id_mat, $id_prod)->fetch();
+//		$pol = $matp->nazev;
+		// az sem
         $instance = new K2($this->k2param);
 		$rows = $instance->findPrices($id_k2);
 		$pol = $rows->fetchSingle();

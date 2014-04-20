@@ -332,7 +332,7 @@ class MaterialPresenter extends NakupPresenter
 	/**
 	 * export BOM
 	 */
-	public function renderExport()
+	public function actionExport()
 	{
 
 		$id = $this->idproduct;

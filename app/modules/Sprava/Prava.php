@@ -11,7 +11,7 @@ class Prava extends Model
 	 *  @table
 	 */
 	private $table = 'role';
-
+	private $table_agenda = 'agenda';
 
     public function __construct($arr = array())
     {
@@ -40,8 +40,8 @@ class Prava extends Model
 								, a.*
 							FROM role r
 							LEFT JOIN prava a ON r.id = a.id_role
-							LEFT JOIN permission p ON a.id_permission = p.id
-							WHERE r.nazev<>'Admin'
+							LEFT JOIN $this->table_agenda p ON a.id_permission = p.id
+							WHERE r.nazev<>'admin'
 			");
 	}
 
@@ -109,7 +109,7 @@ class Prava extends Model
 		} else {
 			return $this->CONN->query("DELETE FROM prava
 									WHERE id_role = $id_role
-										AND id_permission IN (SELECT id FROM permission WHERE modul = '$modul')
+										AND id_permission IN (SELECT id FROM $this->table_agenda WHERE modul = '$modul')
 								");
 		}
 	}
@@ -121,11 +121,11 @@ class Prava extends Model
 	public function getRights($idr, $modul='')
 	{
 		$qry = "SELECT DISTINCT p.*, case when a.id_role is null then 'false' else 'true' end [yes], r.id [idr], r.nazev [role], r.popis [prole], cp.cntp
-				FROM permission p 
+				FROM $this->table_agenda p 
 				LEFT JOIN prava a ON p.id=a.id_permission AND a.id_role=$idr 
 				LEFT JOIN role r ON a.id_role=r.id
 				LEFT JOIN (SELECT modul, presenter, count(presenter) [cntp]
-					FROM permission GROUP BY modul, presenter) cp 
+					FROM $this->table_agenda GROUP BY modul, presenter) cp 
 					ON p.modul=cp.modul AND p.presenter=cp.presenter
 				";
 		if($modul<>''){
@@ -163,7 +163,7 @@ class Prava extends Model
 	
 	public function getResources()
 	{
-		$data = $this->CONN->select('modul,presenter,funkce,poradi')->from('permission')->orderBy('modul,presenter,poradi')->fetchAll();
+		$data = $this->CONN->select('modul,presenter,funkce,poradi')->from($this->table_agenda)->orderBy('modul,presenter,poradi')->fetchAll();
 		return $data;
 	}
 	/**
@@ -176,7 +176,7 @@ class Prava extends Model
 		if($role<>''){$cond = " WHERE r.nazev='$role'";} else {$cond='';}
 		$qry = "SELECT r.nazev [role], modul, presenter, funkce 
 					FROM prava pr
-					LEFT JOIN permission p ON pr.id_permission = p.id
+					LEFT JOIN $this->table_agenda p ON pr.id_permission = p.id
 					LEFT JOIN role r ON pr.id_role = r.id 
 					$cond
 				";

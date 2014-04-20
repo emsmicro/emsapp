@@ -9,7 +9,7 @@ function insertAtCursor(myField, myValue) {
         myField.focus();
         //in effect we are creating a text range with zero length at the cursor location and replacing it with myValue
         sel = document.selection.createRange();
-        sel.text = myValue;
+        sel.text += myValue;
     //Mozilla/Firefox/Netscape 7+ support
     } else if (myField.selectionStart || myField.selectionStart == '0') {
         myField.focus();
@@ -47,6 +47,9 @@ function insertAtCursor(myField, myValue) {
 	.onklik {
 		cursor:pointer;
 	}
+	.onklik:hover {
+		background-color: #C0D9F1;
+	}
 	.hlp {
 		float:left;
 		text-align:left;
@@ -71,7 +74,7 @@ function insertAtCursor(myField, myValue) {
 		<span class='mini hlp'>{$hlp}</span>
 	</div>
 </div>
-<div class="skryvat2" style="right: 161px; top:{$top}px;">
+<div class="skryvat2" style="right: 168px; top:{$top}px;">
 	Typy nákladů
 	<div class="skryto2">
 		<table class="grid">
@@ -89,7 +92,7 @@ function insertAtCursor(myField, myValue) {
 		<span class='mini hlp'>{$hlp}</span>
 	</div>
 </div>
-<div class="skryvat1" style="right: 273px; top:{$top}px;">
+<div class="skryvat1" style="right: 287px; top:{$top}px;">
 	Typy cen
 	<div class="skryto1">
 		<table class="grid">
@@ -103,7 +106,7 @@ function insertAtCursor(myField, myValue) {
 		<span class='mini hlp'>{$hlp}</span>
 	</div>
 </div>
-<div class="skryvat1" style="right:49px; width:327px; padding:3px; margin:0; background-color:#E4F1FC;">
+<div class="skryvat1" style="right:49px; width:348px; padding:3px; margin:0; background-color:#E4F1FC;">
 	Vložit:
 	<b>
 	<span class="licha" title='použití "Pravidel"'	onClick='insertAtCursor(document.getElementById({$txarea}), "/**PRAVIDLA**/\n");'>&nbsp;P&nbsp;</span>

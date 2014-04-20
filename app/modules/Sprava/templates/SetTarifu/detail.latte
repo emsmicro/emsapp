@@ -110,7 +110,7 @@
 	<th>Název tarifu</th>
 	<th title="Hodinova sazba tarifu = základ + osobní ohodnocení (bez odvodů)">Tarifní sazba</th>
 	<th>Hodinová sazba</th>
-	<th>Vypočteno</th>
+	{*<th>Vypočteno</th>*}
 	<th title="Navýšení sazby oproti tarifu s odvody.">Navýšení [%]</th>
 	<th style="text-align:center;">Akce</th>
 </tr>
@@ -120,7 +120,7 @@
 	<td>{$saz->zkratka}</td>
 	<td><i>{$saz->nazev}</i></td>
 	<td class="tcislo">{$saz->tarif|number:2:',':' '} Kč/hod</td>
-	<td class="tcislo"><b>{$saz->hodnota|number:2:',':' '}</b> Kč/hod</td>
+	{*<td class="tcislo"><b>{$saz->hodnota|number:2:',':' '}</b> Kč/hod</td>*}
 	<td class="tcislo" style="color:#3484D2;"><b>{$saz->calc|number:2:',':' '}</b> Kč/hod</td>
 	<td class="tcislo" style="color:#795200; padding: 3px;width:180px;">{!$saz->graf}&nbsp;{$saz->perc|number:1:',':' '} %</td>
 	<td class="takce" style='width:70px;'>

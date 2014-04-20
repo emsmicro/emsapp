@@ -400,7 +400,7 @@ class NabidkaPresenter extends ObchodPresenter
 
 	}
 	
-	public function actionCopyNabidka($id) {
+	public function actionCopyOffer($id) {
 		$instance = new Nabidka;
 		$result = $instance->copyNabidka($id, $this->user->id);
 		if(!$result or $result==0){
@@ -419,7 +419,7 @@ class NabidkaPresenter extends ObchodPresenter
 	 * @return void
 	 * @throws BadRequestException
 	 */	
-	public function actionCopyNabidka2($id)
+	public function renderCopyNabidka($id)
 	{
 		$form = $this['copyNabidkaForm'];
 		if (!$form->isSubmitted()) {
@@ -567,7 +567,7 @@ class NabidkaPresenter extends ObchodPresenter
 	 * Confirm copy offer
 	 * @return mixed
 	 */
-	protected function createComponentCopyNabidka2Form()
+	protected function createComponentCopyNabidkaForm()
 	{
 		$form = new Form;
 		$form->addSubmit('copynab', 'Ano')->setAttribute('class', 'default');

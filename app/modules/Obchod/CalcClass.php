@@ -245,6 +245,73 @@ class CalcClass {
 		return $this->aval;
 	}
 	
-	
+	public function descrAval() {
+		// identifikace a pod.
+		$desc['id_cena' ]	= array("zkratka"=>"IDceny",		"format"=>"0",	"popis"=>"ID ceny.");
+		$desc['c_poradi']	= array("zkratka"=>"Poradi",		"format"=>"0",	"popis"=>"Pořadí ceny v seznamu cen produktu.");
+		$desc['sazby'   ]	= array("zkratka"=>"Sazby",			"format"=>"",	"popis"=>"Hodnoty všech režijních sazeb aktuálního setu sazeb režií.");
+		$desc['aktivni' ]	= array("zkratka"=>"Aktivni",		"format"=>"0",	"popis"=>"Cena je: 1..aktivní, 0..neaktivní.");
+		$desc['mnozstvi']	= array("zkratka"=>"Mnozstvi",		"format"=>"0",	"popis"=>"Celkové vyráběné množství.");
+		$desc['davka'   ]	= array("zkratka"=>"Davka",			"format"=>"0",	"popis"=>"Výrobní dávka.");
+		// hodnoty na kus
+		$desc['mater_ks']	= array("zkratka"=>"MaterialN",		"format"=>"",	"popis"=>"Materiálové náklady na kus (MatN).");
+		$desc['rucni_ks']	= array("zkratka"=>"RucniN",		"format"=>"",	"popis"=>"Přímé náklady na ruční operace na kus (RucN).");
+		$desc['monta_ks']	= array("zkratka"=>"MontazniN",		"format"=>"",	"popis"=>"Přímé náklady na montážní operace na kus (MontN).");
+		$desc['stroj_ks']	= array("zkratka"=>"StrojniN",		"format"=>"",	"popis"=>"Přímé náklady na strojní operace na kus (StrojN).");
+		$desc['ostat_ks']	= array("zkratka"=>"OPN",			"format"=>"",	"popis"=>"Ostatní přímé náklady na kus.");
+		$desc['vyrob_ks']	= array("zkratka"=>"VyrobniN",		"format"=>"",	"popis"=>"Výrobní náklady na kus (VN).");
+		$desc['prace_ks']	= array("zkratka"=>"SluzbaN",		"format"=>"",	"popis"=>"Výrobní náklady služby vč. výrobních režií na kus (VNs).");
+		$desc['vprir_ks']	= array("zkratka"=>"VyrobniR",		"format"=>"",	"popis"=>"Výrobní přirážka - defacto výrobní režie na kus (VR).");
+		$desc['vyrez_ks']	= array("zkratka"=>"VyrZasR",		"format"=>"",	"popis"=>"Výrobní a zásobovací režie na kus (VZR).");
+		$desc['sluzb_ks']	= array("zkratka"=>"VyrNsluz",		"format"=>"",	"popis"=>"Výrobní náklady služby = VN - MatN");
+		$desc['trzba_ks']	= array("zkratka"=>"Cena_ks",		"format"=>"",	"popis"=>"Prodejní cena 1 ks.");
+		$desc['trmat_ks']	= array("zkratka"=>"CenaMat",		"format"=>"",	"popis"=>"Prodejní cena materiálu (vč. ZasR a MatMarze) na kus.");
+		$desc['jedno_ks']	= array("zkratka"=>"JedN_ks",		"format"=>"",	"popis"=>"Jednorázové náklady na kus (děleny dávkou).");
+		$desc['zisk_ks' ]	= array("zkratka"=>"Zisk_ks",		"format"=>"",	"popis"=>"Zisk na kus.");
+		$desc['avalk_ks']	= array("zkratka"=>"HrubaPH",		"format"=>"",	"popis"=>"Hrubá přidaná hodnota = cena bez výrobních nákladů vč. režií na kus.");
+		$desc['avalc_ks']	= array("zkratka"=>"MaxPH",			"format"=>"",	"popis"=>"Maximální přidaná hodnota = cena bez přímých nákladů (bez režií) na kus.");
+		$desc['davka_c' ]	= array("zkratka"=>"CenaPripr",		"format"=>"",	"popis"=>"Cena přípravy na dávku - vč. všech režií i míry zisku.");
+		// objem celkem
+		$desc['maternak']	= array("zkratka"=>"MaterialNC",	"format"=>"",	"popis"=>"Celkové materiálové náklady (MatN).");
+		$desc['rucninak']	= array("zkratka"=>"RucniNC",		"format"=>"",	"popis"=>"Celkové přímé náklady na ruční operace.");
+		$desc['montanak']	= array("zkratka"=>"MontazniNC",	"format"=>"",	"popis"=>"Celkové přímé náklady na montážní operace.");
+		$desc['strojnak']	= array("zkratka"=>"StrojniNC",		"format"=>"",	"popis"=>"Celkové přímé náklady na strojní operace.");
+		$desc['ostatnak']	= array("zkratka"=>"OPNC",			"format"=>"",	"popis"=>"Celkové ostatní přímé náklady.");
+		$desc['jednonak']	= array("zkratka"=>"JednorazN",		"format"=>"",	"popis"=>"Celkové jednorázové náklady.");
+		$desc['vyrobnak']	= array("zkratka"=>"VyrobniNC",		"format"=>"",	"popis"=>"Celkové výrobní náklady. (VN)");
+		$desc['pracenak']	= array("zkratka"=>"SluzbaNC",		"format"=>"",	"popis"=>"Celkové výrobní náklady vč. výrobní režie");
+		$desc['vprirazk']	= array("zkratka"=>"VyrobniRC",		"format"=>"",	"popis"=>"Celková výrobní režie (jen na služby).");
+		$desc['vyreznak']	= array("zkratka"=>"VyrZasRC",		"format"=>"",	"popis"=>"Celkova výrobní a zásobovací režie.");
+		$desc['sluzbnak']	= array("zkratka"=>"VyrNsluzC",		"format"=>"",	"popis"=>"Celkové výrobní náklady služby = VN - MatN");
+		$desc['trzba'   ]	= array("zkratka"=>"Trzba",			"format"=>"",	"popis"=>"Celková tržba (T).");
+		$desc['trzbamat']	= array("zkratka"=>"TrzbaMat",		"format"=>"",	"popis"=>"Celková tržba za materiál (vč. ZasR+MatM).");
+		$desc['trzbajed']	= array("zkratka"=>"TrzbaJedn",		"format"=>"",	"popis"=>"Cena za jednorázové náklady (Tj).");
+		$desc['kalkzisk']	= array("zkratka"=>"KalkZisk",		"format"=>"",	"popis"=>"Celkový kalkulovaný zisk.");
+		$desc['spravrez']	= array("zkratka"=>"SpravRezie",	"format"=>"",	"popis"=>"Celková tržba za správní režii.");
+		$desc['avalkalk']	= array("zkratka"=>"HrubaPHC",		"format"=>"",	"popis"=>"Celková hrubá přidaná hodnota = T + Tj - VN.");
+		$desc['avalcist']	= array("zkratka"=>"MaxPHC",		"format"=>"",	"popis"=>"Celková maximální přidaná hodnota = T + Tj - PN.");
+		$desc['avalcis2']	= array("zkratka"=>"CistaPHC",		"format"=>"",	"popis"=>"Celková čisté přidaná hodnota = T+Tj - (RN-MN-SN-JN).");
+		$desc['odpisnak']	= array("zkratka"=>"OdpisyNak",		"format"=>"",	"popis"=>"Celkové náklady na odpisy (příspěvek na amortizaci).");
+		$desc['stronnak']	= array("zkratka"=>"StrojNcisC",	"format"=>"",	"popis"=>"Celkové přímé strojní náklady bez výr. režie.");
+		$desc['strojcas']	= array("zkratka"=>"CasStrojC",		"format"=>"",	"popis"=>"Celková strojní pracnost [hod].");
+		$desc['factor'  ]	= array("zkratka"=>"Faktor",		"format"=>"0",	"popis"=>"Faktor objemu tržeb 0..jednotky, 3..tisíce, 6..miliony.");
+		// relativni ukazatele
+		$desc['matnproc']	= array("zkratka"=>"ProcMaterial",	"format"=>"",	"popis"=>"Podíl materiálu na celkový tržbách za produkt.");
+		$desc['matcproc']	= array("zkratka"=>"ProcMatMarze",	"format"=>"",	"popis"=>"Celková dosažená materiálová marže (přirážka) [%].");
+		$desc['sluzproc']	= array("zkratka"=>"ProcSluzba",	"format"=>"",	"popis"=>"Podíl hodnoty služby na celkových tržbách za produkt.");
+		$desc['vyreproc']	= array("zkratka"=>"ProcVyrRez",	"format"=>"",	"popis"=>"Podíl příspěvku na zásobovací a výrobní režii na tržbách.");
+		$desc['sprvproc']	= array("zkratka"=>"ProcSpravR",	"format"=>"",	"popis"=>"Podíl příspěvku na správní režii na celkových tržbách.");
+		$desc['ziskproc']	= array("zkratka"=>"ProcZisk",		"format"=>"",	"popis"=>"Podíl zisku na celkových tržbách.");
+		$desc['odpiproc']	= array("zkratka"=>"ProcOdpis",		"format"=>"",	"popis"=>"Podíl příspěvku na odpisy na celkových tržbách.");
+		$desc['avalproc']	= array("zkratka"=>"ProcHrubaPH",	"format"=>"",	"popis"=>"Podíl hrubé přidané hodnoty na celkových tržbách.");
+		$desc['avalcpr1']	= array("zkratka"=>"ProcMaxPH",		"format"=>"",	"popis"=>"Podíl maximální přidané hodnoty na celkových tržbách.");
+		$desc['avalcpr2']	= array("zkratka"=>"ProcCistPH",	"format"=>"",	"popis"=>"Podíl čisté přidané hodnoty na celkových tržbách.");
+		$desc['avalbest']	= array("zkratka"=>"NejlepsiPH",	"format"=>"0",	"popis"=>"Cena s nejlepši hrubou přidanou hodnotou (id ceny).");
+		// data pro grafy
+		$desc['datagraf']	= array("zkratka"=>"DataGraf",		"format"=>"",	"popis"=>"Data pro simple koláčový graf v %: MatN, Sluzby, SprR, Zisk.");
+		$desc['datapie' ]	= array("zkratka"=>"DataKolac",		"format"=>"",	"popis"=>"Data pro koláčový graf celkových objemů v Kč.");
+		$desc['databar' ]	= array("zkratka"=>"DataBar",		"format"=>"",	"popis"=>"Data pro sloupcový graf celkových objemů v Kč.");
+		return $desc;
+	}
 	
 }

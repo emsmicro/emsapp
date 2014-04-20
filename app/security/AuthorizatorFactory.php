@@ -84,11 +84,13 @@ class AuthorizatorFactory extends Nette\Object
 		
 		$this->setPrivilegesDB();
 		
-		$permission->allow('Admin', Permission::ALL, Permission::ALL);
+		$permission->allow('admin', Permission::ALL, Permission::ALL);
+		//$permission->allow('Admin', Permission::ALL, Permission::ALL);
 
 		$this->permission = $permission;
 //		dump($permission);
 //		exit;
+		//dd($permission, "PERMISS");
 		return $permission;
    }
    

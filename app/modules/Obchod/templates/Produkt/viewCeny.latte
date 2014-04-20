@@ -81,11 +81,16 @@
 					{/if}
 					{if $stab > 0}
 						</table>
-						<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
+						<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}
+							{if $stab > 0 and $aval}
+								{*include 'fullAval.latte', item => $aval[$acena]*}
+							{/if}
+							</span>
 						</div>
 						{if $aval}
-							{include 'detaval.latte', item => $aval[$acena]}
+							{include 'detaval.latte', item => $aval[$acena], stab => $stab}
 						{/if}
+						</div>
 						</div>
 					{/if}
 				<div class="gridseparator">
@@ -234,11 +239,16 @@
 				</tr>
 			{/foreach}
 		</table>
-		<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}</div>
+		<div class="bigId">{$i}<span class='midId' title='ID ceny'>#{$acena}
+			{if $stab > 0 and $aval}
+				{*include 'fullAval.latte', item => $aval[$acena]*}
+			{/if}
+			</span>
 		</div>
 			{if $stab > 0 and $aval}
-				{include 'detaval.latte', item => $aval[$acena]}
+				{include 'detaval.latte', item => $aval[$acena], stab => $stab}
 			{/if}
+		</div>
 		</div>
 
 		<div class="subtit">

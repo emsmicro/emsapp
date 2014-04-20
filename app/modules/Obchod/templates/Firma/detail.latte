@@ -28,8 +28,8 @@
 	</tr>
 	<tr><th>IČO</th><td>{$firma->ico}</td>
 		<th>DIČ</th><td>{$firma->dic}</td>
-		<th>Účet</th><td>{$firma->cislo_uctu} {$firma->banka}</td>
 	</tr>
+	<tr><th>Účet</th><td colspan="5">{$firma->cislo_uctu} {$firma->banka}</td></tr>
 	<tr><th>Poznámka</th><td colspan="5">{$firma->poznamka}</td></tr>
 	</table>
 	
@@ -118,7 +118,7 @@
 		</div>
 
 	</div>
-			<div style="clear:both"></div>
+	<div style="clear:both"></div>
 
 </div>
 	
@@ -198,38 +198,40 @@
 
 {var $nabs = substr($nabs, 0, -2)}
 {* collapse *}
-{*<script type='text/javascript' src='{$basePath}/js/jquery.cookie.js'></script>*}
-<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
 {*
 <script type='text/javascript' src='{$basePath}/js/jquery.ui.widget.js'></script>
 <script type='text/javascript' src='{$basePath}/js/jquery.ui.accordion.js'></script>
 *}
+
+<script type='text/javascript' src='{$basePath}/js/jquery.collapse.js'></script>
 <script type='text/javascript'>
 
-            $(".kol-1, .kol-2, .kol-3,").collapse({ show: function(){ 
-                    this.animate({ 
+            $(".kol-1, .kol-2, .kol-3").collapse({ show: function(){ 
+                this.animate({ 
                         opacity: 'toggle',
                         height: 'toggle'
                      }, 300);
-                 },
+                },
                 hide : function() { 
                     this.fadeOut();
-                 }
+                }
              });
+
+            $({$nabs}).collapse({ show: function(){ 
+                this.animate({ 
+                        opacity: 'toggle',
+                        height: 'toggle'
+                     }, 300);
+                },
+                hide : function() { 
+                    this.fadeOut();
+                }
+             });
+			 
 </script>
 
 
 <script type='text/javascript'>
-            $({$nabs}).collapse({ show: function(){ 
-                    this.animate({ 
-                        opacity: 'toggle',
-                        height: 'toggle'
-                     }, 300);
-                 },
-                hide : function() { 
-                    this.fadeOut();
-                 }
-             });
 </script>
 
 {*

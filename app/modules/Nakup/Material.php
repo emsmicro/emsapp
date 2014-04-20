@@ -108,13 +108,13 @@ class Material extends Model
 			if ($this->filter<>''){
 				//$cond .= " AND m.zkratka+m.nazev LIKE '%$this->filter%'";
 				
-				$cond .= " AND " . $uf->setCondFilter("m.zkratka+m.nazev+Convert(varchar,m.id)", $this->filter);
+				$cond .= " AND " . $uf->setCondFilter("m.zkratka+m.nazev+Convert(varchar,m.id)+Convert(varchar,m.id_k2)", $this->filter);
 			}
 		} else {
 			if ($this->filter<>''){
 				//$cond = " WHERE m.zkratka+m.nazev LIKE '%$this->filter%'";
 				
-				$cond .= " WHERE " . $uf->setCondFilter("m.zkratka+m.nazev+Convert(varchar,m.id)", $this->filter);
+				$cond .= " WHERE " . $uf->setCondFilter("m.zkratka+m.nazev+Convert(varchar,m.id)+Convert(varchar,m.id_k2)", $this->filter);
 			}
 		}
 		if($this->limit==0 && $this->offset==0){

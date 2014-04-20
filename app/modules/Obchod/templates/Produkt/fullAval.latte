@@ -1,0 +1,70 @@
+<style>
+	.fullAval {
+		position:absolute;
+		cursor: pointer;
+		float:right;
+		right:20px;
+		bottom:0px;
+		font-size:2em;
+		color: #888;
+	}
+	.fullAval:hover {
+		color:black!important;
+	}
+	td.grid aval {
+		border: solid 1px #CCC;
+	}
+</style>
+
+{var $aclass = ""}
+{var $bestit = "Vypočítané parametry"}
+{if $item['avalbest']}
+	{var $aclass = "best"}
+	{var $bestit .= " - nejlepší přidaná hodnota"}
+{/if}
+{var $iddiv = $item['id_cena']}
+
+<span class="fullAval" onclick="showDiv(this,'price_{$iddiv}')" title="Zobrazit/skrýt detaily">&#10070;</span>
+
+<div id="price_{$iddiv}" class="popup" style="position:absolute; right:0px; width:100%;right:30px;top:3px;">
+
+<div class="daval" style='text-align: center; font-size: small; width:100%; background:white; font: 16px / 1.5 "Trebuchet MS", "Geneva CE", lucida, sans-serif; '>{$bestit}
+	<table class="grid aval {$aclass}">
+		<tbody>
+		{var $i=0}
+		{var $j=0}
+		{var $d=2}
+		{foreach $descr as $key => $val}
+			{var $zkr = $val['zkratka']}
+			{var $pop = $val['popis']}
+			{var $fmt = $val['format']}
+			{var $hodnota = $item[$key]}
+			{if !is_array($hodnota) and substr($key,0,4)<>'data'}
+				{if $i == 0}<tr>{/if}
+				<th title="{$pop}">{$zkr}</th>
+				{if is_numeric($hodnota)}
+					<td class="cislo">
+						{if $fmt==""}
+							{$hodnota|number:$d:',':' '}
+						{else}
+							{$hodnota|number:$fmt:',':' '}
+						{/if}
+					{if substr($zkr,0,4)=='Proc'} % {/if}
+					</td>
+				{else}
+					<td>{$hodnota}</td>
+				{/if}
+				{var $i++}
+				{var $j++}
+				{if $i == 4}
+					</tr>
+					{var $i=0}
+				{/if}
+			{/if}
+		{/foreach}
+		</tbody>
+	</table>
+</div>
+
+</div>
+

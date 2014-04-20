@@ -89,7 +89,7 @@ class PravaPresenter extends SpravaPresenter
 	}
 
 	/**
-	 * 4id .. id role
+	 * $id .. id role
 	 * 
 	 * @return void
 	 */
@@ -219,10 +219,10 @@ class PravaPresenter extends SpravaPresenter
 		foreach($data as $row => $v){
 			$i++;
 			$chck = $v['yes']=='true' ? true : false;
-			$container->addCheckbox('yes_'.$v['id'])->setValue($chck)
+			$container->addCheckbox('yes_'.$v['id'], ' povolit')->setValue($chck)
 							->setAttribute("class","child");
 		}
-		$form->addCheckbox('chckall', '')
+		$form->addCheckbox('chckall', '  Vše')
 				->setAttribute("class","checkall");
 //				->setAttribute("onclick()","CheckAll();");
 		$form->addHidden('id_role');
