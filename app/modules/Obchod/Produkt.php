@@ -327,8 +327,8 @@ class Produkt extends Model
 								LEFT JOIN meny m ON c.id_meny=m.id
 								LEFT JOIN kalkulace v ON c.id_vzorec = v.id
 							WHERE o.id_firmy=$id_firma $cond  AND c.id_typy_cen in(10,8) --AND c.aktivni>0
-							ORDER BY c.id_produkty, c.id_meny, c.id_vzorec, id_pocty, tt.poradi")->fetchAll();
-								//->fetchAssoc('klic');
+							ORDER BY c.id_produkty, c.id_meny, c.id_vzorec, id_pocty, tt.poradi")//->fetchAll();
+								->fetchAssoc('id_produkty');
 	}
 	
 	/**

@@ -368,13 +368,15 @@ class SablonaPresenter extends TpvPresenter
 
 	public function deleteTypoSubmitted(Form $form)
 	{
+		$item = new Sablona;
+		$id = $this->getParam('id');
+		$ids = $item->findSablTyp($id)->fetch()['id_tp_sablony'];
 		if ($form['delete']->isSubmittedBy()) {
-			$item = new Sablona;
 			$item->deleteTypo($this->getParam('id'));
 			$this->flashMessage('Smazáno.');
 		}
 
-		$this->redirect('detail',$this->getParam('id'));
+		$this->redirect('detail',$ids);
 	}
 
 	protected function createComponentAddGroupForm()

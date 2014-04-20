@@ -557,8 +557,8 @@ class SetSazebPresenter extends ObchodPresenter
 		$form->addText('nazev', 'Název:', 60)
 				->setRequired('Uveďte název.');
 
-		$form->addTextArea('popis', 'Popis:', 94, 10);
-		$form->addTextArea('definice', 'Definice:', 72, 20)
+		$form->addTextArea('popis', 'Popis:', 94, 5);
+		$form->addTextArea('definice', 'Definice:', 72, 13)
 			->setAttribute('style', 'font: 14px "Droid Sans Mono", "Courier new", Courier, monospace; padding: 8px; color: #1A4571;')
 			->setAttribute('spellcheck', 'false');
 		$form->addText('procedura', 'Procedura:')

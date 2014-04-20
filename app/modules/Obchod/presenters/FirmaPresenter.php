@@ -85,7 +85,7 @@ class FirmaPresenter extends ObchodPresenter
 		$prod = new Produkt;
 		$prods = $prod->getOffersCompany($id);
 		$this->template->produkty = $prods;
-		//dd($prods, 'ProdCeny');
+		dd($prods, 'ProdCeny');
 		//$this->template->nump = count($prods->fetchAll());
 	}
 
