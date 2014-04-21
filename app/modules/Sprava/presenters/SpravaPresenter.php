@@ -42,7 +42,7 @@ class SpravaPresenter extends SecuredPresenter
 	            'Uživatelé'	=> 'Uzivatel',
 				'Práva'		=> 'Prava',
 				'Agendy'	=> 'Agenda',
-				'Tarify'	=> 'SetTarifu',
+			//	'Tarify'	=> 'SetTarifu',
 	            'Místa'		=> 'Misto',
 				'Číselníky'	=> 'Ciselnik',
 				'Query'		=> 'Query',

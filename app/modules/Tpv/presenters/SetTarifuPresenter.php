@@ -8,7 +8,7 @@ use Nette\Application\UI\Form,
  * Set sazeb operaci presenter
  */
 
-class SetTarifuPresenter extends SpravaPresenter
+class SetTarifuPresenter extends TpvPresenter
 {
     /** Title constants */
     const TITUL_DEFAULT = 'Sety tarifních sazeb';
