@@ -91,7 +91,7 @@ class ImportPresenter extends MaterialPresenter
 	 *  Confirm form for import data into db
 	 *	@return void
 	 */
-	public function actionConfirm($skip1 = true)
+	public function renderConfirm($skip1 = true)
 	{
 		//Confirm import CSV file
 		$import = new Import;

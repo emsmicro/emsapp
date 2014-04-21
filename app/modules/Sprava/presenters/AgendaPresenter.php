@@ -54,7 +54,7 @@ class AgendaPresenter extends SpravaPresenter
 
 	public function renderAdd($m='', $p='', $n=0)
 	{
-		$this['itemForm']['modul']->value = $m;
+		$this['itemForm']['modul']->value = $m=='' ? null : $m ;
 		$this['itemForm']['presenter']->value = $p;
 		$this['itemForm']['poradi']->value = $n+1;
 		$this['itemForm']['save']->caption = 'Přidat';
