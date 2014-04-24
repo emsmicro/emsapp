@@ -389,8 +389,8 @@ class Produkt extends Model
 									, t.id [tid]
 							FROM ceny c
 								LEFT JOIN typy_cen t ON c.id_typy_cen=t.id 
-								LEFT JOIN kurzy	k ON c.id_kurzy=k.id
 								LEFT JOIN meny	m ON c.id_meny=m.id
+								LEFT JOIN kurzy	k ON m.id=k.id_meny
 								WHERE t.zkratka = 'CenaNab' AND c.id=$id");
 		} else {
 			return false;

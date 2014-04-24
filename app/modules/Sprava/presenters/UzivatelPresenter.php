@@ -69,7 +69,7 @@ class UzivatelPresenter extends SpravaPresenter
 	 */
 	public function renderEdit($id = 0)
 	{
-		if ($this->user->getIdentity()->nrole=='Admin'){
+		if ($this->user->getIdentity()->nrole=='admin'){
 			$formular = 'itemForm';
 		} else {
 			$formular = 'ritemForm';
